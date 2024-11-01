@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+.no-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+@font-face {
+	font-family: "Yekan Bakh VF";
+	src: url("../../public/assets/fonts/YekanBakh-VF.ttf");
+	font-weight: 300;
+}
+
+@font-face {
+	font-family: "Yekan Bakh Fa";
+	src: url("../../public/assets/fonts/YekanBakhFaNum-Regular.ttf");
+	font-weight: 100;
+}
