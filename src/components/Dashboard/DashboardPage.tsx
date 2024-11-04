@@ -44,6 +44,10 @@ export default function DashboardPage({ shopId }) {
   const [shop, setShop] = useState<Shop | undefined>(undefined);
 
   async function fetchShop() {
+    if (shopId === null) {
+      return;
+    }
+
     try {
       const response = await fetch(`${process.env.API_URL}/shop/${shopId}`, {
         method: "GET",

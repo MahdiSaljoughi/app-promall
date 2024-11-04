@@ -16,7 +16,7 @@ export default function HeadBanner() {
               alt="Logo"
               height={200}
               width={200}
-              className="rounded-lg object-cover z-50 h-[11rem] absolute -rotate-45 right-[-2rem] bottom-[-30px] saturate-0 drop-shadow-lg"
+              className="rounded-lg object-cover z-40 h-[11rem] absolute -rotate-45 right-[-2rem] bottom-[-30px] saturate-0 drop-shadow-lg"
             />
           </div>
           <div className="col-span-4 col-start-1 row-start-2 text-center ">
@@ -33,7 +33,7 @@ export default function HeadBanner() {
             </Button>
           </div>
           <div className="col-span-4 col-start-1 row-start-3 text-center mt-1">
-            ( : به نظرت بعد تخفیف چند
+            {"("} : به نظرت بعد تخفیف چند
           </div>
         </div>
       </div>

@@ -150,12 +150,12 @@ export default function RelativeMenu() {
   return (
     <>
       <menu>
-        <div className="fixed inset-x-0 bottom-4 mx-4 p-4 z-20 bg-black/[0.2] backdrop-blur-3xl rounded-full ring-8 ring-black/5 brightness-150 shadow-[0px_0px_46px_2px_#000000] md:max-w-96 md:mx-auto">
+        <div className="shadow-lg fixed inset-x-0 bottom-4 mx-4 p-4 z-20 bg-white dark:bg-black/[0.2] backdrop-blur-3xl rounded-full dark:ring-8 dark:ring-black/5 dark:brightness-150 dark:shadow-[0px_0px_46px_2px_#000000] md:max-w-96 md:mx-auto">
           <div className="relative flex justify-around items-center">
             {icons.map((icon, index) => (
               <motion.div
                 key={index}
-                className="flex flex-col items-center text-white cursor-pointer"
+                className="flex flex-col items-center text-primary dark:text-white"
                 whileTap={{ scale: 0.9 }}
                 animate={{
                   opacity: pathname === icon.route ? 1 : 0.5,

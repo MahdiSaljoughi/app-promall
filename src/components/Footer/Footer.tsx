@@ -27,7 +27,7 @@ export default function Footer() {
       <footer className="pt-24">
         {/* @ts-ignore */}
         <RelativeMenu activeIcon={activeIcon} onIconClick={handleIconClick} />
-        <div className="fixed bottom-0 bg-gradient-to-t from-zinc-400 dark:from-black/90 to-transparent h-20 left-0 right-0" />
+        <div className="hidden dark:block fixed bottom-0 bg-gradient-to-t from-black/90 to-transparent h-20 inset-x-0" />
       </footer>
     </>
   );
