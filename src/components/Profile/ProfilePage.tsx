@@ -68,7 +68,7 @@ export default function ProfilePage({ user }) {
 
   return (
     <>
-      <motion.div className="dark:bg-dashboard-gradient min-h-screen">
+      <motion.div className="bg-gradient-to-tl from-[#1E2128] to-[#100F17] dark:bg-dashb oard-gradient min-h-screen">
         <Header isOpen={isOpen} setOpen={setOpen} user={user} />
 
         {user.first_name === "" || user.last_name === "" ? (

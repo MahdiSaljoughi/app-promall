@@ -28,7 +28,7 @@ export default function RootLayout({
         <link rel="shortcut icon" href="./icon.png" type="image/x-icon" />
       </head>
 
-      <body className="dark:bg-gradiant font-yekanbakh">
+      <body className="dark:bg-gradiant font-yekanbakh overflow-x-hidden antialiased scroll-smooth">
         <SessionProvider>
           <Providers>
             <Toaster position="top-center" reverseOrder={false} />

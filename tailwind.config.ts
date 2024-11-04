@@ -30,7 +30,8 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       backgroundImage: {
-        gradiant: "linear-gradient(130deg, #202426 5%, #202426 84%)",
+        // linear-gradient(130deg, #202426 5%, #202426 84%)
+        gradiant: "linear-gradient(243.18deg, #100F17 0%, #1E2128 100%)",
         "gradiant-order": "linear-gradient(to bottom right, #202426 , #050506)",
         "card-gradient": "linear-gradient(to bottom right,  #202426, #000000)",
         "product-gradient": "linear-gradient(to bottom right, #111827, black)",

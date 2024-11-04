@@ -56,7 +56,20 @@ export default function HamburgerMenu({
   };
 
   const handleLogout = () => {
-    signOut({ redirect: true, callbackUrl: "/auth" });
+    // signOut({ redirect: false, callbackUrl: "/" });
+    // if (process.env.NODE_ENV !== "production") {
+    //   if (!session?.user.access_token) {
+    //     router.push("/auth");
+    //   }
+    // } else {
+    //   if (!session?.user.access_token) {
+    //     router.push(`${process.env.APP_URL}/auth`);
+    //   }
+    // }
+    signOut({
+      redirect: true,
+      callbackUrl: `${window.location.origin}/auth`,
+    });
   };
 
   return (

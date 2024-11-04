@@ -94,7 +94,7 @@ export default function CreateShopPage() {
 
       // const result = await response.json();
       // console.log("Shop created:", result);
-      router.push("/dashboard/shop-management");
+      router.push("/dashboard");
     } catch (error) {
       console.error("Error:", error);
     }

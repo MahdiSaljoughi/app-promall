@@ -39,20 +39,6 @@ export default function Home() {
   return (
     <>
       <div className="md:container md:mx-auto flex flex-col gap-y-8 py-4">
-        <div className="flex flex-col gap-y-4">
-          <p className="text-2xl text-red-500">img not import</p>
-          <img src="/assets/nike-logo.png" alt="test" className="w-20" />
-          <p className="text-2xl text-red-500">Image not import</p>
-          <Image
-            src="/assets/nike-logo.png"
-            alt="test"
-            width={100}
-            height={100}
-          />
-          <p className="text-2xl text-red-500">Image import</p>
-          <Image src={nike} alt="test" width={100} height={100} />
-        </div>
-
         <Search />
 
         <HeadBanner />

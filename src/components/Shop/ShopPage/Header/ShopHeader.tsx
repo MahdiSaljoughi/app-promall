@@ -10,34 +10,18 @@ export default function ShopHeader() {
 
   return (
     <>
-      <nav>
-        <div className="fixed left-0 right-0 z-[999] flex flex-row justify-between items-center h-20 bg-gradient-to-b from-black/100 to-transparent top-[-5px]">
-          <div className="flex flex-row w-full justify-between mx-2">
-            <div className="inline-flex gap-1">
-              <Button variant="light" isIconOnly className="">
-                <MdIosShare size={30} />
-              </Button>
-              <Button
-                variant="light"
-                isIconOnly
-                className="justify-center items-center ml-1"
-              >
-                <MessageCircle
-                  color="#ffffff"
-                  strokeWidth={2}
-                  absoluteStrokeWidth
-                  size={30}
-                />
-              </Button>
-            </div>
-
+      <div className="fixed inset-x-0 z-50 flex items-center h-20 bg-gradient-to-b from-black/100 to-transparent -top-2">
+        <div className="flex w-full justify-between mx-2">
+          <div className="flex items-center gap-x-2">
+            <Button variant="light" isIconOnly>
+              <MdIosShare size={30} />
+            </Button>
             <Button
-              onClick={() => router.back()}
               variant="light"
               isIconOnly
-              className="ml-2"
+              className="justify-center items-center"
             >
-              <ChevronLeft
+              <MessageCircle
                 color="#ffffff"
                 strokeWidth={2}
                 absoluteStrokeWidth
@@ -45,8 +29,21 @@ export default function ShopHeader() {
               />
             </Button>
           </div>
+
+          <Button
+            onClick={() => router.back()}
+            variant="light"
+            isIconOnly
+          >
+            <ChevronLeft
+              color="#ffffff"
+              strokeWidth={2}
+              absoluteStrokeWidth
+              size={30}
+            />
+          </Button>
         </div>
-      </nav>
+      </div>
     </>
   );
 }
