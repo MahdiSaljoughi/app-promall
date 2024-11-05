@@ -14,7 +14,7 @@ export default function CategorySection({
 }: CategoriesSectionProps) {
   return (
     <>
-      <div className="flex flex-wrap gap-5 mx-5 mt-5 items-center justify-center shadow-2xl drop-shadow-2xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mx-4 md:mx-0 my-8 dark:shadow-2xl dark:drop-shadow-2xl">
         {categories.map((category: Category, index) => (
           <div key={index}>
             <CategoryCard image={category.image} title={category.title} />

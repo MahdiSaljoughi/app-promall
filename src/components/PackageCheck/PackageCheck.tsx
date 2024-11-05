@@ -63,7 +63,7 @@ export default function PackageCheck() {
   return (
     <>
       <div className="md:container md:mx-auto">
-        <div className="fixed top-[-100px] w-full flex flex-col gap-3 bottom-[-100px]">
+        <div className="fixed -top-28 -bottom-28 w-full flex flex-col gap-3">
           {sliderItems.map((sliderItem, index) => (
             <SliderNumber
               key={index}
@@ -72,7 +72,7 @@ export default function PackageCheck() {
             />
           ))}
         </div>
-        <div className="fixed inset-0 bg-black/70" />
+        <div className="fixed inset-0 dark:bg-black/70 bg-sky-300/20" />
         <div className="md:min-h-screen">
           <div className="fixed inset-0 flex h-screen w-full items-center justify-center">
             <div className="text-white text-center w-[95%] md:w-[60%] mx-auto self-center bg-white/[0.07] backdrop-blur-2xl shadow-black/35 drop-shadow-[1000px] shadow-2xl p-8 rounded-3xl">
@@ -86,7 +86,7 @@ export default function PackageCheck() {
           </div>
         </div>
         {isModalOpen && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[999999]">
+          <div className="fixed inset-0 flex items-center justify-center dark:bg-black bg-opacity-50 z-40">
             <BackgroundGradientDemo onClose={closeModal} />
           </div>
         )}

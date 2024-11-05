@@ -29,7 +29,6 @@ export default function Header({ isOpen, setOpen, user }: NavbarProps) {
             size={24}
             animateOnMount={true}
             toggle={setOpen}
-            color="white"
             direction="right"
             hideOutline={true}
             rounded={true}

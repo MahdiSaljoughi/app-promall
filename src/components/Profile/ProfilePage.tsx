@@ -1,6 +1,5 @@
 "use client";
 
-import HamburgerMenu from "@/components/Dashboard/HamburgerMenu/HamburgerMenu";
 import Header from "@/components/Profile/Header/Header";
 import UserDetailsProfile from "@/components/Profile/UserDetailsProfile/UserDetailsProfile";
 import { useState } from "react";
@@ -11,11 +10,11 @@ import {
   MdViewCarousel,
 } from "react-icons/md";
 import { PiCat, PiCatFill } from "react-icons/pi";
-import { RiUserSettingsFill, RiUserSettingsLine } from "react-icons/ri";
 import { TbPaint, TbPaintFilled } from "react-icons/tb";
 import Footer from "../Footer/Footer";
 import { motion } from "framer-motion";
 import Orderinfo from "./RegistredOrders/Orderinfo";
+import HamburgerMenu from "./HamburgerMenu/HamburgerMenu";
 
 interface MenuItemType {
   label: string;
@@ -68,7 +67,7 @@ export default function ProfilePage({ user }) {
 
   return (
     <>
-      <motion.div className="bg-gradient-to-tl from-[#1E2128] to-[#100F17] dark:bg-dashb oard-gradient min-h-screen">
+      <motion.div className="dark:bg-gradiant min-h-screen">
         <Header isOpen={isOpen} setOpen={setOpen} user={user} />
 
         {user.first_name === "" || user.last_name === "" ? (

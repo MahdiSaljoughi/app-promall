@@ -39,26 +39,28 @@ const MenuItem: React.FC<MenuItemProps> = ({
   };
 
   return (
-    <motion.li
-      className={`text-lg w-full text-white relative cursor-pointer ${
-        isActive ? "font-bold" : ""
-      }`}
-      onClick={onClick}
-      variants={itemVariants}
-      custom={index}
-      initial="hidden"
-      animate="visible"
-      whileHover="hover"
-      whileTap="clicked"
-    >
-      {isActive && (
-        <div className="absolute inset-0 bg-white/20 backdrop-blur-md rounded-lg -z-10 scale-105"></div>
-      )}
-      <div className="flex flex-row justify-between items-center py-3">
-        <span>{label}</span>
-        {isActive ? activeIcon : icon}
-      </div>
-    </motion.li>
+    <>
+      <motion.li
+        className={`text-lg w-full relative cursor-pointer ${
+          isActive ? "font-bold" : ""
+        }`}
+        onClick={onClick}
+        variants={itemVariants}
+        custom={index}
+        initial="hidden"
+        animate="visible"
+        whileHover="hover"
+        whileTap="clicked"
+      >
+        {isActive && (
+          <div className="absolute inset-0 dark:bg-white/20 backdrop-blur-md rounded-lg -z-10 scale-105" />
+        )}
+        <div className="flex flex-row justify-between items-center py-3">
+          <span>{label}</span>
+          {isActive ? activeIcon : icon}
+        </div>
+      </motion.li>
+    </>
   );
 };
 

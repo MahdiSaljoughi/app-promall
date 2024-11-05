@@ -132,7 +132,7 @@ export default function UserDetailsProfile({ user }) {
                       width="2em"
                       height="2em"
                       viewBox="0 0 24 24"
-                      className="absolute right-0 bottom-2"
+                      className="absolute right-0 bottom-2 text-sky-500 dark:text-white"
                     >
                       <path
                         fill="currentColor"
@@ -214,7 +214,7 @@ export default function UserDetailsProfile({ user }) {
         ) : null}
         <Button
           variant="solid"
-          className="w-full rounded-full text-lg shadow-lg"
+          className="w-full rounded-full text-lg shadow-lg bg-primary dark:bg-default text-white"
           onClick={handleUpdate}
           disabled={loading}
         >

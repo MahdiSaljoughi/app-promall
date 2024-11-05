@@ -150,7 +150,7 @@ export default function RelativeMenu() {
   return (
     <>
       <menu>
-        <div className="shadow-lg fixed inset-x-0 bottom-4 mx-4 p-4 z-20 bg-white dark:bg-black/[0.2] backdrop-blur-3xl rounded-full dark:ring-8 dark:ring-black/5 dark:brightness-150 dark:shadow-[0px_0px_46px_2px_#000000] md:max-w-96 md:mx-auto">
+        <div className="fixed inset-x-0 bottom-4 mx-4 p-4 z-20 bg-white dark:bg-black/[0.2] backdrop-blur-3xl rounded-[32px] dark:ring-8 dark:ring-black/5 dark:brightness-150 shadow-xl dark:shadow-[0px_0px_46px_2px_#000000] md:max-w-96 md:mx-auto">
           <div className="relative flex justify-around items-center">
             {icons.map((icon, index) => (
               <motion.div

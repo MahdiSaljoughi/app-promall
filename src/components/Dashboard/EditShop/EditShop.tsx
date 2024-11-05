@@ -21,7 +21,7 @@ export default function EditShop() {
 
   return (
     <>
-      <div className="fixed inset-x-0 z-50 flex items-center h-20 bg-gradient-to-b from-black/100 to-transparent -top-2">
+      <div className="fixed inset-x-0 z-50 flex items-center h-20 bg-gradient-to-b from-sky-500/20 dark:from-black/100 to-transparent -top-2">
         <div className="flex w-full justify-end">
           <Button
             onClick={() => router.back()}
@@ -29,12 +29,7 @@ export default function EditShop() {
             isIconOnly
             className="ml-2"
           >
-            <ChevronLeft
-              color="#ffffff"
-              strokeWidth={2}
-              absoluteStrokeWidth
-              size={30}
-            />
+            <ChevronLeft strokeWidth={2} absoluteStrokeWidth size={30} />
           </Button>
         </div>
       </div>

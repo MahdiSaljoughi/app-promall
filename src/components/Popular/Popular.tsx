@@ -31,7 +31,7 @@ export default function Popular({
         <div className="overflow-x-auto flex gap-2 no-scrollbar">
           {items.map((item) => (
             <div className="mx-1 my-2" key={item.id}>
-              <Link href={"/shop-page"} key={item.id}>
+              <Link href={"/shop/1"} key={item.id}>
                 <ProductBluredBlur
                   imageSrc={item.imageSrc}
                   title={item.title}

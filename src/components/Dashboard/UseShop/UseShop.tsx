@@ -71,7 +71,7 @@ export default function UseShop() {
 
   return (
     <>
-      <div className="bg-dashboard-gradient min-h-screen">
+      <div className="dark:bg-gradient min-h-screen">
         {loading ? (
           <>
             <div className="w-screen h-screen flex items-center justify-center">
@@ -94,21 +94,23 @@ export default function UseShop() {
                   </span>
 
                   {shops.map((shop: Shop) => (
-                    <div key={shop.id}>
-                      <button
-                        onClick={() => setShopId(shop.id)}
-                        className="min-h-[77px] flex items-center gap-x-4 p-4 dark:bg-blue-950/10 rounded-3xl max-w-full w-96 mx-auto border-x border-indigo-900 hover:ring-4 hover:border-black/10 ring-indigo-900/50 transition-all"
-                      >
-                        <Image
-                          src={`${process.env.API_URL}${shop.avatar}`}
-                          width={45}
-                          height={45}
-                          alt={shop.name}
-                          className="rounded-full"
-                        />
-                        <span>{shop.name}</span>
-                      </button>
-                    </div>
+                    <>
+                      <div key={shop.id}>
+                        <button
+                          onClick={() => setShopId(shop.id)}
+                          className="min-h-[77px] flex items-center gap-x-4 p-4 dark:bg-blue-950/10 rounded-3xl max-w-full w-96 mx-auto border-x border-indigo-900 hover:ring-4 hover:border-black/10 ring-indigo-900/50 transition-all"
+                        >
+                          <Image
+                            src={`${process.env.API_URL}${shop.avatar}`}
+                            width={45}
+                            height={45}
+                            alt={shop.name}
+                            className="rounded-full"
+                          />
+                          <span>{shop.name}</span>
+                        </button>
+                      </div>
+                    </>
                   ))}
                 </div>
               </>

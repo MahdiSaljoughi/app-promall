@@ -57,7 +57,7 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
       initial={false}
       animate={isOpen ? "open" : "closed"}
       variants={menuVariants}
-      className="fixed self-center top-[17%] rounded-l-xl right-0 w-3/4 bg-white/10 drop-shadow-2xl shadow-2xl shadow-black/50 backdrop-blur-3xl flex flex-col items-center z-50"
+      className="fixed self-center inset-y-0 rounded-l-xl right-0 w-3/4 bg-white/10 drop-shadow-2xl shadow-2xl shadow-black/50 backdrop-blur-3xl flex flex-col items-center z-40"
     >
       <ul className="flex flex-col gap-4 w-full p-4">
         {menuItems.map((item, index) => (

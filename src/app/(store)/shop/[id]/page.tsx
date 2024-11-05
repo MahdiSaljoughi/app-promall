@@ -93,7 +93,7 @@ export default function Page() {
             <span className="font-bold">نایکی سنتر</span>
             <div className="flex items-center justify-center gap-x-2">
               <span className="text-base mt-2">۴.۹</span>
-              <FaStar size={23} color="white" strokeWidth={0.1} />
+              <FaStar size={24} strokeWidth={0.1} />
             </div>
           </div>
 
@@ -111,7 +111,7 @@ export default function Page() {
             {items.map((item, index) => (
               <Link
                 key={index}
-                href={"/shop-page/product"}
+                href={"/shop/1/product"}
                 className="mb-6 break-inside-avoid flex items-center justify-center"
               >
                 <ProductBlurCard

@@ -31,7 +31,7 @@ export default function MenuItem({
   return (
     <>
       <motion.li
-        className={`text-lg w-full text-white relative cursor-pointer ${
+        className={`text-lg dark:text-white relative cursor-pointer ${
           isActive ? "font-bold" : ""
         }`}
         onClick={onClick}

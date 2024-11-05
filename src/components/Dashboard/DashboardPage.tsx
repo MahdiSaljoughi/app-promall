@@ -84,7 +84,7 @@ export default function DashboardPage({ shopId }) {
       label: "محصولات",
       icon: <MdOutlineSpaceDashboard size={28} />,
       activeIcon: <MdSpaceDashboard size={28} />,
-      path: "/dashboard/products",
+      path: `/dashboard/products?shop-id=${shopId}`,
     },
     {
       label: "سفارشات",
@@ -170,7 +170,7 @@ export default function DashboardPage({ shopId }) {
 
   return (
     <>
-      <div className="bg-dashboard-gradient">
+      <div className="dark:bg-gradient">
         {session?.user.access_token ? (
           <>
             <div className="hidden md:block">
@@ -178,7 +178,7 @@ export default function DashboardPage({ shopId }) {
             </div>
 
             {/* mobile */}
-            <div className="py-8 md:hidden">
+            <div className="py-4 md:hidden">
               <Header
                 isOpen={isOpen}
                 setOpen={setOpen}

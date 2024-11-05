@@ -9,6 +9,7 @@ import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
+import { useEffect, useState } from "react";
 
 export default function RootLayout({
   children,
@@ -18,11 +19,21 @@ export default function RootLayout({
   const pathname = usePathname();
 
   const noLayoutRoutes = ["/", "/package-check", "/categories", "/shop"];
-
   const isLayoutVisible = !noLayoutRoutes.includes(pathname);
 
+  // State for theme and direction
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+    const userTheme = window.matchMedia("(colorScheme: dark)").matches
+      ? "dark"
+      : "light";
+
+    setTheme(userTheme);
+  }, []);
+
   return (
-    <html lang="en" dir="rtl" className="dark" style={{ colorScheme: "dark" }}>
+    <html lang="en" dir="rtl" className={theme} style={{ colorScheme: theme }}>
       <head>
         <title>پرومال</title>
         <link rel="shortcut icon" href="./icon.png" type="image/x-icon" />

@@ -38,21 +38,21 @@ export default function Header({
 
   return (
     <>
-      <div className="flex items-center py-4 justify-between font-bold rounded-3xl mx-4 bg-white dark:bg-black text-black dark:text-zinc-100 drop-shadow-2xl shadow-xl shadow-black/10">
+      <div className="flex items-center py-4 justify-between font-bold rounded-3xl mx-4 bg-white dark:bg-black shadow-lg dark:drop-shadow-2xl dark:shadow-xl dark:shadow-black/10">
         <div className="flex items-center mr-4">
           <Image
             src={shopAvatar}
             width={40}
             height={40}
             alt={shopName}
-            className="rounded-full"
+            className="rounded-full border dark:border-zinc-700"
           />
 
           <div className="flex flex-col justify-center mr-3">
             <p className="text-md">
               {firstName} وقت بخیر :{")"}
             </p>
-            <p className="text-zinc-200 text-sm">{shopName}</p>
+            <p className="text-zinc-600 dark:text-zinc-200 text-sm">{shopName}</p>
           </div>
         </div>
         <div className="ml-2">
@@ -61,7 +61,6 @@ export default function Header({
             size={25}
             animateOnMount={true}
             toggle={setOpen}
-            color="white"
             direction="right"
             hideOutline={true}
             rounded={true}
