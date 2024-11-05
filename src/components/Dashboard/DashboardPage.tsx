@@ -84,7 +84,7 @@ export default function DashboardPage({ shopId }) {
       label: "محصولات",
       icon: <MdOutlineSpaceDashboard size={28} />,
       activeIcon: <MdSpaceDashboard size={28} />,
-      path: `/dashboard/products?shop-id=${shopId}`,
+      path: `/dashboard/shop/products/${shopId}`,
     },
     {
       label: "سفارشات",
@@ -204,10 +204,10 @@ export default function DashboardPage({ shopId }) {
 
               <DashboardGrid />
 
-              {/* <PopularProductsSection items={popularItems} /> */}
-
-              {/* <Footer /> */}
+              <PopularProductsSection items={popularItems} />
             </div>
+
+            <Footer />
           </>
         ) : (
           <>

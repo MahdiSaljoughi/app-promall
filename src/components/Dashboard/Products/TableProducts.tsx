@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -11,14 +11,62 @@ import {
   Chip,
   Tooltip,
   Avatar,
+  Button,
 } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 
-const statusColorMap = {
-  mojod: "success",
-  nomojod: "danger",
-};
+interface Products {
+  id: string;
+  name: string;
+  images: string[];
+  price: number;
+  availibility: string;
+}
 
-export default function TableProducts() {
+export default function TableProducts({ shopId }) {
+  const { data: session } = useSession();
+
+  const [products, setProducts] = useState<Products[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  async function fetchProducts() {
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/products/shop/${shopId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${session?.user?.access_token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const shopsData = await response.json();
+        setProducts(shopsData.data);
+      } else {
+        console.log("Failed to fetch shop products data:", response.statusText);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log("Error fetching shop products data:", error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (session?.user?.access_token) {
+        await fetchProducts();
+      }
+    };
+    fetchData();
+  }, [session?.user?.access_token]);
+
   const columns = [
     {
       key: "product",
@@ -34,53 +82,14 @@ export default function TableProducts() {
     },
   ];
 
-  const product = [
-    {
-      id: "1",
-      name: "کتانی نایک ایرجردن1 بدون ساق صورتی پانچ Nike Jordan 1 Low Paint Drip",
-      avatar: "/assets/nike-shoe4.png",
-      status: "mojod",
-    },
-    {
-      id: "2",
-      name: "کتانی نایک ایرجردن1 بدون ساق صورتی پانچ Nike Jordan 1 Low Paint Drip",
-      avatar: "/assets/nike-shoe4.png",
-      status: "nomojod",
-    },
-    {
-      id: "3",
-      name: "کتانی نایک ایرجردن1 بدون ساق صورتی پانچ Nike Jordan 1 Low Paint Drip",
-      avatar: "/assets/nike-shoe4.png",
-      status: "mojod",
-    },
-    {
-      id: "4",
-      name: "کتانی نایک ایرجردن1 بدون ساق صورتی پانچ Nike Jordan 1 Low Paint Drip",
-      avatar: "/assets/nike-shoe4.png",
-      status: "mojod",
-    },
-    {
-      id: "5",
-      name: "کتانی نایک ایرجردن1 بدون ساق صورتی پانچ Nike Jordan 1 Low Paint Drip",
-      avatar: "/assets/nike-shoe4.png",
-      status: "nomojod",
-    },
-    {
-      id: "6",
-      name: "کتانی نایک ایرجردن1 بدون ساق صورتی پانچ Nike Jordan 1 Low Paint Drip",
-      avatar: "/assets/nike-shoe4.png",
-      status: "mojod",
-    },
-  ];
-
-  const renderCell = React.useCallback((product, columnKey) => {
+  const renderCell = React.useCallback((product: any, columnKey: any) => {
     const cellValue = product[columnKey];
 
     switch (columnKey) {
       case "product":
         return (
           <div className="flex items-center gap-x-2">
-            <Avatar src={product.avatar} />
+            <Avatar src={`${process.env.API_URL}${product.images[0]}`} />
             <span className="hidden md:block">{product.name}</span>
           </div>
         );
@@ -88,11 +97,11 @@ export default function TableProducts() {
         return (
           <Chip
             className="capitalize"
-            color={statusColorMap[product.status]}
+            color={product.availibility > 0 ? "success" : "danger"}
             size="sm"
             variant="flat"
           >
-            {cellValue === "mojod" ? "موجود" : "ناموجود"}
+            {product.availibility > 0 ? "موجود" : "ناموجود"}
           </Chip>
         );
       case "actions":
@@ -166,19 +175,48 @@ export default function TableProducts() {
   }, []);
 
   return (
-    <Table aria-label="Example table with custom cells">
-      <TableHeader columns={columns}>
-        {(column) => <TableColumn key={column.key}>{column.name}</TableColumn>}
-      </TableHeader>
-      <TableBody items={product} emptyContent={"محصولی ندارین"}>
-        {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
+    <>
+      <div className="dark:bg-zinc-900 rounded-2xl shadow-lg border dark:border-none">
+        <div className="pr-4 pt-4">
+          <Button className="flex items-center gap-x-2" color="primary">
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1.4em"
+                height="1.4em"
+                viewBox="0 0 24 24"
+              >
+                <g fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" opacity="0.5" />
+                  <path strokeLinecap="round" d="M15 12h-3m0 0H9m3 0V9m0 3v3" />
+                </g>
+              </svg>
+            </span>
+            <span>افزودن محصول</span>
+          </Button>
+        </div>
+
+        <Table shadow="none" aria-label="Product Table">
+          <TableHeader columns={columns}>
+            {(column) => (
+              <TableColumn key={column.key}>{column.name}</TableColumn>
             )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+          </TableHeader>
+          <TableBody
+            items={products}
+            emptyContent={"محصولی ندارین"}
+            isLoading={loading}
+          >
+            {(item) => (
+              <TableRow key={item.id}>
+                {(columnKey) => (
+                  <TableCell>{renderCell(item, columnKey)}</TableCell>
+                )}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    </>
   );
 }
