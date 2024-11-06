@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^10.2.9",
     "@eslint/config-array": "^0.19.0",
     "@eslint/object-schema": "^2.1.4",
     "@nextui-org/card": "^2.0.34",
@@ -56,6 +57,7 @@
     "reactjs-otp-input": "^2.0.10",
     "rimraf": "^6.0.1",
     "sharp": "^0.33.5",
+    "swiper": "^11.1.14",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "yup": "^1.4.0"
@@ -71,6 +73,7 @@
     "postcss-preset-env": "^10.0.8",
     "postcss-will-change": "^4.0.1",
     "tailwindcss": "^3.4.14",
-    "typescript": "^5"
+    "typescript": "^5",
+    "webpack": "^5.96.1"
   }
 }

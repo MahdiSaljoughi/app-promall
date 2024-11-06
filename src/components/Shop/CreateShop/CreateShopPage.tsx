@@ -30,9 +30,6 @@ export default function CreateShopPage() {
   const [categoryIds, setCategoryIds] = useState("");
   const [avatar, setAvatar] = useState(null);
   const [imagePosters, setImagePosters] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [step, setStep] = useState(0);
   const [progress, setProgress] = useState(30);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);

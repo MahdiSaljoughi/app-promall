@@ -12,8 +12,20 @@ import {
   Tooltip,
   Avatar,
   Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Input,
+  user,
 } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Autoplay, Navigation } from "swiper/modules";
+import Image from "next/image";
 
 interface Products {
   id: string;
@@ -28,6 +40,13 @@ export default function TableProducts({ shopId }) {
 
   const [products, setProducts] = useState<Products[]>([]);
   const [loading, setLoading] = useState(true);
+  const [productId, setProductId] = useState("");
+  // Add Product
+  const [productName, setProductName] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+  const [produtcAvailibility, setProdutcAvailibility] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
+  const [fileURLs, setFileURLs] = useState<string[]>([]);
 
   async function fetchProducts() {
     setLoading(true);
@@ -57,7 +76,6 @@ export default function TableProducts({ shopId }) {
       setLoading(false);
     }
   }
-
   useEffect(() => {
     const fetchData = async () => {
       if (session?.user?.access_token) {
@@ -66,6 +84,169 @@ export default function TableProducts({ shopId }) {
     };
     fetchData();
   }, [session?.user?.access_token]);
+
+  // Modals
+  // DeleteModal
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const onOpenDeleteModal = (id: string) => {
+    setIsOpenDeleteModal(true);
+    setProductId(id);
+  };
+  const onCloseDeleteModal = () => setIsOpenDeleteModal(false);
+  const onDelete = async (id: string) => {
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/products/${productId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${session?.user?.access_token}`,
+          },
+          body: id,
+        }
+      );
+
+      if (response.ok) {
+        setLoading(false);
+        onCloseDeleteModal();
+      } else {
+        console.log(
+          "Failed to fetch delete products data:",
+          response.statusText
+        );
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log("Error fetching delete products data:", error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+      await fetchProducts();
+      onCloseDeleteModal();
+    }
+  };
+  // AddModal
+  const [isOpenAddModal, setIsOpenAddModal] = useState(false);
+  const onOpenAddModal = () => setIsOpenAddModal(true);
+  const onCloseAddModal = () => setIsOpenAddModal(false);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const filesArray = Array.from(e.target.files);
+      setFiles(filesArray);
+      const fileURLs = filesArray.map((file) => URL.createObjectURL(file));
+      setFileURLs(fileURLs);
+    }
+  };
+  const onAdd = async () => {
+    if (
+      !productName ||
+      !productPrice ||
+      !produtcAvailibility ||
+      files.length === 0
+    ) {
+      alert("Please fill in all fields and upload at least one image.");
+      return;
+    }
+
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("name", productName);
+    formData.append("price", productPrice);
+    formData.append("availibility", produtcAvailibility);
+    formData.append("shopId", shopId);
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    try {
+      const response = await fetch(`${process.env.API_URL}/products`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session?.user?.access_token}`,
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        setProductName("");
+        setProductPrice("");
+        setProdutcAvailibility("");
+        setFiles([]);
+        setFileURLs([]);
+        onCloseAddModal();
+        await fetchProducts();
+      } else {
+        console.log("Failed to create products data:", response.status);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log("Error fetching create products data:", error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // EditModal
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+  const onOpenEditModal = (id: string) => {
+    setIsOpenEditModal(true);
+    setProductId(id);
+  };
+  const onCloseEditModal = () => setIsOpenEditModal(false);
+  const handleFileChangeEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const filesArray = Array.from(e.target.files);
+      setFiles(filesArray);
+      const fileURLs = filesArray.map((file) => URL.createObjectURL(file));
+      setFileURLs(fileURLs);
+    }
+  };
+  const onEdit = async () => {
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("name", productName);
+    formData.append("price", productPrice);
+    formData.append("availibility", produtcAvailibility);
+    formData.append("shopId", shopId);
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    try {
+      const response = await fetch(
+        `${process.env.API_URL}/products/${productId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${session?.user?.access_token}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        setProductName("");
+        setProductPrice("");
+        setProdutcAvailibility("");
+        setFiles([]);
+        setFileURLs([]);
+        onCloseEditModal();
+        await fetchProducts();
+      } else {
+        console.log("Failed to create products data:", response.status);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log("Error fetching create products data:", error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const columns = [
     {
@@ -126,7 +307,11 @@ export default function TableProducts({ shopId }) {
               </span>
             </Tooltip>
             <Tooltip color="primary" content="ویرایش محصول">
-              <span className="text-lg text-primary cursor-pointer active:opacity-50">
+              <span
+                aria-label="ویرایش محصول"
+                onClick={() => onOpenEditModal(product.id)}
+                className="text-lg text-primary cursor-pointer active:opacity-50"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="1.2em"
@@ -149,7 +334,11 @@ export default function TableProducts({ shopId }) {
               </span>
             </Tooltip>
             <Tooltip color="danger" content="حذف محصول">
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
+              <span
+                aria-label="حذف محصول"
+                onClick={() => onOpenDeleteModal(product.id)}
+                className="text-lg text-danger cursor-pointer active:opacity-50"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="1.2em"
@@ -177,8 +366,12 @@ export default function TableProducts({ shopId }) {
   return (
     <>
       <div className="dark:bg-zinc-900 rounded-2xl shadow-lg border dark:border-none">
-        <div className="pr-4 pt-4">
-          <Button className="flex items-center gap-x-2" color="primary">
+        <div className="flex items-center justify-between px-4 pt-4">
+          <Button
+            onPress={onOpenAddModal}
+            className="flex items-center gap-x-2"
+            color="primary"
+          >
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -194,6 +387,11 @@ export default function TableProducts({ shopId }) {
             </span>
             <span>افزودن محصول</span>
           </Button>
+
+          <p>
+            <span>کل : </span>
+            <span>{products.length}</span>
+          </p>
         </div>
 
         <Table shadow="none" aria-label="Product Table">
@@ -216,6 +414,445 @@ export default function TableProducts({ shopId }) {
             )}
           </TableBody>
         </Table>
+
+        {/* Modals */}
+        <>
+          {/* Delete */}
+          <Modal isOpen={isOpenDeleteModal} onClose={onCloseDeleteModal}>
+            <ModalContent>
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">
+                    مطمعنی که حذف بشه؟
+                  </ModalHeader>
+                  <ModalFooter>
+                    <Button
+                      fullWidth
+                      color="danger"
+                      variant="light"
+                      onPress={onClose}
+                    >
+                      خیر
+                    </Button>
+                    <Button
+                      fullWidth
+                      color="primary"
+                      onPress={() => onDelete(productId)}
+                    >
+                      اره
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
+          {/* Add */}
+          <Modal
+            size="full"
+            scrollBehavior="inside"
+            isOpen={isOpenAddModal}
+            onClose={onCloseAddModal}
+          >
+            <ModalContent>
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">
+                    افزودن محصول جدید
+                  </ModalHeader>
+                  <ModalBody>
+                    <div className="flex flex-col gap-y-4">
+                      {fileURLs.length > 0 ? (
+                        <>
+                          <Swiper
+                            slidesPerView={1}
+                            centeredSlides={true}
+                            autoplay={{
+                              delay: 3000,
+                              disableOnInteraction: false,
+                            }}
+                            spaceBetween={0}
+                            modules={[Navigation, Autoplay]}
+                            navigation={{
+                              nextEl: ".swiper-button-next-custom",
+                              prevEl: ".swiper-button-prev-custom",
+                            }}
+                            className="mySwiper w-full"
+                            loop={true}
+                            breakpoints={{
+                              200: {
+                                slidesPerView: 1,
+                                spaceBetween: 0,
+                              },
+                            }}
+                          >
+                            {fileURLs.map((image: any, index: any) => (
+                              <SwiperSlide key={index}>
+                                <div className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-3xl relative">
+                                  <Image
+                                    src={image}
+                                    width={200}
+                                    height={200}
+                                    alt="imageProdutc"
+                                    className="w-full"
+                                  />
+                                  <div className="text-pri mary absolute top-8 right-8 bg-primary p-2 rounded-2xl">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="2em"
+                                      height="2em"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        fill="currentColor"
+                                        d="M22 12.698c-.002 1.47-.013 2.718-.096 3.743c-.097 1.19-.296 2.184-.74 3.009a4.2 4.2 0 0 1-.73.983c-.833.833-1.893 1.21-3.237 1.39C15.884 22 14.2 22 12.053 22h-.106c-2.148 0-3.83 0-5.144-.177c-1.343-.18-2.404-.557-3.236-1.39c-.738-.738-1.12-1.656-1.322-2.795c-.2-1.12-.236-2.512-.243-4.241Q1.999 12.737 2 12v-.054c0-2.148 0-3.83.177-5.144c.18-1.343.557-2.404 1.39-3.236s1.893-1.21 3.236-1.39c1.168-.157 2.67-.175 4.499-.177a.697.697 0 1 1 0 1.396c-1.855.002-3.234.018-4.313.163c-1.189.16-1.906.464-2.436.994S3.72 5.8 3.56 6.99C3.397 8.2 3.395 9.788 3.395 12v.784l.932-.814a2.14 2.14 0 0 1 2.922.097l3.99 3.99a1.86 1.86 0 0 0 2.385.207l.278-.195a2.79 2.79 0 0 1 3.471.209l2.633 2.37c.265-.557.423-1.288.507-2.32c.079-.972.09-2.152.091-3.63a.698.698 0 0 1 1.396 0"
+                                      />
+                                      <path
+                                        fill="currentColor"
+                                        fillRule="evenodd"
+                                        d="M17.5 11c-2.121 0-3.182 0-3.841-.659S13 8.621 13 6.5s0-3.182.659-3.841S15.379 2 17.5 2s3.182 0 3.841.659S22 4.379 22 6.5s0 3.182-.659 3.841S19.621 11 17.5 11m2.53-5.47a.75.75 0 0 0-1.06-1.06L16.5 6.94l-.47-.47a.75.75 0 1 0-1.06 1.06l1 1a.75.75 0 0 0 1.06 0z"
+                                        clipRule="evenodd"
+                                      />
+                                    </svg>
+                                  </div>
+                                </div>
+                              </SwiperSlide>
+                            ))}
+                            <div className="flex items-center justify-center w-full">
+                              <button className="swiper-button-prev-custom">
+                                <div className="p-1.5 lg:p-2 mb-1 rounded-xl lg:rounded-2xl text-zinc-500 hover:scale-110 transition-transform-2 mx-2 border">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="1.5em"
+                                    height="1.5em"
+                                    viewBox="0 0 24 24"
+                                    className="rotate-180"
+                                  >
+                                    <path
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="m15 19l-7-7l7-7"
+                                    />
+                                  </svg>
+                                </div>
+                              </button>
+                              <button className="swiper-button-next-custom">
+                                <div className="p-1.5 lg:p-2 mb-1 rounded-xl lg:rounded-2xl text-zinc-500 hover:scale-110 transition-transform-2 mx-2 border">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="1.5em"
+                                    height="1.5em"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="m15 19l-7-7l7-7"
+                                    />
+                                  </svg>
+                                </div>
+                              </button>
+                            </div>
+                          </Swiper>
+                        </>
+                      ) : (
+                        <>
+                          <div className="bg-zinc-100 dark:bg-zinc-800 p-8 rounded-3xl">
+                            <button className="w-full flex items-center justify-center">
+                              <label
+                                htmlFor="file-upload"
+                                className="cursor-pointer flex flex-col gap-y-2 items-center"
+                              >
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={handleFileChange}
+                                  className="hidden"
+                                  id="file-upload"
+                                  multiple
+                                />
+
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="2em"
+                                  height="2em"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <g
+                                    fill="currentColor"
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                  >
+                                    <path d="M18.5 1.25a.75.75 0 0 1 .75.75v2.75H22a.75.75 0 0 1 0 1.5h-2.75V9a.75.75 0 0 1-1.5 0V6.25H15a.75.75 0 0 1 0-1.5h2.75V2a.75.75 0 0 1 .75-.75" />
+                                    <path d="M12 1.25h-.057c-2.309 0-4.118 0-5.53.19c-1.444.194-2.584.6-3.479 1.494c-.895.895-1.3 2.035-1.494 3.48c-.19 1.411-.19 3.22-.19 5.529v.114c0 2.309 0 4.118.19 5.53c.194 1.444.6 2.584 1.494 3.479c.895.895 2.035 1.3 3.48 1.494c1.411.19 3.22.19 5.529.19h.114c2.309 0 4.118 0 5.53-.19c1.444-.194 2.584-.6 3.479-1.494c.895-.895 1.3-2.035 1.494-3.48c.19-1.411.19-3.22.19-5.529V12a.75.75 0 0 0-1.5 0c0 2.378-.002 4.086-.176 5.386l-.022.152l-2.774-2.497a3.75 3.75 0 0 0-4.665-.28l-.298.21a1.25 1.25 0 0 1-1.602-.14l-4.29-4.29a3.05 3.05 0 0 0-4.165-.138l-.507.443c.005-1.792.03-3.153.175-4.232c.172-1.279.5-2.05 1.069-2.62c.57-.569 1.34-.896 2.619-1.068c1.3-.174 3.008-.176 5.386-.176a.75.75 0 0 0 0-1.5M2.926 17.386c.172 1.279.5 2.05 1.069 2.62c.57.569 1.34.896 2.619 1.068c1.3.174 3.008.176 5.386.176s4.086-.002 5.386-.176c1.279-.172 2.05-.5 2.62-1.069a3 3 0 0 0 .604-.865a1 1 0 0 1-.112-.083l-3.223-2.9a2.25 2.25 0 0 0-2.8-.17l-.297.21a2.75 2.75 0 0 1-3.526-.305l-4.29-4.29a1.55 1.55 0 0 0-2.117-.07L2.75 12.84c.003 1.948.023 3.405.176 4.546" />
+                                  </g>
+                                </svg>
+                                <p className="text-primary mr-2">انتخاب عکس</p>
+                              </label>
+                            </button>
+                          </div>
+                        </>
+                      )}
+                      <Input
+                        type="text"
+                        label="نام محصول*"
+                        variant="bordered"
+                        color="primary"
+                        className="w-full"
+                        name="productName"
+                        value={productName}
+                        onChange={(e: any) => setProductName(e.target.value)}
+                      />
+                      <Input
+                        type="number"
+                        label="قیمت محصول*"
+                        variant="bordered"
+                        color="primary"
+                        className="w-full"
+                        name="productPrice"
+                        value={productPrice}
+                        onChange={(e: any) => setProductPrice(e.target.value)}
+                      />
+                      <Input
+                        type="number"
+                        label="مقدار مجودی*"
+                        variant="bordered"
+                        color="primary"
+                        className="w-full"
+                        name="produtcAvailibility"
+                        value={produtcAvailibility}
+                        onChange={(e: any) =>
+                          setProdutcAvailibility(e.target.value)
+                        }
+                      />
+                    </div>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      fullWidth
+                      color="danger"
+                      variant="light"
+                      onPress={onClose}
+                    >
+                      بستن
+                    </Button>
+                    <Button fullWidth color="primary" onPress={onAdd}>
+                      ایجاد
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
+          {/* Edit */}
+          <Modal
+            size="full"
+            scrollBehavior="inside"
+            isOpen={isOpenEditModal}
+            onClose={onCloseEditModal}
+          >
+            <ModalContent>
+              {(onClose) => (
+                <>
+                  <ModalHeader className="flex flex-col gap-1">
+                    ویرایش محصول
+                  </ModalHeader>
+                  <ModalBody>
+                    <div className="flex flex-col gap-y-4">
+                      {fileURLs.length > 0 ? (
+                        <>
+                          <Swiper
+                            slidesPerView={1}
+                            centeredSlides={true}
+                            autoplay={{
+                              delay: 3000,
+                              disableOnInteraction: false,
+                            }}
+                            spaceBetween={0}
+                            modules={[Navigation, Autoplay]}
+                            navigation={{
+                              nextEl: ".swiper-button-next-custom",
+                              prevEl: ".swiper-button-prev-custom",
+                            }}
+                            className="mySwiper w-full"
+                            loop={true}
+                            breakpoints={{
+                              200: {
+                                slidesPerView: 1,
+                                spaceBetween: 0,
+                              },
+                            }}
+                          >
+                            {fileURLs.map((image: any, index: any) => (
+                              <SwiperSlide key={index}>
+                                <div className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-3xl relative">
+                                  <Image
+                                    src={image}
+                                    width={200}
+                                    height={200}
+                                    alt="imageProdutc"
+                                    className="w-full"
+                                  />
+                                  <div className="text-pri mary absolute top-8 right-8 bg-primary p-2 rounded-2xl">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="2em"
+                                      height="2em"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        fill="currentColor"
+                                        d="M22 12.698c-.002 1.47-.013 2.718-.096 3.743c-.097 1.19-.296 2.184-.74 3.009a4.2 4.2 0 0 1-.73.983c-.833.833-1.893 1.21-3.237 1.39C15.884 22 14.2 22 12.053 22h-.106c-2.148 0-3.83 0-5.144-.177c-1.343-.18-2.404-.557-3.236-1.39c-.738-.738-1.12-1.656-1.322-2.795c-.2-1.12-.236-2.512-.243-4.241Q1.999 12.737 2 12v-.054c0-2.148 0-3.83.177-5.144c.18-1.343.557-2.404 1.39-3.236s1.893-1.21 3.236-1.39c1.168-.157 2.67-.175 4.499-.177a.697.697 0 1 1 0 1.396c-1.855.002-3.234.018-4.313.163c-1.189.16-1.906.464-2.436.994S3.72 5.8 3.56 6.99C3.397 8.2 3.395 9.788 3.395 12v.784l.932-.814a2.14 2.14 0 0 1 2.922.097l3.99 3.99a1.86 1.86 0 0 0 2.385.207l.278-.195a2.79 2.79 0 0 1 3.471.209l2.633 2.37c.265-.557.423-1.288.507-2.32c.079-.972.09-2.152.091-3.63a.698.698 0 0 1 1.396 0"
+                                      />
+                                      <path
+                                        fill="currentColor"
+                                        fillRule="evenodd"
+                                        d="M17.5 11c-2.121 0-3.182 0-3.841-.659S13 8.621 13 6.5s0-3.182.659-3.841S15.379 2 17.5 2s3.182 0 3.841.659S22 4.379 22 6.5s0 3.182-.659 3.841S19.621 11 17.5 11m2.53-5.47a.75.75 0 0 0-1.06-1.06L16.5 6.94l-.47-.47a.75.75 0 1 0-1.06 1.06l1 1a.75.75 0 0 0 1.06 0z"
+                                        clipRule="evenodd"
+                                      />
+                                    </svg>
+                                  </div>
+                                </div>
+                              </SwiperSlide>
+                            ))}
+                            <div className="flex items-center justify-center w-full">
+                              <button className="swiper-button-prev-custom">
+                                <div className="p-1.5 lg:p-2 mb-1 rounded-xl lg:rounded-2xl text-zinc-500 hover:scale-110 transition-transform-2 mx-2 border">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="1.5em"
+                                    height="1.5em"
+                                    viewBox="0 0 24 24"
+                                    className="rotate-180"
+                                  >
+                                    <path
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="m15 19l-7-7l7-7"
+                                    />
+                                  </svg>
+                                </div>
+                              </button>
+                              <button className="swiper-button-next-custom">
+                                <div className="p-1.5 lg:p-2 mb-1 rounded-xl lg:rounded-2xl text-zinc-500 hover:scale-110 transition-transform-2 mx-2 border">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="1.5em"
+                                    height="1.5em"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="m15 19l-7-7l7-7"
+                                    />
+                                  </svg>
+                                </div>
+                              </button>
+                            </div>
+                          </Swiper>
+                        </>
+                      ) : (
+                        <>
+                          <div className="bg-zinc-100 dark:bg-zinc-800 p-8 rounded-3xl">
+                            <button className="w-full flex items-center justify-center">
+                              <label
+                                htmlFor="file-upload"
+                                className="cursor-pointer flex flex-col gap-y-2 items-center"
+                              >
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={handleFileChangeEdit}
+                                  className="hidden"
+                                  id="file-upload"
+                                  multiple
+                                />
+
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="2em"
+                                  height="2em"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <g
+                                    fill="currentColor"
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                  >
+                                    <path d="M18.5 1.25a.75.75 0 0 1 .75.75v2.75H22a.75.75 0 0 1 0 1.5h-2.75V9a.75.75 0 0 1-1.5 0V6.25H15a.75.75 0 0 1 0-1.5h2.75V2a.75.75 0 0 1 .75-.75" />
+                                    <path d="M12 1.25h-.057c-2.309 0-4.118 0-5.53.19c-1.444.194-2.584.6-3.479 1.494c-.895.895-1.3 2.035-1.494 3.48c-.19 1.411-.19 3.22-.19 5.529v.114c0 2.309 0 4.118.19 5.53c.194 1.444.6 2.584 1.494 3.479c.895.895 2.035 1.3 3.48 1.494c1.411.19 3.22.19 5.529.19h.114c2.309 0 4.118 0 5.53-.19c1.444-.194 2.584-.6 3.479-1.494c.895-.895 1.3-2.035 1.494-3.48c.19-1.411.19-3.22.19-5.529V12a.75.75 0 0 0-1.5 0c0 2.378-.002 4.086-.176 5.386l-.022.152l-2.774-2.497a3.75 3.75 0 0 0-4.665-.28l-.298.21a1.25 1.25 0 0 1-1.602-.14l-4.29-4.29a3.05 3.05 0 0 0-4.165-.138l-.507.443c.005-1.792.03-3.153.175-4.232c.172-1.279.5-2.05 1.069-2.62c.57-.569 1.34-.896 2.619-1.068c1.3-.174 3.008-.176 5.386-.176a.75.75 0 0 0 0-1.5M2.926 17.386c.172 1.279.5 2.05 1.069 2.62c.57.569 1.34.896 2.619 1.068c1.3.174 3.008.176 5.386.176s4.086-.002 5.386-.176c1.279-.172 2.05-.5 2.62-1.069a3 3 0 0 0 .604-.865a1 1 0 0 1-.112-.083l-3.223-2.9a2.25 2.25 0 0 0-2.8-.17l-.297.21a2.75 2.75 0 0 1-3.526-.305l-4.29-4.29a1.55 1.55 0 0 0-2.117-.07L2.75 12.84c.003 1.948.023 3.405.176 4.546" />
+                                  </g>
+                                </svg>
+                                <p className="text-primary mr-2">انتخاب عکس</p>
+                              </label>
+                            </button>
+                          </div>
+                        </>
+                      )}
+                      <Input
+                        type="text"
+                        label="نام محصول*"
+                        variant="bordered"
+                        color="primary"
+                        className="w-full"
+                        name="productName"
+                        value={productName}
+                        onChange={(e: any) => setProductName(e.target.value)}
+                      />
+                      <Input
+                        type="number"
+                        label="قیمت محصول*"
+                        variant="bordered"
+                        color="primary"
+                        className="w-full"
+                        name="productPrice"
+                        value={productPrice}
+                        onChange={(e: any) => setProductPrice(e.target.value)}
+                      />
+                      <Input
+                        type="number"
+                        label="مقدار مجودی*"
+                        variant="bordered"
+                        color="primary"
+                        className="w-full"
+                        name="produtcAvailibility"
+                        value={produtcAvailibility}
+                        onChange={(e: any) =>
+                          setProdutcAvailibility(e.target.value)
+                        }
+                      />
+                    </div>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Button
+                      fullWidth
+                      color="danger"
+                      variant="light"
+                      onPress={onClose}
+                    >
+                      بستن
+                    </Button>
+                    <Button fullWidth color="primary" onPress={onEdit}>
+                      ثبت ویرایش
+                    </Button>
+                  </ModalFooter>
+                </>
+              )}
+            </ModalContent>
+          </Modal>
+        </>
       </div>
     </>
   );

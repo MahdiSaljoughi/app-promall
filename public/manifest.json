@@ -1,34 +1,29 @@
 {
-	"id": "any_id",
-	"name": "ProMall",
-	"short_name": "ProMall",
-	"description": "Not Just An APP , It's ur friend :)",
-	"icons": [
-		{
-			"src": "../src/app/icon.png",
-			"sizes": "72x72",
-			"type": "image/png"
-		},
-		{
-			"src": "../src/app/icon.png",
-			"sizes": "192x192",
-			"type": "image/png"
-		},
-		{
-			"src": "../src/app/icon.png",
-			"sizes": "384x384",
-			"type": "image/png"
-		},
-		{
-			"src": "../src/app/icon.png",
-			"sizes": "512x512",
-			"type": "image/png"
-		}
-	],
-	"theme_color": "#aed4fc",
-	"background_color": "#BEF264",
-	"start_url": "/",
-	"scope": ".",
-	"display": "standalone",
-	"orientation": "portrait"
+  "name": "ProMall",
+  "short_name": "ProMall",
+  "description": "Not Just An APP , It's ur friend :)",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#aed4fc",
+  "background_color": "#BEF264",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait"
 }

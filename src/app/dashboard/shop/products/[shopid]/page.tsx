@@ -1,11 +1,15 @@
 import Products from "@/components/Dashboard/Products/Products";
 import { Spinner } from "@nextui-org/react";
 
-export default function Page({ params }) {
+export default async function Page({ params }) {
+  const { shopid } = await params;
+
   return (
     <>
-      {params.shopid ? (
-        <Products shopId={params.shopid} />
+      {shopid ? (
+        <>
+          <Products shopId={shopid} />
+        </>
       ) : (
         <div className="w-screen h-screen flex items-center justify-center">
           <Spinner

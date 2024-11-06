@@ -29,6 +29,7 @@ export default function RootLayout({
     >
       <head>
         <title>پرومال</title>
+        <link rel="manifest" href="/manifest.json" />
         <link rel="shortcut icon" href="./icon.png" type="image/x-icon" />
       </head>
 

@@ -54,10 +54,7 @@ export default function UserDetailsProfile({ user }) {
         throw new Error(`Error: ${response.statusText}`);
       }
 
-      // const data = await response.json();
-      // console.log("User updated successfully:", data);
       setSuccess("تغییرات با موفقیت اعمال شد");
-      // setInterval(() => window.location.reload(), 2000);
       window.location.reload();
     } catch (error) {
       console.error("Error updating user:", error);
@@ -79,7 +76,6 @@ export default function UserDetailsProfile({ user }) {
         <span className="text-xl">اطلاعات کاربری</span>
 
         <div className="flex items-center flex-col relative mb-4">
-          {/* <UserAvatar userAcc={session?.user.access_token} size={"w-20 h-20"} /> */}
           <>
             {user.avatar === "" ? (
               <>
