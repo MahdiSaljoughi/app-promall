@@ -1,9 +1,10 @@
+"use client";
+
 import { motion } from "framer-motion";
 import MenuItem from "./MenuItem";
 import { MdOutlineLogout } from "react-icons/md";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 interface MenuItemType {
   label: string;
@@ -25,8 +26,6 @@ export default function HamburgerMenu({
   activeItem,
   setActiveItem,
 }: HamburgerMenuProps) {
-  const router = useRouter();
-
   const menuVariants = {
     open: {
       opacity: 1,
@@ -56,19 +55,12 @@ export default function HamburgerMenu({
   };
 
   const handleLogout = () => {
-    // signOut({ redirect: false, callbackUrl: "/" });
-    // if (process.env.NODE_ENV !== "production") {
-    //   if (!session?.user.access_token) {
-    //     router.push("/auth");
-    //   }
-    // } else {
-    //   if (!session?.user.access_token) {
-    //     router.push(`${process.env.APP_URL}/auth`);
-    //   }
-    // }
     signOut({
       redirect: true,
-      callbackUrl: `${window.location.origin}/auth`,
+      callbackUrl:
+        process.env.NODE_ENV !== "production"
+          ? "/auth"
+          : `${process.env.APP_URL}/auth`,
     });
   };
 

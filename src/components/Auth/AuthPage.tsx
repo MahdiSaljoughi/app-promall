@@ -1,6 +1,5 @@
 "use client";
 
-import Logo from "@/app/logo.png";
 import { Button, Input, Spacer } from "@nextui-org/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
@@ -28,7 +27,10 @@ export default function AuthPage() {
   const [currentBanner, setCurrentBanner] = useState(0);
 
   // Array of banner images
-  const bannerImages = ["/", "/"];
+  const bannerImages = [
+    "/assets/backgrounds/createshop2.png",
+    "/assets/backgrounds/createshop1.png",
+  ];
 
   // Utility to convert English numbers to Persian numbers
   const toPersianNumber = (num: string) =>
@@ -65,6 +67,7 @@ export default function AuthPage() {
     setErrorMessage(null);
     return true;
   };
+
   const handleMobileSubmit = async () => {
     if (!validateMobile()) return;
 
@@ -165,7 +168,6 @@ export default function AuthPage() {
         //     </div>
         //   </div>
         // ));
-        router.push("/profile");
       }
     } catch (error) {
       setErrorMessage("با مشکل برخوردیم");
@@ -230,12 +232,12 @@ export default function AuthPage() {
             exit={{ opacity: 0 }}
           >
             <Image
-              // src={bannerImages[currentBanner]}
-              src={"/"}
+              src={bannerImages[currentBanner]}
               alt="Banner Image"
-              className="object-cover w-full h-full"
+              className="object-cover w-full"
               height={250}
-              width={1000}
+              width={250}
+              priority
             />
           </motion.div>
         </div>
@@ -389,11 +391,12 @@ export default function AuthPage() {
           className="flex justify-center items-center w-full fixed bottom-4 inset-x-0"
         >
           <Image
-            src={Logo}
+            src={"/assets/logo/logo.png"}
             alt="Logo"
             width={40}
             height={40}
-            className="object-cover"
+            className="w-auto h-auto"
+            priority
           />
         </Link>
       </motion.div>

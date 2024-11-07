@@ -1,11 +1,16 @@
 "use client";
 
+import React from "react";
 import { Spinner } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import UseShop from "@/components/Dashboard/UseShop/UseShop";
+import ManagementShop from "@/components/Dashboard/EditShop/EditShop";
 
-export default function Page() {
+interface Params {
+  shopid: string;
+}
+
+export default function Page({ params }: { params: Promise<Params> }) {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
@@ -16,7 +21,7 @@ export default function Page() {
             size="lg"
             color="primary"
             labelColor="primary"
-            label="در حال بارگذاری..."
+            label="در حال برسی..."
             classNames={{ label: "mt-4" }}
           />
         </div>
@@ -28,9 +33,11 @@ export default function Page() {
     redirect("/auth");
   }
 
+  const { shopid } = React.use(params);
+
   return (
     <>
-      <UseShop />
+      <ManagementShop shopId={shopid} />
     </>
   );
 }

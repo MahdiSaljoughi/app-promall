@@ -2,7 +2,7 @@
 
 import Header from "@/components/Profile/Header/Header";
 import UserDetailsProfile from "@/components/Profile/UserDetailsProfile/UserDetailsProfile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineSupport, HiSupport } from "react-icons/hi";
 import {
   MdOutlineSpaceDashboard,
@@ -15,6 +15,13 @@ import Footer from "../Footer/Footer";
 import { motion } from "framer-motion";
 import Orderinfo from "./RegistredOrders/Orderinfo";
 import HamburgerMenu from "./HamburgerMenu/HamburgerMenu";
+import { useSession } from "next-auth/react";
+
+interface User {
+  id: string;
+  first_name: string;
+  last_name: string;
+}
 
 interface MenuItemType {
   label: string;
@@ -23,10 +30,37 @@ interface MenuItemType {
   path: string;
 }
 
-export default function ProfilePage({ user }) {
+export default function ProfilePage() {
+  const { data: session, status } = useSession();
+
+  const [user, setUser] = useState<User | undefined>(undefined);
   const [isOpen, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("داشبورد");
   const [step, setStep] = useState(0);
+
+  async function fetchUser() {
+    try {
+      const response = await fetch(`${process.env.API_URL}/user/profile`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session!.user.access_token}`,
+        },
+      });
+
+      if (!response.ok) {
+        console.error("*** error fetch user profile page ***");
+      }
+
+      const userData = await response.json();
+      setUser(userData.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, [session, status]);
 
   const menuItems: MenuItemType[] = [
     {
@@ -70,7 +104,7 @@ export default function ProfilePage({ user }) {
       <motion.div className="dark:bg-gradiant min-h-screen">
         <Header isOpen={isOpen} setOpen={setOpen} user={user} />
 
-        {user.first_name === "" || user.last_name === "" ? (
+        {user && (user.first_name === "" || user.last_name === "") ? (
           <>
             {step === 0 ? (
               <>
@@ -115,9 +149,7 @@ export default function ProfilePage({ user }) {
             )}
           </>
         ) : (
-          <>
-            <UserDetailsProfile user={user} />
-          </>
+          <>{user && <UserDetailsProfile user={user} />}</>
         )}
 
         <Footer />

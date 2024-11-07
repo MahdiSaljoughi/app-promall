@@ -9,11 +9,9 @@ import { FiLogOut, FiSettings } from "react-icons/fi";
 import { MdSpaceDashboard } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import UserAvatar from "./UserAvatar";
-import { useRouter } from "next/navigation";
 
 export default function HomeAvatar() {
   const { data: session } = useSession();
-  const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -23,19 +21,12 @@ export default function HomeAvatar() {
   };
 
   const handleLogout = () => {
-    // signOut({ redirect: false, callbackUrl: "/" });
-    // if (process.env.NODE_ENV !== "production") {
-    //   if (!session?.user.access_token) {
-    //     router.push("/auth");
-    //   }
-    // } else {
-    //   if (!session?.user.access_token) {
-    //     router.push(`${process.env.APP_URL}/auth`);
-    //   }
-    // }
     signOut({
       redirect: true,
-      callbackUrl: `${window.location.origin}/auth`,
+      callbackUrl:
+        process.env.NODE_ENV !== "production"
+          ? "/auth"
+          : `${process.env.APP_URL}/auth`,
     });
   };
 
@@ -55,7 +46,7 @@ export default function HomeAvatar() {
   return (
     <>
       <div className="relative" ref={menuRef}>
-        {!session?.user ? (
+        {!session?.user.access_token ? (
           <Link href="/auth">
             <Avatar className="w-8 h-8" />
           </Link>

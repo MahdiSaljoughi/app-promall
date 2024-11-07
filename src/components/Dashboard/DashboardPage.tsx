@@ -19,7 +19,6 @@ import {
 import { PiCat, PiCatFill } from "react-icons/pi";
 import { TbMoneybag, TbPaint, TbPaintFilled } from "react-icons/tb";
 import Footer from "@/components/Footer/Footer";
-import { Spinner } from "@nextui-org/react";
 
 interface MenuItemType {
   label: string;
@@ -68,17 +67,15 @@ export default function DashboardPage({ shopId }) {
   }
 
   useEffect(() => {
-    if (session?.user?.access_token) {
-      fetchShop();
-    }
-  }, [session?.user?.access_token, shopId]);
+    fetchShop();
+  }, [session, shopId]);
 
   const menuItems: MenuItemType[] = [
     {
       label: "ویرایش فروشگاه",
       icon: <MdOutlineSpaceDashboard size={28} />,
       activeIcon: <MdSpaceDashboard size={28} />,
-      path: "/dashboard/edit-shop",
+      path: `/dashboard/shop/edit-shop/${shopId}`,
     },
     {
       label: "محصولات",
@@ -171,57 +168,41 @@ export default function DashboardPage({ shopId }) {
   return (
     <>
       <div className="dark:bg-gradient">
-        {session?.user.access_token ? (
-          <>
-            <div className="hidden md:block">
-              <p>shop id = {shopId}</p>
-            </div>
+        <div className="hidden md:block">
+          <p>shop id = {shopId}</p>
+        </div>
 
-            {/* mobile */}
-            <div className="py-4 md:hidden">
-              <Header
-                isOpen={isOpen}
-                setOpen={setOpen}
-                user={session?.user}
-                shopName={shop ? shop.name : ""}
-                shopAvatar={
-                  shop
-                    ? `${process.env.API_URL}${shop.avatar}`
-                    : "/assets/profile.png"
-                }
-              />
+        {/* mobile */}
+        <div className="py-4 md:hidden">
+          <Header
+            isOpen={isOpen}
+            setOpen={setOpen}
+            user={session?.user}
+            shopName={shop ? shop.name : ""}
+            shopAvatar={
+              shop
+                ? `${process.env.API_URL}${shop.avatar}`
+                : "/assets/profile.png"
+            }
+          />
 
-              <HamburgerMenu
-                isOpen={isOpen}
-                menuItems={menuItems}
-                activeItem={activeItem}
-                setActiveItem={setActiveItem}
-              />
+          <HamburgerMenu
+            isOpen={isOpen}
+            menuItems={menuItems}
+            activeItem={activeItem}
+            setActiveItem={setActiveItem}
+          />
 
-              <StatRow stats={stats} />
+          <StatRow stats={stats} />
 
-              <ChartSection />
+          <ChartSection />
 
-              <DashboardGrid />
+          <DashboardGrid />
 
-              <PopularProductsSection items={popularItems} />
-            </div>
+          <PopularProductsSection items={popularItems} />
+        </div>
 
-            <Footer />
-          </>
-        ) : (
-          <>
-            <div className="w-screen h-screen flex items-center justify-center">
-              <Spinner
-                size="lg"
-                color="primary"
-                labelColor="primary"
-                label="در حال برسی..."
-                classNames={{ label: "mt-4" }}
-              />
-            </div>
-          </>
-        )}
+        <Footer />
       </div>
     </>
   );

@@ -1,5 +1,4 @@
 "use client";
-
 import "../styles/globals.css";
 import "../styles/style.css";
 import { SessionProvider } from "next-auth/react";

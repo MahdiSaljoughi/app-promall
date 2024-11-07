@@ -47,8 +47,9 @@ export default function UseShop() {
         if (shopsData.data.length === 0) {
           router.push("/create-shop");
         }
+        setLoading(false);
       } else {
-        console.log("Failed to fetch shop data:", response.statusText);
+        console.log("Failed to fetch shop data:", response.status);
         setLoading(false);
       }
     } catch (error) {
@@ -61,12 +62,10 @@ export default function UseShop() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (session?.user?.access_token) {
-        await fetchShops();
-      }
+      await fetchShops();
     };
     fetchData();
-  }, [session?.user?.access_token]);
+  }, [session]);
 
   return (
     <>
@@ -77,7 +76,7 @@ export default function UseShop() {
               size="lg"
               color="primary"
               labelColor="primary"
-              label="در حال برسی..."
+              label="در حال بارگذاری..."
               classNames={{ label: "mt-4" }}
             />
           </div>

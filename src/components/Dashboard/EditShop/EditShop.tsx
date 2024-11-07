@@ -1,23 +1,54 @@
 "use client";
 
-import ShopBanner from "@/components/Shop/ShopPage/ShopBanner/ShopBanner";
 import Image from "next/image";
 import { Button } from "@nextui-org/react";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
-export default function EditShop() {
+interface Shop {
+  id: string;
+  name: string;
+  avatar: string;
+  detail: any;
+  shopCategories: any;
+}
+
+export default function EditShop({ shopId }) {
+  const { data: session } = useSession();
+
   const router = useRouter();
 
-  const items = [
-    {
-      imageSrc: "/assets/nike-hoodie.png",
-      backImgSrc: "/assets/backgrounds/black-stone.jpg",
-      title: "Solo Swoosh",
-      price: "٣۰,۰۰۰,۰۰۰",
-      describe: "هودی",
-    },
-  ];
+  const [shop, setShop] = useState<Shop | undefined>(undefined);
+
+  async function fetchShop() {
+    if (shopId === null) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${process.env.API_URL}/shop/${shopId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${session?.user?.access_token}`,
+        },
+      });
+
+      if (response.ok) {
+        const shop = await response.json();
+        setShop(shop.data);
+      } else {
+        console.log("Failed to fetch shop data:", response.statusText);
+      }
+    } catch (error) {
+      console.log("Error fetching shop data:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchShop();
+  }, [session, shopId]);
 
   return (
     <>
@@ -35,22 +66,31 @@ export default function EditShop() {
       </div>
 
       <div className="min-h-screen">
-        <ShopBanner imageUrl={"/assets/nike-white.png"} />
+        <div className="rounded-b-3xl drop-shadow-md h-56 w-full overflow-hidden">
+          {/* <Image
+            src={""}
+            alt="Shop Banner"
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+          /> */}
+          swiper
+        </div>
 
         <div className="flex flex-col gap-y-8 mx-10">
-          <div className="-mt-20 bg-black/80 size-28 flex items-center justify-center rounded-3xl">
+          <div className="-mt-20 bg-black size-28 flex items-center justify-center rounded-3xl">
             <Image
-              src={"/assets/nike-white.png"}
-              className="drop-shadow-2xl"
+              src={`${process.env.API_URL}/${shop?.avatar}`}
               alt="Shop Banner"
               quality={100}
               width={80}
-              height={10}
+              height={80}
+              className="w-28 rounded-3xl"
             />
           </div>
 
           <div>
-            <span className="text-2xl font-bold">نایکی سنتر</span>
+            <span className="text-2xl font-bold">{shop?.name}</span>
           </div>
 
           {/*  */}

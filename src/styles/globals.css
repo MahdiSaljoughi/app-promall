@@ -22,3 +22,6 @@
 	src: url("../../public/assets/fonts/YekanBakhFaNum-Regular.ttf");
 	font-weight: 100;
 }
+.button-plan:focus{
+	border: 2px solid #AED4FC;
+}

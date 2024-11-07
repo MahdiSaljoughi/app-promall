@@ -69,9 +69,9 @@ export default function RegistredOrders({ user }) {
         <motion.p className="text-center text-xl">سفارشات ثبت شده</motion.p>
         <motion.div className="mt-10 flex flex-col gap-4">
           {dataInfo?.map((order, index) => (
-            <>
-              <Orderinfo key={index} />
-            </>
+            <div   key={index}>
+              <Orderinfo />
+            </div>
           ))}
         </motion.div>
 
