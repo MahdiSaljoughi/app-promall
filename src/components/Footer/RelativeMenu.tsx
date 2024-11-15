@@ -7,8 +7,8 @@ export default function RelativeMenu() {
 
   const icons = [
     {
-      name: "shop",
-      route: "/shop",
+      name: "shops",
+      route: "/shops",
       filledIcon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

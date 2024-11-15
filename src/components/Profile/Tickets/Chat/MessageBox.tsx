@@ -3,10 +3,10 @@ import Datee from "./Datee";
 interface Props {
   messageText: string;
   from?: "me" | "other";
-  date: string;
+  hour: string;
 }
 
-export default function MessageBox({ messageText, date, from }: Props) {
+export default function MessageBox({ messageText, hour, from }: Props) {
   return (
     <>
       {from === "me" ? (
@@ -26,13 +26,13 @@ export default function MessageBox({ messageText, date, from }: Props) {
       {from === "me" ? (
         <>
           <div className="flex items-center w-full">
-            <Datee date={date} from={from} />
+            <Datee date={hour} from={from} />
           </div>
         </>
       ) : (
         <>
           <div className="flex items-center justify-end w-full">
-            <Datee date={date} from={from} />
+            <Datee date={hour} from={from} />
           </div>
         </>
       )}

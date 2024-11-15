@@ -1,4 +1,5 @@
 "use client";
+
 import "../styles/globals.css";
 import "../styles/style.css";
 import { SessionProvider } from "next-auth/react";
@@ -16,7 +17,7 @@ export default function RootLayout({
 }) {
   const pathname = usePathname();
 
-  const LayoutRoutes = ["/", "/package-check", "/categories", "/shop"];
+  const LayoutRoutes = ["/", "/package-check", "/categories", "/shops"];
   const isLayoutVisible = !LayoutRoutes.includes(pathname);
 
   return (
@@ -51,7 +52,7 @@ export default function RootLayout({
               showAtBottom={true}
             />
             {!isLayoutVisible && <Header />}
-            <main className="flex-grow">{children}</main>
+            <>{children}</>
             {!isLayoutVisible && <Footer />}
           </Providers>
         </SessionProvider>

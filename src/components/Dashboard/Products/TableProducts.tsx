@@ -18,7 +18,6 @@ import {
   ModalFooter,
   ModalHeader,
   Input,
-  user,
 } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -83,7 +82,7 @@ export default function TableProducts({ shopId }) {
       }
     };
     fetchData();
-  }, [session?.user?.access_token]);
+  }, [shopId]);
 
   // Modals
   // DeleteModal
@@ -292,8 +291,8 @@ export default function TableProducts({ shopId }) {
               <span className="text-lg text-primary cursor-pointer active:opacity-50">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="1.2em"
-                  height="1.2em"
+                  width="1.5em"
+                  height="1.5em"
                   viewBox="0 0 24 24"
                 >
                   <g fill="none" stroke="currentColor" strokeWidth="2">
@@ -314,8 +313,8 @@ export default function TableProducts({ shopId }) {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="1.2em"
-                  height="1.2em"
+                  width="1.5em"
+                  height="1.5em"
                   viewBox="0 0 24 24"
                 >
                   <g fill="none" stroke="currentColor" strokeWidth="2">
@@ -341,8 +340,8 @@ export default function TableProducts({ shopId }) {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="1.2em"
-                  height="1.2em"
+                  width="1.5em"
+                  height="1.5em"
                   viewBox="0 0 24 24"
                 >
                   <path

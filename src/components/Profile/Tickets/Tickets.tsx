@@ -13,7 +13,7 @@ import {
   Textarea,
   Spinner,
 } from "@nextui-org/react";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import Footer from "@/components/Footer/Footer";
 import HamburgerMenu from "../HamburgerMenu/HamburgerMenu";
@@ -28,13 +28,14 @@ import { TbPaint, TbPaintFilled } from "react-icons/tb";
 import { motion } from "framer-motion";
 import TicketsComponents from "./TicketsComponents";
 import { useSession } from "next-auth/react";
+import moment from "moment-jalaali";
 
 interface Ticket {
   title: string;
   subject: string;
   isOpen: boolean;
   id?: string;
-  createdAt?: any;
+  createdAtJalali?: any;
 }
 
 interface MenuItemType {
@@ -47,7 +48,6 @@ interface MenuItemType {
 export default function Tickets({ user }) {
   const { data: session } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [loading, setLoading] = useState(false);
   const [tikets, setTickets] = useState<Ticket[]>([]);
   const [ticketSubject, setTicketSubject] = useState("");
@@ -55,41 +55,8 @@ export default function Tickets({ user }) {
   const [isOpenMenu, setOpenMenu] = useState(false);
   const [activeItem, setActiveItem] = useState("داشبورد");
 
-  const menuItems: MenuItemType[] = [
-    {
-      label: "پروفایل",
-      icon: <MdOutlineSpaceDashboard size={28} />,
-      activeIcon: <MdSpaceDashboard size={28} />,
-      path: "/profile",
-    },
-    {
-      label: "سفارشات ثبت شده",
-      icon: <TbPaint size={28} />,
-      activeIcon: <TbPaintFilled size={28} />,
-      path: "/profile/registredOrders",
-    },
-    {
-      label: "اشتراک",
-      icon: <PiCat size={28} />,
-      activeIcon: <PiCatFill size={28} />,
-      path: "/subscription",
-    },
-    {
-      label: "ایجاد فروشگاه",
-      icon: <MdViewCarousel size={28} />,
-      activeIcon: <MdViewCarousel size={28} />,
-      path: "/create-shop",
-    },
-    {
-      label: "پشتیبانی",
-      icon: <HiOutlineSupport size={28} />,
-      activeIcon: <HiSupport size={28} />,
-      path: "/profile/tickets",
-    },
-  ];
-
   // Get Tikets
-  const fetchTickets = useCallback(async () => {
+  const fetchTickets = async () => {
     setLoading(true);
 
     try {
@@ -125,17 +92,11 @@ export default function Tickets({ user }) {
         clearInterval(intervalId);
       }, 1000);
     }
-  }, [session]);
+  };
 
   useEffect(() => {
-    if (!session?.user.access_token) {
-      setLoading(true);
-      return;
-    }
-    if (session?.user.access_token) {
-      fetchTickets();
-    }
-  }, [fetchTickets]);
+    fetchTickets();
+  }, [user]);
 
   // Post Tikets
   const createTickets = async () => {
@@ -179,6 +140,50 @@ export default function Tickets({ user }) {
     }
   };
 
+  const menuItems: MenuItemType[] = [
+    {
+      label: "پروفایل",
+      icon: <MdOutlineSpaceDashboard size={28} />,
+      activeIcon: <MdSpaceDashboard size={28} />,
+      path: "/profile",
+    },
+    {
+      label: "سفارشات ثبت شده",
+      icon: <TbPaint size={28} />,
+      activeIcon: <TbPaintFilled size={28} />,
+      path: "/profile/registredOrders",
+    },
+    {
+      label: "اشتراک",
+      icon: <PiCat size={28} />,
+      activeIcon: <PiCatFill size={28} />,
+      path: "/profile/subscription",
+    },
+    {
+      label: "ایجاد فروشگاه",
+      icon: <MdViewCarousel size={28} />,
+      activeIcon: <MdViewCarousel size={28} />,
+      path: "/create-shop",
+    },
+    {
+      label: "پشتیبانی",
+      icon: <HiOutlineSupport size={28} />,
+      activeIcon: <HiSupport size={28} />,
+      path: "/profile/tickets",
+    },
+  ];
+
+  // Jalali
+  moment.loadPersian();
+  const formatJalaliDate = (jalaliDate: string) => {
+    return moment(jalaliDate, "jYYYY-jMM-jDD HH:mm:ss").format(
+      "jDD jMMMM jYYYY"
+    );
+  };
+  const formatJalaliHour = (jalaliHour: string) => {
+    return moment(jalaliHour, "jYYYY-jMM-jDD HH:mm:ss").format("ساعت HH:mm");
+  };
+
   return (
     <>
       <motion.div className="bg-dashboard-gradient min-h-screen">
@@ -208,7 +213,8 @@ export default function Tickets({ user }) {
                       subject={ticket.subject}
                       title={ticket.title}
                       open={ticket.isOpen}
-                      deta={ticket.createdAt}
+                      date={formatJalaliDate(ticket.createdAtJalali)}
+                      hour={formatJalaliHour(ticket.createdAtJalali)}
                     />
                   </motion.div>
                 ))}

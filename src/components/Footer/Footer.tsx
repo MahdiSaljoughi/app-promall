@@ -12,9 +12,9 @@ export default function Footer() {
     setActiveIcon(iconName);
 
     const routes: Record<string, string> = {
-      shop: "/shop",
-      "package-check": "/package-check",
-      "": "/",
+      shops: "/shops",
+      package_check: "/package-check",
+      home: "/",
       category: "/categories",
     };
 

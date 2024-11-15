@@ -4,9 +4,9 @@ import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction } from "react";
 
 interface NavbarProps {
-  isOpen?: boolean;
-  setOpen?: Dispatch<SetStateAction<boolean>>;
-  user?: any;
+  isOpen: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  user: any;
 }
 
 export default function Header({ isOpen, setOpen, user }: NavbarProps) {

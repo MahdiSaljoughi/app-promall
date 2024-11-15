@@ -2,8 +2,8 @@ import LogoB from "@/app/logo-b.png";
 import Logo from "@/app/logo.png";
 import Image from "next/image";
 import Link from "next/link";
-import HomeAvatar from "../Avatar/HomeAvatar";
 import { ThemeSwitcher } from "../ThemeSwitcher";
+import DropdownMenuUser from "./DropdownMenuUser";
 
 export default function Header() {
   return (
@@ -29,7 +29,7 @@ export default function Header() {
             </Link>
             <div className="flex items-center gap-x-4">
               <ThemeSwitcher />
-              <HomeAvatar />
+              <DropdownMenuUser />
             </div>
           </div>
         </div>

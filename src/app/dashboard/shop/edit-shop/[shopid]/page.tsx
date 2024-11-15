@@ -4,7 +4,7 @@ import React from "react";
 import { Spinner } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
-import ManagementShop from "@/components/Dashboard/EditShop/EditShop";
+import EditShop from "@/components/Dashboard/EditShop/EditShop";
 
 interface Params {
   shopid: string;
@@ -37,7 +37,7 @@ export default function Page({ params }: { params: Promise<Params> }) {
 
   return (
     <>
-      <ManagementShop shopId={shopid} />
+      <EditShop shopId={shopid} />
     </>
   );
 }

@@ -1,30 +1,38 @@
-import Plans from "@/components/Profile/Subscription/plans";
-import { getServerSession } from 'next-auth';
-import { authOptions } from "@/lib/auth";
-import { redirect } from 'next/navigation';
+"use client";
 
+import { Spinner } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import Plans from "@/components/Profile/Subscription/Plans";
 
-export default async function Page() {
-  const session = await getServerSession(authOptions);
+export default function Page() {
+  const { data: session, status } = useSession();
 
-  if (session?.user) {
-    const response = await fetch(`${process.env.API_URL}/user/profile`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${session!.user.access_token}`,
-      },
-    });
-    if (response.ok) {
-      const userData = await response.json();
-      const user = userData.data;
-
-      return (
-        <div className="bg-subscription-gradient min-h-screen" >
-        <Plans />
+  if (status === "loading") {
+    return (
+      <>
+        <div className="w-screen h-screen flex items-center justify-center">
+          <Spinner
+            size="lg"
+            color="primary"
+            labelColor="primary"
+            label="در حال برسی..."
+            classNames={{ label: "mt-4" }}
+          />
         </div>
-      );
-    }
-  } else {
+      </>
+    );
+  }
+
+  if (!session?.user.access_token) {
     redirect("/auth");
   }
+
+  return (
+    <>
+      <div className="bg-subscription-gradient min-h-screen">
+        <Plans />
+      </div>
+    </>
+  );
 }

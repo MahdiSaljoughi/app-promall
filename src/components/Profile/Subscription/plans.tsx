@@ -1,17 +1,27 @@
 "use client";
+
 import { motion } from "framer-motion";
 import Image from "next/image";
-import ImgSubscription from "../../../../public/assets/subscripton.png";
 import Plan from "./Plan";
 import { Button } from "@nextui-org/react";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 
 const plans = [
-  { name: '10 روزه', price: 'رایگان', discount: '', id: 'free' },
-  { name: 'ماهانه', price: '200000 ریال',discount: '' , id: 'monthly' },
-  { name: 'شش ماهه', price: '200000 ریال', discount: 'یک ماه رایگان' , id: 'six-month' },
-  { name: 'سالانه', price: '200000 ریال', discount: 'سه ماه رایگان' ,  id: 'yearly' },
+  { name: "7 روزه", price: "رایگان", discount: "", id: "free" },
+  { name: "ماهانه", price: "200000 ریال", discount: "", id: "monthly" },
+  {
+    name: "شش ماهه",
+    price: "200000 ریال",
+    discount: "یک ماه رایگان",
+    id: "six-month",
+  },
+  {
+    name: "سالانه",
+    price: "200000 ریال",
+    discount: "سه ماه رایگان",
+    id: "yearly",
+  },
 ];
 
 export default function Plans() {
@@ -25,7 +35,7 @@ export default function Plans() {
 
   //post planId
   const postPlan = async () => {
-    console.log('plan')
+    console.log("plan");
     // try {
     //   if (!selectedPlan) {
     //     throw new Error("Please choose a plan .");
@@ -39,7 +49,7 @@ export default function Plans() {
     //     },
     //     body: JSON.stringify({
     //       planId: selectedPlan
-         
+
     //     }),
     //   });
 
@@ -52,15 +62,12 @@ export default function Plans() {
     //     );
     //   }
 
-     
     //   setSelectedPlan("");
-
 
     // } catch (error) {
     //   console.error("Error:", error);
     // }
   };
-
 
   const slideVariants = {
     hidden: { y: "100%", opacity: 0 },
@@ -69,52 +76,53 @@ export default function Plans() {
   };
   return (
     <>
-      <motion.div className="subscription overflow-x-hidden   flex flex-col items-center min-h-screen  "   initial="hidden"
-      animate="visible"
-      exit="exit"
-      variants={slideVariants}
-      transition={{ duration: 0.4 }} >
-        <motion.div className="img-subscription  relative "    >
-          <Image
-            src={ImgSubscription}
-            alt="img-subscription"
-            className=" rounded-b-2xl object-cover h-[260px]  "
-          />
-        </motion.div>
-        <motion.div className="text-plan  text-center  bg-black/30 backdrop-blur-sm  mx-auto rounded-2xl absolute top-56 px-32 py-6  ">
-          <motion.p className="text-[#FFFFFF] text-lg font-semibold tracking-wider  ">
-            پلن
-          </motion.p>
-        </motion.div>
+      <motion.div
+        className="flex flex-col container mx-auto"
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        variants={slideVariants}
+        transition={{ duration: 0.4 }}
+      >
+        <Image
+          src={"/assets/subscripton.png"}
+          alt="img-subscription"
+          className="rounded-b-2xl object-cover w-full h-64"
+          width={1000}
+          height={1000}
+        />
 
-        <motion.div className="plans mt-20  w-full ">
-          {
-            plans?.map((plan) => (
-              <div  key={plan.id}   className="mx-auto px-5 my-6  "     >
-                {plan?.discount && (
-                <div className="bg-[#AED4FC]  text-[#000000] text-center rounded-t-2xl w-5/6 mx-auto text-sm font-semibold  ">
+        <p className="mx-4 md:mx-0 text-lg -mt-10 font-semibold tracking-wider text-center bg-black/30 backdrop-blur-sm rounded-2xl px-32 py-6">
+          پلن
+        </p>
+
+        <div className="my-8 px-4 md:px-0">
+          {plans?.map((plan) => (
+            <div key={plan.id} className="my-4 w-full">
+              {plan?.discount && (
+                <div className="bg-[#AED4FC] text-zinc-600 text-center rounded-t-2xl text-sm font-semibold">
                   {plan.discount}
-               </div>
-               ) }
-                <Button  onClick={() => handleSelect(plan?.id)} className=" button-plan  mx-auto   h-20 p-4 rounded-2xl bg-order-gradient w-full shadow-ticket drop-shadow-ticket " >
-                 <Plan   name={plan.name} price={plan.price}  />
-                </Button>
+                </div>
+              )}
+              <Button
+                onPress={() => handleSelect(plan?.id)}
+                fullWidth
+                className="p-4 py-10 rounded-2xl bg-order-gradient w-full shadow-ticket drop-shadow-ticket border-primary focus:border"
+              >
+                <Plan name={plan.name} price={plan.price} />
+              </Button>
+            </div>
+          ))}
+        </div>
 
-              </div>
-            ))
-          }
-         
-        </motion.div>
-        <motion.div className="lets-go "  >
-          <Button  onClick={()=> postPlan()} className="fixed bg-[#AED4FC]  text-[#000000] mt-8 inset-x-0 flex justify-center items-center text-center py-6 mx-5 rounded-full z-40">
-            <motion.span className="text-center font-semibold ">
-              {" "}
+        <div className="px-4 md:px-0">
+          <Button onPress={() => postPlan()} color="primary" fullWidth>
+            <motion.span className="text-center font-semibold">
               برو بریم !
             </motion.span>
           </Button>
-        </motion.div>
+        </div>
       </motion.div>
     </>
   );
 }
-

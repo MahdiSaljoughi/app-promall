@@ -1,12 +1,16 @@
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
+"use client";
+
+import { Spinner } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import Tickets from "@/components/Profile/Tickets/Tickets";
+import { useEffect, useState } from "react";
 
-export default async function Page() {
-  const session = await getServerSession(authOptions);
+export default function Page() {
+  const { data: session, status } = useSession();
+  const [user, setUser] = useState();
 
-  if (session?.user) {
+  const fetchUser = async () => {
     const response = await fetch(`${process.env.API_URL}/user/profile`, {
       method: "GET",
       headers: {
@@ -15,15 +19,39 @@ export default async function Page() {
     });
     if (response.ok) {
       const userData = await response.json();
-      const user = userData.data;
-
-      return (
-        <>
-          <Tickets user={user} />
-        </>
-      );
+      setUser(userData.data);
     }
-  } else {
+  };
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      fetchUser();
+    }
+  }, [session]);
+
+  if (status === "loading") {
+    return (
+      <>
+        <div className="w-screen h-screen flex items-center justify-center">
+          <Spinner
+            size="lg"
+            color="primary"
+            labelColor="primary"
+            label="در حال برسی..."
+            classNames={{ label: "mt-4" }}
+          />
+        </div>
+      </>
+    );
+  }
+
+  if (!session?.user.access_token) {
     redirect("/auth");
   }
+
+  return (
+    <>
+      <Tickets user={user} />
+    </>
+  );
 }

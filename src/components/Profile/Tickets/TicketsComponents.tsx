@@ -6,7 +6,6 @@ import {
   ModalHeader,
   ModalBody,
   useDisclosure,
-  Button,
 } from "@nextui-org/react";
 import MessageBox from "./Chat/MessageBox";
 import FileBox from "./Chat/FileBox";
@@ -14,11 +13,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { MdAttachFile } from "react-icons/md";
 import { BiSend } from "react-icons/bi";
+import moment from "moment-jalaali";
 
 interface Ticket {
   id: string;
   text: string;
-  createdAt: string;
+  createdAtJalali: string;
   messageSide: number;
   attachmentFile: any;
 }
@@ -28,7 +28,8 @@ export default function TicketsComponents({
   subject,
   title,
   open,
-  deta,
+  date,
+  hour,
 }) {
   const { data: session } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -146,6 +147,12 @@ export default function TicketsComponents({
     loadTickets();
   }, [fetchTickets, session]);
 
+  // Jalali
+  moment.loadPersian();
+  const formatJalaliHour = (jalaliHour: string) => {
+    return moment(jalaliHour, "jYYYY-jMM-jDD HH:mm:ss").format("ساعت HH:mm");
+  };
+
   return (
     <>
       <div
@@ -156,18 +163,58 @@ export default function TicketsComponents({
           <p>موضوع:</p>
           <p>{subject}</p>
         </div>
-        <div className="flex justify-between">
+        <div className="flex items-center justify-between">
           <div className="flex flex-col leading-7 font-medium">
             <span>کد تیکت :</span>
             <span>وضعیت :</span>
-            <span className="">تاریخ :</span>
+            <span>تاریخ ثبت :</span>
+            <span>ساعت :</span>
           </div>
-          <div className="flex flex-col items-end leading-7">
+          <div className="flex flex-col items-end leading-7 text-primary">
             <span>{`#${groupId}`}</span>
             <span className="text-primary">
-              {open == true ? "درحال برسی" : "بسته شده"}
+              {open == true ? "درحال بررسی" : "بسته شده"}
             </span>
-            <span className="text-primary">{`${deta}`}</span>
+            <div className="flex items-center gap-x-1">
+              <span>{date}</span>
+              <span className="mb-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1.4em"
+                  height="1.4em"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M18.435 4.955h-1.94v-1.41c0-.26-.23-.51-.5-.5s-.5.22-.5.5v1.41h-7v-1.41c0-.26-.23-.51-.5-.5s-.5.22-.5.5v1.41h-1.93a2.5 2.5 0 0 0-2.5 2.5v11a2.5 2.5 0 0 0 2.5 2.5h12.87a2.5 2.5 0 0 0 2.5-2.5v-11a2.5 2.5 0 0 0-2.5-2.5m1.5 13.5c0 .83-.67 1.5-1.5 1.5H5.565c-.83 0-1.5-.67-1.5-1.5v-8.42h15.87zm0-9.42H4.065v-1.58c0-.83.67-1.5 1.5-1.5h1.93v.59c0 .26.23.51.5.5s.5-.22.5-.5v-.59h7v.59c0 .26.23.51.5.5s.5-.22.5-.5v-.59h1.94c.83 0 1.5.67 1.5 1.5z"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M11.492 17.173v-3.46a.075.075 0 0 0-.114-.064l-.638.392a.15.15 0 0 1-.228-.128v-.651c0-.105.055-.203.146-.257l.764-.457a.3.3 0 0 1 .154-.043h.626a.3.3 0 0 1 .3.3v4.367a.3.3 0 0 1-.3.3h-.409a.3.3 0 0 1-.301-.299"
+                  />
+                </svg>
+              </span>
+            </div>
+            <div className="flex items-center gap-x-1">
+              <span>{hour}</span>
+              <span className="mb-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="1.3em"
+                  height="1.3em"
+                  viewBox="0 0 24 24"
+                >
+                  <g fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10" opacity="0.5" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 8v4l2.5 2.5"
+                    />
+                  </g>
+                </svg>
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -194,21 +241,21 @@ export default function TicketsComponents({
               <p>{subject}</p>
             </div>
           </ModalHeader>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <ModalBody ref={modalBodyRef} className="px-4">
             <div className="relative">
               <div className="flex flex-col gap-y-4">
-                <MessageBox messageText={title} date={""} from={"me"} />
-                {tikets.map((tiket) => (
-                  <div key={tiket.id}>
+                <MessageBox messageText={title} hour={hour} from={"me"} />
+                {tikets.map((ticket) => (
+                  <div key={ticket.id}>
                     <MessageBox
-                      messageText={tiket.text}
-                      date={tiket.createdAt}
-                      from={tiket.messageSide === 1 ? "me" : "other"}
+                      messageText={ticket.text}
+                      hour={formatJalaliHour(ticket.createdAtJalali)}
+                      from={ticket.messageSide === 1 ? "me" : "other"}
                     />
-                    {tiket.attachmentFile && (
+                    {ticket.attachmentFile && (
                       <>
-                        <FileBox File={tiket.attachmentFile} />
+                        <FileBox File={ticket.attachmentFile} />
                       </>
                     )}
                   </div>
