@@ -6,14 +6,15 @@ import {
   ModalHeader,
   ModalBody,
   useDisclosure,
+  InternalForwardRefRenderFunction,
+  ModalBodyProps,
 } from "@nextui-org/react";
-import MessageBox from "./Chat/MessageBox";
 import FileBox from "./Chat/FileBox";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
 import { MdAttachFile } from "react-icons/md";
 import { BiSend } from "react-icons/bi";
 import moment from "moment-jalaali";
+import UserAvatar from "@/components/Avatar/UserAvatar";
 
 interface Ticket {
   id: string;
@@ -24,6 +25,7 @@ interface Ticket {
 }
 
 export default function TicketsComponents({
+  session,
   groupId,
   subject,
   title,
@@ -31,21 +33,19 @@ export default function TicketsComponents({
   date,
   hour,
 }) {
-  const { data: session } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const [loading, setLoading] = useState(false);
   const [tikets, setTickets] = useState<Ticket[]>([]);
   const [file, setFile] = useState<File | string>("");
   const [text, setText] = useState("");
-
-  const modalBodyRef = useRef(null);
+  const modalBodyRef =
+    useRef<InternalForwardRefRenderFunction<"div", ModalBodyProps, never>>();
 
   useEffect(() => {
     if (isOpen) {
       const intervalId = setInterval(() => {
         if (modalBodyRef.current) {
-          // @ts-ignore
+          //@ts-expect-error
           modalBodyRef.current.scrollTop = modalBodyRef.current.scrollHeight;
         }
         clearInterval(intervalId);
@@ -150,7 +150,7 @@ export default function TicketsComponents({
   // Jalali
   moment.loadPersian();
   const formatJalaliHour = (jalaliHour: string) => {
-    return moment(jalaliHour, "jYYYY-jMM-jDD HH:mm:ss").format("ساعت HH:mm");
+    return moment(jalaliHour, "jYYYY-jMM-jDD HH:mm:ss").format("HH:mm");
   };
 
   return (
@@ -245,18 +245,95 @@ export default function TicketsComponents({
           <ModalBody ref={modalBodyRef} className="px-4">
             <div className="relative">
               <div className="flex flex-col gap-y-4">
-                <MessageBox messageText={title} hour={hour} from={"me"} />
+                <div className="chat chat-start">
+                  <div className="chat-image avatar">
+                    <UserAvatar
+                      userAcc={session?.user.access_token}
+                      size={"w-10 h-10"}
+                    />
+                  </div>
+                  <div className="chat-bubble bg-primary text-zinc-700 flex items-center justify-center">
+                    <p className="break-words overflow-hidden">{title}</p>
+                  </div>
+                  <div className="chat-footer flex items-center gap-x-1 opacity-60 mt-0.5">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="1.4em"
+                      height="1.4em"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="m4 12.9l3.143 3.6L15 7.5m5 .063l-8.572 9L11 16"
+                      />
+                    </svg>
+                    <time className="text-sm">{hour}</time>
+                  </div>
+                </div>
+
                 {tikets.map((ticket) => (
                   <div key={ticket.id}>
-                    <MessageBox
-                      messageText={ticket.text}
-                      hour={formatJalaliHour(ticket.createdAtJalali)}
-                      from={ticket.messageSide === 1 ? "me" : "other"}
-                    />
-                    {ticket.attachmentFile && (
+                    {ticket.messageSide === 1 ? (
                       <>
-                        <FileBox File={ticket.attachmentFile} />
+                        <div className="chat chat-start">
+                          <div className="chat-image avatar">
+                            <UserAvatar
+                              userAcc={session?.user.access_token}
+                              size={"w-10 h-10"}
+                            />
+                          </div>
+                          <div className="chat-bubble bg-primary text-zinc-700 flex items-center justify-center">
+                            <p className="break-words overflow-hidden">
+                              {ticket.text}
+                            </p>
+                          </div>
+                          <div className="chat-footer flex items-center gap-x-1 opacity-60 mt-0.5">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="1.4em"
+                              height="1.4em"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="none"
+                                stroke="currentColor"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="1.5"
+                                d="m4 12.9l3.143 3.6L15 7.5m5 .063l-8.572 9L11 16"
+                              />
+                            </svg>
+                            <time className="text-sm">
+                              {formatJalaliHour(ticket.createdAtJalali)}
+                            </time>
+                          </div>
+                        </div>
+                        {ticket.attachmentFile && (
+                          <>
+                            <FileBox File={ticket.attachmentFile} />
+                          </>
+                        )}
                       </>
+                    ) : (
+                      <div className="chat chat-end">
+                        <div className="chat-image avatar">
+                          <UserAvatar userAcc={""} size={"w-10 h-10"} />
+                        </div>
+                        <div className="chat-bubble flex items-center justify-center">
+                          <p className="break-words overflow-hidden">
+                            {ticket.text}
+                          </p>
+                        </div>
+                        <div className="chat-footer opacity-60 mt-0.5">
+                          <time className="text-sm">
+                            {formatJalaliHour(ticket.createdAtJalali)}
+                          </time>
+                        </div>
+                      </div>
                     )}
                   </div>
                 ))}

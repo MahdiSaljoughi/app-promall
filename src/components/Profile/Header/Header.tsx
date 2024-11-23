@@ -1,17 +1,20 @@
 import UserAvatar from "@/components/Avatar/UserAvatar";
 import Hamburger from "hamburger-react";
-import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction } from "react";
 
 interface NavbarProps {
   isOpen: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   user: any;
+  session: any;
 }
 
-export default function Header({ isOpen, setOpen, user }: NavbarProps) {
-  const { data: session } = useSession();
-
+export default function Header({
+  isOpen,
+  setOpen,
+  user,
+  session,
+}: NavbarProps) {
   return (
     <>
       <div className="z-50 flex items-center font-bold justify-between rounded-3xl drop-shadow-2xl sha dow-xl shadow-black/10 p-4">

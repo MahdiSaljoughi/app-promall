@@ -1,9 +1,12 @@
+import MainLayout from "@/components/Layouts/MainLayout";
 import Shops from "@/components/Shop/Shops";
 
-export default function Page() {
+export default async function Page() {
   return (
     <>
-      <Shops />
+      <MainLayout>
+        <Shops />
+      </MainLayout>
     </>
   );
 }

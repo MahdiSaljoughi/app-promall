@@ -1,5 +1,5 @@
-import { nextui } from "@nextui-org/theme";
 import type { Config } from "tailwindcss";
+import { nextui } from "@nextui-org/theme";
 
 const config = {
   darkMode: ["class"],
@@ -41,7 +41,8 @@ const config = {
         "order-gradient":
           "linear-gradient(116.38deg, rgba(32, 36, 38, 0.47) 24.11%, rgba(17, 17, 18, 0.47) 75.89%)",
         "profile-gradient": "linear-gradient(to bottom, #111827, #000000)",
-         'bg-subscription-gradient': 'linear-gradient(168.05deg, #1E2128 0%, #000000 100%)'
+        "bg-subscription-gradient":
+          "linear-gradient(168.05deg, #1E2128 0%, #000000 100%)",
       },
       boxShadow: {
         ticket: "0px 4px 4px 0px rgba(0, 0, 0, 0.40)",
@@ -56,7 +57,7 @@ const config = {
     require("tailwindcss-animate"),
     nextui({
       layout: {
-        disabledOpacity: "0.3", // opacity-[0.3]
+        disabledOpacity: "0.3",
         radius: {
           small: "2px",
           medium: "4px",
@@ -117,7 +118,11 @@ const config = {
         },
       },
     }),
+    require("daisyui"),
   ],
+  daisyui: {
+    themes: false,
+  },
 } satisfies Config;
 
 export default config;

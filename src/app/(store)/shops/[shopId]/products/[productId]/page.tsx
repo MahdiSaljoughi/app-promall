@@ -15,38 +15,38 @@ interface Product {
 
 interface Params {
   productId: string;
+  shopId: string;
 }
 
 export default function Page({ params }: { params: Promise<Params> }) {
-  const { productId } = use(params);
-
+  const { shopId, productId } = use(params);
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState(true);
 
-  async function fetchProduct() {
-    setLoading(true);
+  useEffect(() => {
+    async function fetchProduct() {
+      setLoading(true);
 
-    try {
-      const response = await fetch(
-        `${process.env.API_URL}/products/${productId}`
-      );
+      try {
+        const response = await fetch(
+          `${process.env.API_URL}/shops/${shopId}/products/${productId}`
+        );
 
-      if (response.ok) {
-        const shopsData = await response.json();
-        setProduct(shopsData.data);
-      } else {
-        console.log("Failed to fetch shop products data:", response.status);
+        if (response.ok) {
+          const shopsData = await response.json();
+          setProduct(shopsData.data);
+        } else {
+          console.log("Failed to fetch shop products data:", response.status);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.log("Error fetching shop products data:", error);
+        setLoading(false);
+      } finally {
         setLoading(false);
       }
-    } catch (error) {
-      console.log("Error fetching shop products data:", error);
-      setLoading(false);
-    } finally {
-      setLoading(false);
     }
-  }
 
-  useEffect(() => {
     fetchProduct();
   }, [productId]);
 

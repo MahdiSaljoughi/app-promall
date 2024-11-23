@@ -19,25 +19,15 @@ import {
   ModalHeader,
   Input,
 } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Navigation } from "swiper/modules";
 import Image from "next/image";
+import { IProduct } from "@/types/interfaces";
 
-interface Products {
-  id: string;
-  name: string;
-  images: string[];
-  price: number;
-  availibility: string;
-}
-
-export default function TableProducts({ shopId }) {
-  const { data: session } = useSession();
-
-  const [products, setProducts] = useState<Products[]>([]);
+export default function TableProducts({ shopsId, session }) {
+  const [products, setProducts] = useState<IProduct[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [productId, setProductId] = useState("");
   // Add Product
@@ -52,11 +42,11 @@ export default function TableProducts({ shopId }) {
 
     try {
       const response = await fetch(
-        `${process.env.API_URL}/products/shop/${shopId}`,
+        `${process.env.API_URL}/products/shop/${shopsId}`,
         {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${session?.user?.access_token}`,
+            Authorization: `Bearer ${session?.user.access_token}`,
           },
         }
       );
@@ -77,12 +67,12 @@ export default function TableProducts({ shopId }) {
   }
   useEffect(() => {
     const fetchData = async () => {
-      if (session?.user?.access_token) {
+      if (session?.user.access_token && shopsId) {
         await fetchProducts();
       }
     };
     fetchData();
-  }, [shopId]);
+  }, [shopsId]);
 
   // Modals
   // DeleteModal
@@ -101,7 +91,7 @@ export default function TableProducts({ shopId }) {
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${session?.user?.access_token}`,
+            Authorization: `Bearer ${session?.user.access_token}`,
           },
           body: id,
         }
@@ -155,7 +145,7 @@ export default function TableProducts({ shopId }) {
     formData.append("name", productName);
     formData.append("price", productPrice);
     formData.append("availibility", produtcAvailibility);
-    formData.append("shopId", shopId);
+    formData.append("shopsId", shopsId);
     files.forEach((file) => {
       formData.append("files", file);
     });
@@ -164,7 +154,7 @@ export default function TableProducts({ shopId }) {
       const response = await fetch(`${process.env.API_URL}/products`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${session?.user?.access_token}`,
+          Authorization: `Bearer ${session?.user.access_token}`,
         },
         body: formData,
       });
@@ -210,7 +200,7 @@ export default function TableProducts({ shopId }) {
     formData.append("name", productName);
     formData.append("price", productPrice);
     formData.append("availibility", produtcAvailibility);
-    formData.append("shopId", shopId);
+    formData.append("shopsId", shopsId);
     files.forEach((file) => {
       formData.append("files", file);
     });
@@ -389,30 +379,34 @@ export default function TableProducts({ shopId }) {
 
           <p>
             <span>کل : </span>
-            <span>{products.length}</span>
+            <span>{products?.length}</span>
           </p>
         </div>
 
-        <Table shadow="none" aria-label="Product Table">
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn key={column.key}>{column.name}</TableColumn>
-            )}
-          </TableHeader>
-          <TableBody
-            items={products}
-            emptyContent={"محصولی ندارین"}
-            isLoading={loading}
-          >
-            {(item) => (
-              <TableRow key={item.id}>
-                {(columnKey) => (
-                  <TableCell>{renderCell(item, columnKey)}</TableCell>
+        {products && (
+          <>
+            <Table shadow="none" aria-label="Product Table">
+              <TableHeader columns={columns}>
+                {(column) => (
+                  <TableColumn key={column.key}>{column.name}</TableColumn>
                 )}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
+              </TableHeader>
+              <TableBody
+                items={products}
+                emptyContent={"محصولی ندارین"}
+                isLoading={loading}
+              >
+                {(item) => (
+                  <TableRow key={item.id}>
+                    {(columnKey) => (
+                      <TableCell>{renderCell(item, columnKey)}</TableCell>
+                    )}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </>
+        )}
 
         {/* Modals */}
         <>

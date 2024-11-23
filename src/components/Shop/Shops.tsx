@@ -3,58 +3,43 @@
 import HorizentalCategory from "@/components/ui/horizental-category/horizental-category";
 import { SearchBar } from "@/components/ui/search-bar/search-bar";
 import ShopCard from "@/components/ui/shop-card/shop-card";
+import { IShop } from "@/types/interfaces";
 import { Spinner } from "@nextui-org/react";
 import { motion } from "framer-motion";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-interface Shop {
-  id: number;
-  name: string;
-  avatar: string;
-  detail: [];
-}
-
-export default function Shop() {
-  const { data: session } = useSession();
-  const [shops, setShops] = useState<Shop[]>([]);
+export default function Shops() {
+  const [shops, setShops] = useState<IShop[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<null | string>(null);
 
-  const fetchShops = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response = await fetch(`${process.env.API_URL}/shop/all`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session?.user.access_token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      // console.log(data.data);
-      setShops(data.data);
-    } catch (error) {
-      console.error("Error fetching shops:", error);
-      setError("خطا در بارگذاری فروشگاه‌ها!");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (session?.user.access_token) {
-      fetchShops();
-    }
-  }, [session?.user.access_token]);
+    const fetchShops = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(`${process.env.API_URL}/shops`);
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        // console.log(data.data);
+        setShops(data.data);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error fetching shops:", error);
+        setError("خطا در بارگذاری فروشگاه‌ها!");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchShops();
+  }, []);
 
   const placeholders = ["نایکی", "آدیداس", "ایو سنت لورن", "اونتوس"];
 
@@ -67,18 +52,18 @@ export default function Shop() {
     console.log("submitted");
   };
 
-  const imageSrc = "/assets/nike-logo.png";
   const subtitle = "ورزشی اورجینال";
 
   if (loading) {
     return (
       <>
-        <div className="min-h-screen flex items-center justify-center">
+        <div className="fixed inset-0 flex items-center justify-center">
           <Spinner
-            label="در حال بارگذاری..."
+            size="lg"
             color="primary"
             labelColor="primary"
-            size="lg"
+            label="در حال بارگذاری..."
+            classNames={{ label: "mt-4" }}
           />
         </div>
       </>
@@ -86,7 +71,11 @@ export default function Shop() {
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return (
+      <div className="flex items-center justify-center text-rose-500 text-center fixed inset-0">
+        <p>{error}</p>
+      </div>
+    );
   }
 
   return (
@@ -111,7 +100,7 @@ export default function Shop() {
               <Link href={`/shops/${shop.id}`}>
                 <ShopCard
                   key={shop.id}
-                  imageSrc={imageSrc}
+                  imageSrc={`${process.env.API_URL}${shop.avatar}`}
                   title={shop.name}
                   subtitle={subtitle}
                 />

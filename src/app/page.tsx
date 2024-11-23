@@ -4,8 +4,8 @@ import Search from "@/components/Home/Search";
 import PopularProducts from "@/components/Home/PopularProducts";
 import StoryBar from "@/components/StoryBar/StoryBar";
 import type { Metadata } from "next";
-import Image from "next/image";
-import nike from "/public/assets/nike-logo.png";
+import MainLayout from "@/components/Layouts/MainLayout";
+import InistallPwa from "@/components/Pwa/InistallPwa";
 
 export const metadata: Metadata = {
   title: "پرومال",
@@ -38,17 +38,23 @@ export default function Home() {
 
   return (
     <>
-      <div className="md:container md:mx-auto flex flex-col gap-y-8 py-4">
-        <Search />
+      <MainLayout>
+        <div className="md:container md:mx-auto flex flex-col gap-y-8 py-4">
+          <Search />
 
-        <HeadBanner />
+          <HeadBanner />
 
-        <StoryBar />
+          <StoryBar />
 
-        <PopularProducts />
+          <div className="flex items-center justify-center">
+            <InistallPwa />
+          </div>
 
-        <PopularRow items={itemsrow} />
-      </div>
+          <PopularProducts />
+
+          <PopularRow items={itemsrow} />
+        </div>
+      </MainLayout>
     </>
   );
 }

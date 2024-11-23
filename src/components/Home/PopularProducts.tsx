@@ -1,6 +1,6 @@
-"use client";
-
-import Popular from "@/components/Popular/Popular";
+import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
+import ProductBluredBlur from "../ui/ProductBluredBlur/ProductBluredBlur";
 
 export default function PopularProducts() {
   const items = [
@@ -96,7 +96,28 @@ export default function PopularProducts() {
 
   return (
     <>
-      <Popular items={items} />
+      <div className="mx-4 md:mx-0">
+        <div className="flex justify-between mb-4 cursor-default">
+          <span>پررر طرفدارر</span>
+          <Link href={"/shop"} className="flex items-center font-bold">
+            <span className="text-sm">همش</span>
+            <ChevronLeft size={20} strokeWidth={1.75} />
+          </Link>
+        </div>
+
+        <div className="overflow-x-auto flex items-center gap-2 no-scrollbar">
+          {items.map((item) => (
+            <div className="mx-1 my-2" key={item.id}>
+              <ProductBluredBlur
+                imageSrc={item.imageSrc}
+                title={item.title}
+                price={item.price}
+                describe={"test"}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 }

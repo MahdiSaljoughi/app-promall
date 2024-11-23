@@ -15,10 +15,10 @@ import { OtpInput } from "reactjs-otp-input";
 export default function AuthPage() {
   const router = useRouter();
 
-  const [step, setStep] = useState(1); // 1: mobile input, 2: OTP input
+  const [step, setStep] = useState(1);
   const [mobile, setMobile] = useState("");
-  const [otp, setOtp] = useState(""); // OTP state
-  const [otpTimer, setOtpTimer] = useState(60); // Countdown timer
+  const [otp, setOtp] = useState("");
+  const [otpTimer, setOtpTimer] = useState(60);
   const [isNewUser, setIsNewUser] = useState(false);
   const [loading, setLoading] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
@@ -120,6 +120,7 @@ export default function AuthPage() {
       handleOtpSubmit(inputOtp);
     }
   };
+
   const handleOtpSubmit = async (inputOtp?: string) => {
     setOtpLoading(true);
 
@@ -142,38 +143,26 @@ export default function AuthPage() {
             fontSize: "12px",
           },
         });
-      } else {
-        toast.success("با موفقیت وارد شدین", {
-          style: {
-            borderRadius: "10px",
-            background: "#333",
-            color: "#fff",
-            fontSize: "12px",
-          },
-        });
-        // toast.custom((t) => (
-        //   <div
-        //     className={`${
-        //       t.visible ? "animate-enter" : "animate-leave"
-        //     } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-        //   >
-
-        //     <div className="flex border-l border-gray-200">
-        //       <button
-        //         onClick={() => toast.dismiss(t.id)}
-        //         className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        //       >
-        //         Close
-        //       </button>
-        //     </div>
-        //   </div>
-        // ));
       }
     } catch (error) {
       setErrorMessage("با مشکل برخوردیم");
-    }
+      setOtpLoading(false);
+    } finally {
+      setOtpLoading(false);
 
-    setOtpLoading(false);
+      toast.success("باموفقیت وارد شدید", {
+        position: "top-center",
+        style: {
+          borderRadius: "16px",
+          background: "linear-gradient(243.18deg, #100F17 0%, #1E2128 100%)",
+          color: "#fff",
+          fontSize: "14px",
+          maxWidth: "300px",
+        },
+      });
+
+      router.push("/profile");
+    }
   };
 
   const handleChangeNumber = () => {
@@ -258,7 +247,7 @@ export default function AuthPage() {
             </motion.h1>
 
             <motion.p
-              className="text-sm mb-3 mr-2 text-center"
+              className="text-sm mb-3 mr-2 text-center text-white"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -308,12 +297,14 @@ export default function AuthPage() {
                       size="lg"
                       aria-label="Mobile Number"
                       fullWidth
+                      classNames={{ inputWrapper: "border-zinc-600" }}
+                      className="text-white"
                     />
                     <Spacer y={2} />
                     <Button
                       disabled={loading}
                       onPress={handleMobileSubmit}
-                      className="w-full font-bold"
+                      className="w-full font-bold text-zinc-700"
                       color="primary"
                       size="lg"
                       fullWidth

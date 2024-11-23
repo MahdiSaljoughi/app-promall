@@ -2,21 +2,13 @@
 
 import Table from "./TableProducts";
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
 import Search from "@/components/Home/Search";
 import { Avatar, Spinner } from "@nextui-org/react";
 import Footer from "@/components/Footer/Footer";
+import { IShop } from "@/types/interfaces";
 
-interface Shop {
-  id: string;
-  name: string;
-  avatar: string;
-}
-
-export default function Products({ shopId }) {
-  const { data: session } = useSession();
-
-  const [shop, setShop] = useState<Shop>();
+export default function Products({ shopId, session }) {
+  const [shop, setShop] = useState<IShop | null>(null);
 
   async function fetchShop() {
     if (shopId === null) {
@@ -46,7 +38,7 @@ export default function Products({ shopId }) {
     if (session?.user?.access_token) {
       fetchShop();
     }
-  }, [session?.user?.access_token, shopId]);
+  }, [session?.user?.access_token]);
 
   return (
     <>
@@ -68,9 +60,9 @@ export default function Products({ shopId }) {
                   <Search />
                 </div>
               </div>
-              {shopId && (
+              {session && (
                 <div className="px-4 md:px-0">
-                  <Table shopId={shopId} />
+                  <Table shopsId={shop?.id} session={session} />
                 </div>
               )}
             </div>

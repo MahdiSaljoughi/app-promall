@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Orderinfo from "./Orderinfo";
 import Header from "../Header/Header";
 import Footer from "@/components/Footer/Footer";
@@ -14,6 +14,7 @@ import {
 import { PiCat, PiCatFill } from "react-icons/pi";
 import { TbPaint, TbPaintFilled } from "react-icons/tb";
 import { motion } from "framer-motion";
+import { IUser } from "@/types/interfaces";
 
 interface MenuItemType {
   label: string;
@@ -22,9 +23,29 @@ interface MenuItemType {
   path: string;
 }
 
-export default function RegistredOrders({ user }) {
+export default function RegistredOrders({ session }) {
   const [isOpen, setOpen] = useState(false);
+  const [user, setUser] = useState<IUser | null>(null);
   const [activeItem, setActiveItem] = useState("داشبورد");
+
+  const fetchUser = async () => {
+    const response = await fetch(`${process.env.API_URL}/user/profile`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${session?.user.access_token}`,
+      },
+    });
+    if (response.ok) {
+      const userData = await response.json();
+      setUser(userData.data);
+    }
+  };
+
+  useEffect(() => {
+    if (session) {
+      fetchUser();
+    }
+  }, [session]);
 
   const dataInfo = ["order1", "order2", "order3"];
 
@@ -45,7 +66,7 @@ export default function RegistredOrders({ user }) {
       label: "اشتراک",
       icon: <PiCat size={28} />,
       activeIcon: <PiCatFill size={28} />,
-      path: "/subscription",
+      path: "/profile/subscription",
     },
     {
       label: "ایجاد فروشگاه",
@@ -64,12 +85,17 @@ export default function RegistredOrders({ user }) {
   return (
     <>
       <motion.div className="bg-dashboard-gradient min-h-screen">
-        <Header isOpen={isOpen} setOpen={setOpen} user={user} />
+        <Header
+          isOpen={isOpen}
+          setOpen={setOpen}
+          user={user}
+          session={session}
+        />
 
         <motion.p className="text-center text-xl">سفارشات ثبت شده</motion.p>
         <motion.div className="mt-10 flex flex-col gap-4">
           {dataInfo?.map((order, index) => (
-            <div   key={index}>
+            <div key={index}>
               <Orderinfo />
             </div>
           ))}

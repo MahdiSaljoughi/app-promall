@@ -172,11 +172,12 @@ export function SearchBar({
     onSubmit && onSubmit(e);
   };
   return (
-    <div dir="rtl">
+    <div dir="rtl" className="px-4 md:px-0">
       <form
         className="w-full relative max-w-xl mx-auto bg-white backdrop-blur-2xl dark:bg-black/50 h-12 rounded-full overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200"
         onSubmit={handleSubmit}
         dir="rtl"
+        aria-label="search"
       >
         <canvas
           className={cn(
@@ -205,6 +206,7 @@ export function SearchBar({
 
         <button
           disabled={!value}
+          name="submit search"
           type="submit"
           className="absolute right-2 top-1/2 z-40 -translate-y-1/2 size-8 rounded-full bg-black dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center"
         >

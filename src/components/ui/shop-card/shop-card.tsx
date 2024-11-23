@@ -1,12 +1,12 @@
-import { Bookmark, CircleCheck } from "lucide-react";
 import Image from "next/image";
+import { Bookmark } from "lucide-react";
 import { HiBadgeCheck } from "react-icons/hi";
 
-type ShopCardProps = {
+interface ShopCardProps {
   imageSrc: string;
   title: string;
   subtitle: string;
-};
+}
 
 export default function shopcard({ imageSrc, title, subtitle }: ShopCardProps) {
   return (
@@ -17,8 +17,8 @@ export default function shopcard({ imageSrc, title, subtitle }: ShopCardProps) {
             src={imageSrc}
             alt={title}
             className="w-full h-full rounded-3xl object-cover dark:shadow-2xl dark:backdrop-blur-3xl scale-90"
-            height={100}
-            width={100}
+            height={1000}
+            width={1000}
           />
         </div>
         <div className="flex flex-col justify-center ml-4 flex-grow">
@@ -31,7 +31,7 @@ export default function shopcard({ imageSrc, title, subtitle }: ShopCardProps) {
         </div>
         <Bookmark
           className="ml-4 text-primary"
-          fill="currentColor" // This will use the text color defined by Tailwind CSS.
+          fill="currentColor"
           strokeWidth={1.1}
         />
       </div>

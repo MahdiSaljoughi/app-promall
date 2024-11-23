@@ -2,26 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "yekan-bakh-vf";
+  src: url("../../public/assets/fonts/YekanBakh-VF.ttf");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "yekan-bakh-fa";
+  src: url("../../public/assets/fonts/YekanBakhFaNum-Regular.ttf");
+  font-weight: 100;
+}
+
+body {
+  overflow-x: hidden;
+  font-family: yekan-bakh-vf, yekan-bakh-fa;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
 .no-scrollbar::-webkit-scrollbar {
-	display: none;
+  display: none;
 }
 
 .no-scrollbar {
-	-ms-overflow-style: none;
-	scrollbar-width: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-@font-face {
-	font-family: "Yekan Bakh VF";
-	src: url("../../public/assets/fonts/YekanBakh-VF.ttf");
-	font-weight: 300;
-}
-
-@font-face {
-	font-family: "Yekan Bakh Fa";
-	src: url("../../public/assets/fonts/YekanBakhFaNum-Regular.ttf");
-	font-weight: 100;
-}
-.button-plan:focus{
-	border: 2px solid #AED4FC;
+.button-plan:focus {
+  border: 2px solid #aed4fc;
 }

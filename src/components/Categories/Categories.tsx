@@ -25,11 +25,11 @@ export default function Categories() {
 
   return (
     <>
-      <div className="md:container md:mx-auto">
-        <div className="flex justify-center items-center my-10">
-          <h1 className="text-2xl font-bold">بریم استایل کنیم ؟</h1>
-        </div>
-        
+      <div className="min-h-screen md:container md:mx-auto">
+        <h1 className="text-2xl font-bold text-center my-10">
+          بریم استایل کنیم ؟
+        </h1>
+
         <SearchBar
           placeholders={placeholders}
           onChange={handleChange}

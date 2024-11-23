@@ -5,7 +5,6 @@ import Image from "next/image";
 import Plan from "./Plan";
 import { Button } from "@nextui-org/react";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 
 const plans = [
   { name: "7 روزه", price: "رایگان", discount: "", id: "free" },
@@ -26,7 +25,6 @@ const plans = [
 
 export default function Plans() {
   const [selectedPlan, setSelectedPlan] = useState("");
-  const { data: session } = useSession();
 
   // Handle selection change
   const handleSelect = (planId: string) => {

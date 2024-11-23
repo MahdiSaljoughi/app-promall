@@ -1,22 +1,21 @@
 import { Button } from "@nextui-org/button";
 import Image from "next/image";
-import shoe from "../../../public/assets/shoes-1.png";
 
 export default function HeadBanner() {
   return (
     <>
       <div
-        className="mx-4 max-h-32 relative dark:shadow-2xl dark:drop-shadow-2xl rounded-2xl border dark:border-none shadow-lg"
+        className="mx-4 md:mx-0 max-h-32 relative dark:shadow-2xl dark:drop-shadow-2xl rounded-2xl border dark:border-none shadow-lg"
         dir="ltr"
       >
         <div className="grid grid-cols-6 grid-rows-6 gap-4 h-32 rounded-2xl !ease-soft-spring !duration-500 will-change-auto from-[#202426] to-[#000000] dark:shadow-[0px_1px_20px_1px_#000000] ">
           <div className="col-span-2 row-span-6 col-start-5">
             <Image
-              src={shoe}
+              src={"/assets/shoes-1.png"}
               alt="Logo"
-              height={200}
-              width={200}
-              className="rounded-lg object-cover z-40 h-[11rem] absolute -rotate-45 right-[-2rem] bottom-[-30px] saturate-0 drop-shadow-lg"
+              height={2000}
+              width={2000}
+              className="size-[200px] rounded-lg object-cover z-40 h-[11rem] absolute -rotate-45 right-[-2rem] bottom-[-30px] saturate-0 drop-shadow-lg"
             />
           </div>
           <div className="col-span-4 col-start-1 row-start-2 text-center ">

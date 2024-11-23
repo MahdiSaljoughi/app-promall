@@ -5,13 +5,10 @@ import Link from "next/link";
 export default function PopularRow({ items }) {
   return (
     <>
-      <div className="flex flex-col mx-4">
+      <div className="flex flex-col mx-4 md:mx-0">
         <div className="flex justify-between items-center">
           <p>این فروشگاه ها فعال ترن !!</p>
-          <Link
-            href={"/shop"}
-            className="inline-flex items-center text-primary font-bold"
-          >
+          <Link href={"/shop"} className="inline-flex items-center font-bold">
             <p className="text-sm">همش</p>
             <ChevronLeft size={20} strokeWidth={1.75} />
           </Link>

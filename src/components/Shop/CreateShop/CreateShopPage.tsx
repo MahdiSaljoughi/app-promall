@@ -15,11 +15,8 @@ import {
 } from "@nextui-org/react";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 
-export default function CreateShopPage() {
-  const { data: session } = useSession();
-
+export default function CreateShopPage({ session }) {
   const router = useRouter();
 
   const [name, setName] = useState("");

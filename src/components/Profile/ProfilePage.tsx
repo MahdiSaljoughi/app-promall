@@ -1,7 +1,6 @@
 "use client";
 
 import { Button, Input, Spinner } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { HiOutlineSupport, HiSupport } from "react-icons/hi";
 import {
@@ -16,16 +15,7 @@ import Header from "./Header/Header";
 import Orderinfo from "./RegistredOrders/Orderinfo";
 import Footer from "../Footer/Footer";
 import HamburgerMenu from "./HamburgerMenu/HamburgerMenu";
-
-interface User {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  address: string;
-  avatar: string;
-  mobile: string;
-}
+import { IUser } from "@/types/interfaces";
 
 interface MenuItemType {
   label: string;
@@ -34,9 +24,8 @@ interface MenuItemType {
   path: string;
 }
 
-export default function ProfilePage() {
-  const { data: session } = useSession();
-  const [user, setUser] = useState<User>();
+export default function ProfilePage({ session }) {
+  const [user, setUser] = useState<IUser>();
   const [step, setStep] = useState(0);
   const [isOpenHeader, setOpenHeader] = useState(false);
   const [activeItem, setActiveItem] = useState("داشبورد");
@@ -67,11 +56,12 @@ export default function ProfilePage() {
       console.log(error);
     }
   };
+
   useEffect(() => {
     if (session?.user.access_token) {
       fetchUser();
     }
-  }, []);
+  }, [session]);
 
   if (!user) {
     return (
@@ -138,7 +128,7 @@ export default function ProfilePage() {
       label: "سفارشات ثبت شده",
       icon: <TbPaint size={28} />,
       activeIcon: <TbPaintFilled size={28} />,
-      path: "/profile/registredOrders",
+      path: "/profile/registred-orders",
     },
     {
       label: "اشتراک",
@@ -338,7 +328,7 @@ export default function ProfilePage() {
               onClick={handleUpdate}
               disabled={loading}
             >
-              {loading ? "در حال بارگذاری" : "ثبت"}
+              {loading ? "در حال ارسال..." : "ثبت"}
             </Button>
           </div>
         </div>
@@ -356,7 +346,12 @@ export default function ProfilePage() {
               : ""
           }
         >
-          <Header isOpen={isOpenHeader} setOpen={setOpenHeader} user={user} />
+          <Header
+            isOpen={isOpenHeader}
+            setOpen={setOpenHeader}
+            user={user}
+            session={session}
+          />
         </div>
 
         {user.first_name === "" || user.last_name === "" ? (

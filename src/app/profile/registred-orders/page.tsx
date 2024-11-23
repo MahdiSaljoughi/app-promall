@@ -1,4 +1,4 @@
-import Notif from "@/components/Notification/Notif";
+import RegistredOrders from "@/components/Profile/RegistredOrders/RegistredOrders";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 
@@ -7,7 +7,7 @@ export default async function Page() {
 
   return (
     <>
-      <Notif session={session} />
+      <RegistredOrders session={session} />
     </>
   );
 }

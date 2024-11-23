@@ -1,29 +1,16 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import DashboardPage from "../DashboardPage";
 import { Avatar, Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { IShop } from "@/types/interfaces";
 
-interface ShopDetail {}
 
-interface ShopCategory {}
-
-interface Shop {
-  id: string;
-  name: string;
-  avatar: string;
-  detail: ShopDetail;
-  shopCategories: ShopCategory[];
-}
-
-export default function UseShop() {
-  const { data: session } = useSession();
-
+export default function UseShop({ session }) {
   const router = useRouter();
 
-  const [shops, setShops] = useState<Shop[]>([]);
+  const [shops, setShops] = useState<IShop[]>([]);
   const [shopsId, setShopId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -88,7 +75,7 @@ export default function UseShop() {
                   انتخاب فروشگاه
                 </span>
 
-                {shops.map((shop: Shop, index) => (
+                {shops.map((shop: IShop, index) => (
                   <div key={index}>
                     <button
                       onClick={() => setShopId(shop.id)}
@@ -102,7 +89,7 @@ export default function UseShop() {
               </div>
             ) : (
               <>
-                <DashboardPage shopId={shopsId} />
+                <DashboardPage shopId={shopsId} session={session} />
               </>
             )}
           </>

@@ -5,7 +5,6 @@ import ChartSection from "@/components/Dashboard/ChartSection";
 import DashboardGrid from "@/components/Dashboard/DashboardGrid";
 import HamburgerMenu from "@/components/Dashboard/HamburgerMenu/HamburgerMenu";
 import Header from "@/components/Dashboard/Header/Header";
-import PopularProductsSection from "@/components/Dashboard/PopularProductsSection";
 import StatRow from "@/components/Dashboard/StatRow";
 import { User } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -19,6 +18,7 @@ import {
 import { PiCat, PiCatFill } from "react-icons/pi";
 import { TbMoneybag, TbPaint, TbPaintFilled } from "react-icons/tb";
 import Footer from "@/components/Footer/Footer";
+import { IShop } from "@/types/interfaces";
 
 interface MenuItemType {
   label: string;
@@ -27,20 +27,10 @@ interface MenuItemType {
   path: string;
 }
 
-interface Shop {
-  id: string;
-  name: string;
-  avatar: string;
-  detail: any;
-  shopCategories: any;
-}
-
-export default function DashboardPage({ shopId }) {
-  const { data: session } = useSession();
-
+export default function DashboardPage({ shopId, session }) {
   const [isOpen, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("داشبورد");
-  const [shop, setShop] = useState<Shop | undefined>(undefined);
+  const [shop, setShop] = useState<IShop | null>(null);
 
   async function fetchShop() {
     if (shopId === null) {
@@ -93,7 +83,7 @@ export default function DashboardPage({ shopId }) {
       label: "اشتراک",
       icon: <PiCat size={28} />,
       activeIcon: <PiCatFill size={28} />,
-      path: "/subscription",
+      path: "/profile/subscription",
     },
     {
       label: "ایجاد فروشگاه",
@@ -198,8 +188,6 @@ export default function DashboardPage({ shopId }) {
           <ChartSection />
 
           <DashboardGrid />
-
-          <PopularProductsSection items={popularItems} />
         </div>
 
         <Footer />

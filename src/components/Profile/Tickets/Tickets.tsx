@@ -11,7 +11,6 @@ import {
   Select,
   SelectItem,
   Textarea,
-  Spinner,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import Header from "../Header/Header";
@@ -45,8 +44,7 @@ interface MenuItemType {
   path: string;
 }
 
-export default function Tickets({ user }) {
-  const { data: session } = useSession();
+export default function Tickets({ user, session }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(false);
   const [tikets, setTickets] = useState<Ticket[]>([]);
@@ -96,7 +94,7 @@ export default function Tickets({ user }) {
 
   useEffect(() => {
     fetchTickets();
-  }, [user]);
+  }, [session]);
 
   // Post Tikets
   const createTickets = async () => {
@@ -181,46 +179,36 @@ export default function Tickets({ user }) {
     );
   };
   const formatJalaliHour = (jalaliHour: string) => {
-    return moment(jalaliHour, "jYYYY-jMM-jDD HH:mm:ss").format("ساعت HH:mm");
+    return moment(jalaliHour, "jYYYY-jMM-jDD HH:mm:ss").format("HH:mm");
   };
 
   return (
     <>
       <motion.div className="bg-dashboard-gradient min-h-screen">
-        <Header isOpen={isOpenMenu} setOpen={setOpenMenu} user={user} />
+        <Header
+          isOpen={isOpenMenu}
+          setOpen={setOpenMenu}
+          user={user}
+          session={session}
+        />
 
         <motion.div className="flex flex-col justify-center gap-8">
           <motion.p className="text-xl text-center">تیکت ها</motion.p>
-
-          {loading ? (
-            <>
-              <motion.div className="flex items-center justify-center">
-                <Spinner
-                  label="در حال بارگذاری..."
-                  color="primary"
-                  labelColor="primary"
-                  size="lg"
+          <motion.div className="tickets gap-4 flex flex-col">
+            {tikets?.map((ticket) => (
+              <motion.div key={ticket.id}>
+                <TicketsComponents
+                  session={session}
+                  groupId={ticket.id}
+                  subject={ticket.subject}
+                  title={ticket.title}
+                  open={ticket.isOpen}
+                  date={formatJalaliDate(ticket.createdAtJalali)}
+                  hour={formatJalaliHour(ticket.createdAtJalali)}
                 />
               </motion.div>
-            </>
-          ) : (
-            <>
-              <motion.div className="tickets gap-4 flex flex-col">
-                {tikets?.map((ticket) => (
-                  <motion.div key={ticket.id}>
-                    <TicketsComponents
-                      groupId={ticket.id}
-                      subject={ticket.subject}
-                      title={ticket.title}
-                      open={ticket.isOpen}
-                      date={formatJalaliDate(ticket.createdAtJalali)}
-                      hour={formatJalaliHour(ticket.createdAtJalali)}
-                    />
-                  </motion.div>
-                ))}
-              </motion.div>
-            </>
-          )}
+            ))}
+          </motion.div>
         </motion.div>
 
         <motion.div className="mt-20">

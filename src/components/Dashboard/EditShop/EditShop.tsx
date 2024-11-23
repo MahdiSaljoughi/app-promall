@@ -18,27 +18,17 @@ import {
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import { IShop } from "@/types/interfaces";
 
-interface Shop {
-  id: string;
-  name: string;
-  avatar: string;
-  detail: any;
-  shopCategories: any;
-}
-
-export default function EditShop({ shopId }) {
-  const { data: session } = useSession();
-
+export default function EditShop({ shopId, session }) {
   const router = useRouter();
 
-  const [shop, setShop] = useState<Shop | undefined>(undefined);
+  const [shop, setShop] = useState<IShop | null>(null);
   const [avatarPreview, setAvatarPreview] = useState("");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [shopName, setShopName] = useState(shop?.name);
@@ -99,36 +89,34 @@ export default function EditShop({ shopId }) {
   }
 
   const handleUpdate = async () => {
-    // "Content-Type": "application/json",
-    // "Content-Type": "multipart",
-
     try {
-      // const formData = new FormData();
-      // if (avatarFile) {
-      //   formData.append("avatar", avatarFile);
-      // }
-      // formData.append("name", shopName || "");
-      // formData.append("instaId", shopInstaId.current?.value || "");
+      const formData = new FormData();
+      if (avatarFile) {
+        formData.append("avatar", avatarFile);
+      }
+      if (files) {
+        files.forEach((file) => {
+          formData.append("posterImages", file);
+        });
+      }
+      formData.append("name", shopName || "");
+      formData.append("instaId", shopInstaId.current?.value || "");
 
       const response = await fetch(`${process.env.API_URL}/shop/${shopId}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${session?.user.access_token}`,
         },
-        // body: formData,
-        body: JSON.stringify({
-          name: shopName,
-          instaId: shopInstaId.current?.value,
-        }),
+        body: formData,
       });
 
       if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
+        throw new Error(`Error: ${response.status}`);
       }
       await fetchShop();
       alert("با موفقیت انجام شد");
     } catch (error) {
-      console.error("Error updating user:", error);
+      console.error("Error updating shop:", error);
     }
   };
 
@@ -142,7 +130,6 @@ export default function EditShop({ shopId }) {
   };
 
   const handleConfirmShopName = () => {
-    console.log("اسم فروشگاه جدید:", shopName);
     onCloseEditName();
   };
 
@@ -384,7 +371,6 @@ export default function EditShop({ shopId }) {
           <div className="flex items-center gap-x-2 font-semibold">
             <p>دسته بندی</p>
             <Button onPress={onOpenEditCategory} isIconOnly color="primary">
-              {" "}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="1.5em"
@@ -467,6 +453,7 @@ export default function EditShop({ shopId }) {
                   color="primary"
                   className="w-full"
                   ref={shopInstaId}
+                  // @ts-expect-error
                   defaultValue={shop?.detail.instaId}
                 />
               </AccordionItem>
@@ -488,6 +475,26 @@ export default function EditShop({ shopId }) {
           >
             ذخیره تغیرات
           </Button>
+        </div>
+
+        <div>
+          {/* @ts-expect-error */}
+          {shop.detail.posterImages.length > 0 && (
+            <div className="grid grid-cols-4 gap-4">
+              {/* @ts-expect-error */}
+              {shop.detail.posterImages.map((image: any, index: any) => (
+                <div key={index}>
+                  <Image
+                    src={`${process.env.API_URL}${image}`}
+                    width={1000}
+                    height={1000}
+                    alt="Shop Poster"
+                    className="w-40 rounded-2xl"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

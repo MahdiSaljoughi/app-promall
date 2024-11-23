@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function page() {
+export default function Page() {
   return (
     <>
       <div className="min-h-[900px] flex flex-col gap-y-4 items-center justify-center">
@@ -8,7 +8,7 @@ export default function page() {
           <span>404</span>
           <span>چنین صفحه ای پیدا نشد!</span>
         </div>
-        <Link href="/" className="block text-blue-500">
+        <Link href="/" className="block text-sky-500">
           بازگشت به صفحه اصلی
         </Link>
       </div>
