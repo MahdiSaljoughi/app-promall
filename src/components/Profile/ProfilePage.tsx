@@ -25,7 +25,7 @@ interface MenuItemType {
 }
 
 export default function ProfilePage({ session }) {
-  const [user, setUser] = useState<IUser>();
+  const [user, setUser] = useState<IUser | null>(null);
   const [step, setStep] = useState(0);
   const [isOpenHeader, setOpenHeader] = useState(false);
   const [activeItem, setActiveItem] = useState("داشبورد");
@@ -71,7 +71,7 @@ export default function ProfilePage({ session }) {
             size="lg"
             color="primary"
             labelColor="primary"
-            label="در حال بارگذاری..."
+            label="در حال برسی..."
             classNames={{ label: "mt-4" }}
           />
         </div>
@@ -339,20 +339,13 @@ export default function ProfilePage({ session }) {
   return (
     <>
       <div className="dark:bg-gradiant min-h-screen">
-        <div
+        {/* <div
           className={
             (user.first_name === "" || user.last_name === "") && step === 0
               ? "blur-sm"
               : ""
           }
-        >
-          <Header
-            isOpen={isOpenHeader}
-            setOpen={setOpenHeader}
-            user={user}
-            session={session}
-          />
-        </div>
+        ></div> */}
 
         {user.first_name === "" || user.last_name === "" ? (
           <>
@@ -401,15 +394,6 @@ export default function ProfilePage({ session }) {
         ) : (
           <>{renderUserInfo()}</>
         )}
-
-        <Footer />
-
-        <HamburgerMenu
-          isOpen={isOpenHeader}
-          menuItems={menuItems}
-          activeItem={activeItem}
-          setActiveItem={setActiveItem}
-        />
       </div>
     </>
   );

@@ -49,14 +49,13 @@ export default async function Page({ params }: { params: Promise<Params> }) {
       <div className="min-h-screen pb-10">
         <ShopBanner imageUrl={"/assets/nike-white.png"} />
         <div className="flex flex-col gap-y-8 md:mx-10">
-          <div className="-mt-20 bg-black/80 size-28 flex items-center justify-center rounded-3xl mx-4 md:mx-0">
+          <div className="flex-shrink-0 -mt-20 size-28 overflow-hidden dark:shadow-2xl mx-4 md:mx-0">
             <Image
               src={`${process.env.API_URL}/${shop?.avatar}`}
-              alt="Shop Banner"
-              quality={100}
-              width={1000}
+              alt={`${shop?.name}`}
+              className="w-full h-full rounded-3xl object-cover dark:shadow-2xl dark:backdrop-blur-3xl scale-90"
               height={1000}
-              className="w-28 rounded-3xl"
+              width={1000}
             />
           </div>
 

@@ -45,8 +45,8 @@ export function ThemeSwitcher() {
         {/* SVG برای حالت تاریک */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="1.5em"
-          height="1.5em"
+          width="1.6em"
+          height="1.6em"
           viewBox="0 0 24 24"
         >
           <path fill="currentColor" d="M18 12a6 6 0 1 1-12 0a6 6 0 0 1 12 0" />

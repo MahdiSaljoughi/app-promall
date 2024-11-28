@@ -26,7 +26,6 @@ import { PiCat, PiCatFill } from "react-icons/pi";
 import { TbPaint, TbPaintFilled } from "react-icons/tb";
 import { motion } from "framer-motion";
 import TicketsComponents from "./TicketsComponents";
-import { useSession } from "next-auth/react";
 import moment from "moment-jalaali";
 
 interface Ticket {

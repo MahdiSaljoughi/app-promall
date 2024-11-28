@@ -6,6 +6,8 @@ import { ThemeSwitcher } from "../ThemeSwitcher";
 import DropdownMenuUser from "./DropdownMenuUser";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
+import Icon from "../Notification/Icon";
+import MainSearch from "../Search/MainSearch";
 
 export default async function Header() {
   const session = await getServerSession(authOptions);
@@ -13,7 +15,7 @@ export default async function Header() {
   return (
     <>
       <header className="sticky top-0 z-50">
-        <div className="bg-gradient-to-b from-sky-500/20 dark:from-black to-transparent p-4">
+        <div className="p-4 bg-white dark:bg-gradient-header border-b dark:border-none shadow-sm">
           <div className="container flex justify-between items-center">
             <Link href="/" className="flex items-center gap-x-2">
               <Image
@@ -28,10 +30,19 @@ export default async function Header() {
               />
               <div className="font-bold">
                 <span className="text-xl text-primary">پرو</span>
-                <span className="text-xl">مال</span>
+                <span className="text-xl dark:text-white">مال</span>
               </div>
             </Link>
+
             <div className="flex items-center gap-x-4">
+              <MainSearch />
+
+              {session?.user.access_token && (
+                <Link href={"/profile/notification"}>
+                  <Icon size={"1.4em"} />
+                </Link>
+              )}
+
               <ThemeSwitcher />
 
               <DropdownMenuUser session={session} />

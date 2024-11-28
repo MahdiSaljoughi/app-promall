@@ -43,6 +43,8 @@ const config = {
         "profile-gradient": "linear-gradient(to bottom, #111827, #000000)",
         "bg-subscription-gradient":
           "linear-gradient(168.05deg, #1E2128 0%, #000000 100%)",
+        "gradient-header":
+          "linear-gradient(243.18deg, #100F17 0%, #1E2128 100%)",
       },
       boxShadow: {
         ticket: "0px 4px 4px 0px rgba(0, 0, 0, 0.40)",

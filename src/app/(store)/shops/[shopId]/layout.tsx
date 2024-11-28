@@ -7,12 +7,12 @@ export default function ShopLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <>
       <ShopHeader />
 
-      <main>{children}</main>
+      <>{children}</>
 
       {/* <ShopFooter /> */}
-    </div>
+    </>
   );
 }

@@ -8,7 +8,7 @@ export default function PopularRow({ items }) {
       <div className="flex flex-col mx-4 md:mx-0">
         <div className="flex justify-between items-center">
           <p>این فروشگاه ها فعال ترن !!</p>
-          <Link href={"/shop"} className="inline-flex items-center font-bold">
+          <Link href={"/shops"} className="inline-flex items-center font-bold">
             <p className="text-sm">همش</p>
             <ChevronLeft size={20} strokeWidth={1.75} />
           </Link>

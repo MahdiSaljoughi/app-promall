@@ -8,8 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
+import { toast } from "react-toastify";
 import { OtpInput } from "reactjs-otp-input";
 
 export default function AuthPage() {
@@ -136,32 +136,20 @@ export default function AuthPage() {
 
       if (signInData?.error) {
         toast.error("لطفا کد را به درستی وارد کنید", {
-          style: {
-            borderRadius: "10px",
-            background: "#333",
-            color: "#fff",
-            fontSize: "12px",
-          },
+          position: "top-left",
         });
+      } else {
+        toast.success("باموفقیت وارد شدید", {
+          position: "top-center",
+        });
+
+        router.push("/profile");
       }
     } catch (error) {
       setErrorMessage("با مشکل برخوردیم");
       setOtpLoading(false);
     } finally {
       setOtpLoading(false);
-
-      toast.success("باموفقیت وارد شدید", {
-        position: "top-center",
-        style: {
-          borderRadius: "16px",
-          background: "linear-gradient(243.18deg, #100F17 0%, #1E2128 100%)",
-          color: "#fff",
-          fontSize: "14px",
-          maxWidth: "300px",
-        },
-      });
-
-      router.push("/profile");
     }
   };
 

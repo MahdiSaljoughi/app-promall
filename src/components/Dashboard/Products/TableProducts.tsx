@@ -419,12 +419,7 @@ export default function TableProducts({ shopsId, session }) {
                     مطمعنی که حذف بشه؟
                   </ModalHeader>
                   <ModalFooter>
-                    <Button
-                      fullWidth
-                      color="danger"
-                      variant="light"
-                      onPress={onClose}
-                    >
+                    <Button color="danger" variant="light" onPress={onClose}>
                       خیر
                     </Button>
                     <Button
@@ -626,12 +621,7 @@ export default function TableProducts({ shopsId, session }) {
                     </div>
                   </ModalBody>
                   <ModalFooter>
-                    <Button
-                      fullWidth
-                      color="danger"
-                      variant="light"
-                      onPress={onClose}
-                    >
+                    <Button color="danger" variant="light" onPress={onClose}>
                       بستن
                     </Button>
                     <Button fullWidth color="primary" onPress={onAdd}>
@@ -829,12 +819,7 @@ export default function TableProducts({ shopsId, session }) {
                     </div>
                   </ModalBody>
                   <ModalFooter>
-                    <Button
-                      fullWidth
-                      color="danger"
-                      variant="light"
-                      onPress={onClose}
-                    >
+                    <Button color="danger" variant="light" onPress={onClose}>
                       بستن
                     </Button>
                     <Button fullWidth color="primary" onPress={onEdit}>

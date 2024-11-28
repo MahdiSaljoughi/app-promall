@@ -57,7 +57,7 @@ export default function Shops() {
   if (loading) {
     return (
       <>
-        <div className="fixed inset-0 flex items-center justify-center">
+        <div className="w-screen h-screen flex items-center justify-center">
           <Spinner
             size="lg"
             color="primary"

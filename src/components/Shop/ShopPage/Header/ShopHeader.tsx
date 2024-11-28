@@ -10,7 +10,7 @@ export default function ShopHeader() {
 
   return (
     <>
-      <div className="fixed inset-x-0 z-50 flex items-center h-20 bg-gradient-to-b from-sky-500/20 dark:from-black/100 to-transparent -top-2">
+      <div className="flex items-center py-4 bg-gradient-to-b from-sky-500/20 dark:from-black/100 to-transparent">
         <div className="flex w-full justify-between mx-2">
           <div className="flex items-center gap-x-2">
             <Button variant="light" isIconOnly>
