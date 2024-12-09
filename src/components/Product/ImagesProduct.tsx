@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+<<<<<<< HEAD
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -14,14 +15,28 @@ import {
 export default function ImagesProduct({ product }) {
   const [productPreview, setProductPreview] = useState(0);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+=======
+import { IProduct } from "@/types/interfaces";
+import { useState } from "react";
+import { motion } from "framer-motion";
+
+export default function ImagesProduct({ product }) {
+  const [productPreview, setProductPreview] = useState(0);
+>>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
 
   return (
     <>
       <div className="flex flex-col gap-y-6 w-full lg:w-auto">
+<<<<<<< HEAD
         <div className="rounded-3xl w-full h-96 sm:h-[500px] lg:size-96 bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
           <motion.div
             onClick={onOpen}
             className="size-full mx-auto p-6 cursor-pointer"
+=======
+        <div className="rounded-3xl lg:max-w-96 bg-zinc-100 dark:bg-zinc-800">
+          <motion.div
+            className="w-full h-full min-w-96 min-h-96 max-w-96 max-h-96 mx-auto p-6"
+>>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
             transition={{
               opacity: { duration: 0.3 },
               scale: { duration: 0.3 },
@@ -41,7 +56,11 @@ export default function ImagesProduct({ product }) {
             />
           </motion.div>
         </div>
+<<<<<<< HEAD
         <div className="flex items-center flex-wrap justify-evenly gap-2">
+=======
+        <div className="flex items-center flex-wrap gap-2">
+>>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
           {product?.images.map((img: string, index: number) => (
             <button
               key={index}
@@ -60,6 +79,7 @@ export default function ImagesProduct({ product }) {
           ))}
         </div>
       </div>
+<<<<<<< HEAD
       <>
         <Modal
           isOpen={isOpen}
@@ -116,6 +136,8 @@ export default function ImagesProduct({ product }) {
           </ModalContent>
         </Modal>
       </>
+=======
+>>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
     </>
   );
 }

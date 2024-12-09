@@ -1,9 +1,16 @@
 "use client";
 
+<<<<<<< HEAD
 import { Accordion, AccordionItem, Button, Spinner } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+=======
+import { Button, Spinner } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+>>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
 import io from "socket.io-client";
 
 export default function Notif() {
@@ -37,6 +44,7 @@ export default function Notif() {
     } catch (error) {
       setLoading(false);
       console.error("Error fetching notifications:", error);
+<<<<<<< HEAD
       toast.custom((t) => (
         <div
           className={`flex items-center gap-x-3 justify-center bg-white dark:bg-black/80 backdrop-blur-sm font-semibold text-sm text-zinc-700 dark:text-zinc-200 py-4 px-8 shadow-md rounded-full ${
@@ -65,6 +73,9 @@ export default function Notif() {
           <span>خطا در دریافت اعلان</span>
         </div>
       ));
+=======
+      toast("خطا در دریافت اعلان");
+>>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
     }
   };
 
@@ -200,6 +211,7 @@ export default function Notif() {
               </svg>
             </Button>
           </div>
+<<<<<<< HEAD
 
           <div className="flex flex-col gap-y-4">
             <Accordion variant="splitted">
@@ -215,6 +227,26 @@ export default function Notif() {
                       xmlns="http://www.w3.org/2000/svg"
                       width="1.6em"
                       height="1.6em"
+=======
+          <div className="flex flex-col gap-y-4">
+            {notification.map((notif) => (
+              <div
+                key={notif.id}
+                onClick={() => handelRead(notif.id)}
+                className={`collapse cursor-pointer ${
+                  notif.is_read === false
+                    ? " border dark:border-none bg-sky-50 dark:bg-black/50 dark:text-white "
+                    : " border dark:border-none bg-none dark:bg-black/20 text-zinc-700 dark:text-white "
+                }`}
+              >
+                <input type="radio" name="my-accordion-1" />
+                <div className="collapse-title flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="1.5em"
+                      height="1.5em"
+>>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
                       viewBox="0 0 24 24"
                       className={`${
                         notif.is_read === false ? "text-primary" : ""
@@ -225,6 +257,7 @@ export default function Notif() {
                         d="M4 19v-2h2v-7q0-2.075 1.25-3.687T10.5 4.2v-.7q0-.625.438-1.062T12 2t1.063.438T13.5 3.5v.7q2 .5 3.25 2.113T18 10v7h2v2zm8 3q-.825 0-1.412-.587T10 20h4q0 .825-.587 1.413T12 22M2 10q0-2.5 1.113-4.587T6.1 1.95l1.175 1.6q-1.5 1.1-2.387 2.775T4 10zm18 0q0-2-.888-3.675T16.726 3.55l1.175-1.6q1.875 1.375 2.988 3.463T22 10z"
                       />
                     </svg>
+<<<<<<< HEAD
                   }
                   className={`${
                     notif.is_read === false
@@ -236,6 +269,23 @@ export default function Notif() {
                 </AccordionItem>
               ))}
             </Accordion>
+=======
+                    <p className="break-words overflow-hidden text-xl">
+                      {notif.title}
+                    </p>
+                  </div>
+                  <div className="-ml-8">
+                    <time className="text-sm">
+                      {new Date(notif.createdAt).toLocaleTimeString()}
+                    </time>
+                  </div>
+                </div>
+                <div className="collapse-content">
+                  <p className="break-words overflow-hidden">{notif.message}</p>
+                </div>
+              </div>
+            ))}
+>>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
           </div>
         </>
       ) : (
