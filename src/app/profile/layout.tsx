@@ -14,10 +14,7 @@ import { PiCat, PiCatFill } from "react-icons/pi";
 import { TbPaint, TbPaintFilled } from "react-icons/tb";
 import Footer from "@/components/Footer/Footer";
 import HamburgerMenu from "@/components/Profile/HamburgerMenu/HamburgerMenu";
-<<<<<<< HEAD
 import { usePathname } from "next/navigation";
-=======
->>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
 
 interface MenuItemType {
   label: string;
@@ -31,10 +28,7 @@ export default function LayoutProfile({ children }) {
   const [user, setUser] = useState<IUser | null>(null);
   const [isOpenHeader, setOpenHeader] = useState(false);
   const [activeItem, setActiveItem] = useState("پروفایل");
-<<<<<<< HEAD
   const pathname = usePathname();
-=======
->>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
 
   const fetchUser = async () => {
     try {
@@ -85,11 +79,7 @@ export default function LayoutProfile({ children }) {
       label: "ایجاد فروشگاه",
       icon: <MdViewCarousel size={28} />,
       activeIcon: <MdViewCarousel size={28} />,
-<<<<<<< HEAD
       path: "/profile/create-shop",
-=======
-      path: "/create-shop",
->>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
     },
     {
       label: "پشتیبانی",
@@ -101,7 +91,6 @@ export default function LayoutProfile({ children }) {
 
   return (
     <>
-<<<<<<< HEAD
       {pathname !== "/profile/create-shop" && (
         <Header
           isOpen={isOpenHeader}
@@ -125,25 +114,6 @@ export default function LayoutProfile({ children }) {
           />
         </>
       )}
-=======
-      <Header
-        isOpen={isOpenHeader}
-        setOpen={setOpenHeader}
-        user={user}
-        session={session}
-      />
-
-      <>{children}</>
-
-      <Footer />
-
-      <HamburgerMenu
-        isOpen={isOpenHeader}
-        menuItems={menuItems}
-        activeItem={activeItem}
-        setActiveItem={setActiveItem}
-      />
->>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
     </>
   );
 }

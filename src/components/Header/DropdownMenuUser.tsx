@@ -18,10 +18,7 @@ import UserAvatar from "../Avatar/UserAvatar";
 import { useEffect, useState } from "react";
 import type { IUser } from "@/types/interfaces";
 import Icon from "../Notification/Icon";
-<<<<<<< HEAD
 import { PlusIcon } from "lucide-react";
-=======
->>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
 
 export default function DropdownMenuUser({ session }) {
   const [user, setUser] = useState<IUser>();
@@ -187,11 +184,7 @@ export default function DropdownMenuUser({ session }) {
                       className="flex items-center gap-x-1 text-base"
                     >
                       <Icon size={"1.2em"} />
-<<<<<<< HEAD
                       پیام‌ها
-=======
-                       پیام‌ها
->>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
                     </motion.span>
                   </Link>
                 </DropdownItem>

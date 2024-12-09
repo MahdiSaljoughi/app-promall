@@ -8,8 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
-import { toast } from "react-toastify";
 import { OtpInput } from "reactjs-otp-input";
 
 export default function AuthPage() {
@@ -135,7 +135,6 @@ export default function AuthPage() {
       });
 
       if (signInData?.error) {
-<<<<<<< HEAD
         toast.custom((t) => (
           <div
             className={`flex items-center gap-x-3 justify-center bg-white dark:bg-black/80 backdrop-blur-sm font-semibold text-sm text-zinc-700 dark:text-zinc-200 py-4 px-8 shadow-md rounded-full ${
@@ -214,17 +213,6 @@ export default function AuthPage() {
         //     <span>به پرومال خوش اومدی</span>
         //   </div>
         // ));
-=======
-        toast.error("لطفا کد را به درستی وارد کنید", {
-          position: "top-left",
-        });
-      } else {
-        toast.success("باموفقیت وارد شدید", {
-          position: "top-center",
-        });
-
-        router.push("/profile");
->>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
       }
     } catch (error) {
       setErrorMessage("با مشکل برخوردیم");

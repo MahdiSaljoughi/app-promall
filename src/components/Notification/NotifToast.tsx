@@ -2,11 +2,7 @@
 
 import io from "socket.io-client";
 import { useEffect } from "react";
-<<<<<<< HEAD
 import toast from "react-hot-toast";
-=======
-import { toast } from "react-toastify";
->>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
 
 export default function NotifToast() {
   useEffect(() => {
@@ -19,7 +15,6 @@ export default function NotifToast() {
     socket.on("notification", (data) => {
       console.log("New notification received:", data);
       if (data) {
-<<<<<<< HEAD
         toast.custom((t) => (
           <div
             className={`flex items-center gap-x-3 justify-center bg-white dark:bg-black/80 backdrop-blur-sm font-semibold text-sm text-zinc-700 dark:text-zinc-200 py-4 px-8 shadow-md rounded-full ${
@@ -43,11 +38,6 @@ export default function NotifToast() {
             <span>{data}</span>
           </div>
         ));
-=======
-        toast(data, {
-          position: "bottom-right",
-        });
->>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
       }
     });
 

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use client";
 
 import { useEffect, useState } from "react";
@@ -95,73 +94,3 @@ export default function Header({ isOpen, setOpen, shopId }) {
     </>
   );
 }
-=======
-"use client";
-
-import { useEffect, useState } from "react";
-import Hamburger from "hamburger-react";
-import { Avatar } from "@nextui-org/react";
-
-export default function Header({
-  isOpen,
-  setOpen,
-  user,
-  shopName,
-  shopAvatar,
-}) {
-  const [firstName, setFirstName] = useState<string>("");
-
-  const fetchUserProfile = async () => {
-    try {
-      const response = await fetch(`${process.env.API_URL}/user/profile`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${user.access_token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setFirstName(data.data.first_name);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    if (user.access_token) fetchUserProfile();
-  }, [user.access_token]);
-
-  return (
-    <>
-      <div className="flex items-center py-4 justify-between font-bold rounded-3xl mx-4 bg-white dark:bg-black shadow-lg dark:drop-shadow-2xl dark:shadow-xl dark:shadow-black/10">
-        <div className="flex items-center mr-4">
-          <Avatar src={shopAvatar} />
-
-          <div className="flex flex-col justify-center mr-3">
-            <p className="text-md">
-              {firstName} وقت بخیر :{")"}
-            </p>
-            <p className="text-zinc-600 dark:text-zinc-200 text-sm">
-              {shopName}
-            </p>
-          </div>
-        </div>
-        <div className="ml-2">
-          <Hamburger
-            toggled={isOpen}
-            size={25}
-            animateOnMount={true}
-            toggle={setOpen}
-            direction="right"
-            hideOutline={true}
-            rounded={true}
-          />
-        </div>
-      </div>
-    </>
-  );
-}
->>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69

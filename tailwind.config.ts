@@ -46,22 +46,6 @@ const config = {
         "gradient-header":
           "linear-gradient(243.18deg, #100F17 0%, #1E2128 100%)",
         gradiant: "linear-gradient(243.18deg, #100F17 0%, #1E2128 100%)",
-<<<<<<< HEAD
-=======
-        "gradiant-order": "linear-gradient(to bottom right, #202426 , #050506)",
-        "card-gradient": "linear-gradient(to bottom right,  #202426, #000000)",
-        "product-gradient": "linear-gradient(to bottom right, #111827, black)",
-        "dashboard-gradient":
-          // linear-gradient(to bottom right, #111827, black)
-          "linear-gradient(168.05deg, #202426 0%, #000000 100%)",
-        "order-gradient":
-          "linear-gradient(116.38deg, rgba(32, 36, 38, 0.47) 24.11%, rgba(17, 17, 18, 0.47) 75.89%)",
-        "profile-gradient": "linear-gradient(to bottom, #111827, #000000)",
-        "bg-subscription-gradient":
-          "linear-gradient(168.05deg, #1E2128 0%, #000000 100%)",
-        "gradient-header":
-          "linear-gradient(243.18deg, #100F17 0%, #1E2128 100%)",
->>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
       },
       boxShadow: {
         ticket: "0px 4px 4px 0px rgba(0, 0, 0, 0.40)",

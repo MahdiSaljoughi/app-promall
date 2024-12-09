@@ -287,17 +287,6 @@ export default function ProfilePage({ session }) {
   return (
     <>
       <div className="dark:bg-gradiant min-h-screen">
-<<<<<<< HEAD
-=======
-        {/* <div
-          className={
-            (user.first_name === "" || user.last_name === "") && step === 0
-              ? "blur-sm"
-              : ""
-          }
-        ></div> */}
-
->>>>>>> 920b57d7d733d4949c99092b458390ed4130fa69
         {user.first_name === "" || user.last_name === "" ? (
           <>
             {step === 0 ? (
