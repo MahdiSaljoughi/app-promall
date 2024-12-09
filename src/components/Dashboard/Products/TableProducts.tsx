@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   Table,
   TableHeader,
@@ -18,6 +18,7 @@ import {
   ModalFooter,
   ModalHeader,
   Input,
+  Spinner,
 } from "@nextui-org/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -25,10 +26,9 @@ import "swiper/css/pagination";
 import { Autoplay, Navigation } from "swiper/modules";
 import Image from "next/image";
 import { IProduct } from "@/types/interfaces";
+import { useQuery } from "@tanstack/react-query";
 
-export default function TableProducts({ shopsId, session }) {
-  const [products, setProducts] = useState<IProduct[] | null>(null);
-  const [loading, setLoading] = useState(true);
+export default function TableProducts({ shopId, session }) {
   const [productId, setProductId] = useState("");
   // Add Product
   const [productName, setProductName] = useState("");
@@ -37,12 +37,15 @@ export default function TableProducts({ shopsId, session }) {
   const [files, setFiles] = useState<File[]>([]);
   const [fileURLs, setFileURLs] = useState<string[]>([]);
 
-  async function fetchProducts() {
-    setLoading(true);
-
-    try {
-      const response = await fetch(
-        `${process.env.API_URL}/products/shop/${shopsId}`,
+  const {
+    isPending: isPendingProducts,
+    data: dataProducts,
+    refetch: refetchProducts,
+  } = useQuery({
+    queryKey: ["Products"],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.API_URL}/products/shop/${shopId}`,
         {
           method: "GET",
           headers: {
@@ -50,29 +53,10 @@ export default function TableProducts({ shopsId, session }) {
           },
         }
       );
-
-      if (response.ok) {
-        const shopsData = await response.json();
-        setProducts(shopsData.data);
-      } else {
-        console.log("Failed to fetch shop products data:", response.statusText);
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log("Error fetching shop products data:", error);
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  }
-  useEffect(() => {
-    const fetchData = async () => {
-      if (session?.user.access_token && shopsId) {
-        await fetchProducts();
-      }
-    };
-    fetchData();
-  }, [shopsId]);
+      const productsData = await res.json();
+      return productsData.data;
+    },
+  });
 
   // Modals
   // DeleteModal
@@ -83,8 +67,6 @@ export default function TableProducts({ shopsId, session }) {
   };
   const onCloseDeleteModal = () => setIsOpenDeleteModal(false);
   const onDelete = async (id: string) => {
-    setLoading(true);
-
     try {
       const response = await fetch(
         `${process.env.API_URL}/products/${productId}`,
@@ -98,22 +80,13 @@ export default function TableProducts({ shopsId, session }) {
       );
 
       if (response.ok) {
-        setLoading(false);
+        await refetchProducts();
         onCloseDeleteModal();
       } else {
-        console.log(
-          "Failed to fetch delete products data:",
-          response.statusText
-        );
-        setLoading(false);
+        console.log("Failed to fetch delete products data:", response.status);
       }
     } catch (error) {
       console.log("Error fetching delete products data:", error);
-      setLoading(false);
-    } finally {
-      setLoading(false);
-      await fetchProducts();
-      onCloseDeleteModal();
     }
   };
   // AddModal
@@ -139,13 +112,11 @@ export default function TableProducts({ shopsId, session }) {
       return;
     }
 
-    setLoading(true);
-
     const formData = new FormData();
     formData.append("name", productName);
     formData.append("price", productPrice);
     formData.append("availibility", produtcAvailibility);
-    formData.append("shopsId", shopsId);
+    formData.append("shopId", shopId);
     files.forEach((file) => {
       formData.append("files", file);
     });
@@ -166,16 +137,12 @@ export default function TableProducts({ shopsId, session }) {
         setFiles([]);
         setFileURLs([]);
         onCloseAddModal();
-        await fetchProducts();
+        await refetchProducts();
       } else {
         console.log("Failed to create products data:", response.status);
-        setLoading(false);
       }
     } catch (error) {
       console.log("Error fetching create products data:", error);
-      setLoading(false);
-    } finally {
-      setLoading(false);
     }
   };
   // EditModal
@@ -194,13 +161,11 @@ export default function TableProducts({ shopsId, session }) {
     }
   };
   const onEdit = async () => {
-    setLoading(true);
-
     const formData = new FormData();
     formData.append("name", productName);
     formData.append("price", productPrice);
     formData.append("availibility", produtcAvailibility);
-    formData.append("shopsId", shopsId);
+    formData.append("shopId", shopId);
     files.forEach((file) => {
       formData.append("files", file);
     });
@@ -224,16 +189,12 @@ export default function TableProducts({ shopsId, session }) {
         setFiles([]);
         setFileURLs([]);
         onCloseEditModal();
-        await fetchProducts();
+        await refetchProducts();
       } else {
         console.log("Failed to create products data:", response.status);
-        setLoading(false);
       }
     } catch (error) {
       console.log("Error fetching create products data:", error);
-      setLoading(false);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -252,7 +213,7 @@ export default function TableProducts({ shopsId, session }) {
     },
   ];
 
-  const renderCell = React.useCallback((product: any, columnKey: any) => {
+  const renderCell = useCallback((product: any, columnKey: any) => {
     const cellValue = product[columnKey];
 
     switch (columnKey) {
@@ -352,6 +313,22 @@ export default function TableProducts({ shopsId, session }) {
     }
   }, []);
 
+  if (isPendingProducts) {
+    return (
+      <>
+        <div className="flex items-center justify-center fixed inset-0">
+          <Spinner
+            size="lg"
+            color="primary"
+            labelColor="primary"
+            label="در حال بارگذاری..."
+            classNames={{ label: "mt-4" }}
+          />
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <div className="dark:bg-zinc-900 rounded-2xl shadow-lg border dark:border-none">
@@ -376,37 +353,29 @@ export default function TableProducts({ shopsId, session }) {
             </span>
             <span>افزودن محصول</span>
           </Button>
-
-          <p>
-            <span>کل : </span>
-            <span>{products?.length}</span>
-          </p>
+          <p>کل : {dataProducts?.length}</p>
         </div>
 
-        {products && (
-          <>
-            <Table shadow="none" aria-label="Product Table">
-              <TableHeader columns={columns}>
-                {(column) => (
-                  <TableColumn key={column.key}>{column.name}</TableColumn>
+        <Table shadow="none" aria-label="Product Table">
+          <TableHeader columns={columns}>
+            {(column) => (
+              <TableColumn key={column.key}>{column.name}</TableColumn>
+            )}
+          </TableHeader>
+          <TableBody
+            items={dataProducts}
+            emptyContent={"محصولی ندارین"}
+            isLoading={isPendingProducts}
+          >
+            {(item: IProduct) => (
+              <TableRow key={item.id}>
+                {(columnKey) => (
+                  <TableCell>{renderCell(item, columnKey)}</TableCell>
                 )}
-              </TableHeader>
-              <TableBody
-                items={products}
-                emptyContent={"محصولی ندارین"}
-                isLoading={loading}
-              >
-                {(item) => (
-                  <TableRow key={item.id}>
-                    {(columnKey) => (
-                      <TableCell>{renderCell(item, columnKey)}</TableCell>
-                    )}
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </>
-        )}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
 
         {/* Modals */}
         <>
@@ -419,12 +388,7 @@ export default function TableProducts({ shopsId, session }) {
                     مطمعنی که حذف بشه؟
                   </ModalHeader>
                   <ModalFooter>
-                    <Button
-                      fullWidth
-                      color="danger"
-                      variant="light"
-                      onPress={onClose}
-                    >
+                    <Button color="danger" variant="light" onPress={onClose}>
                       خیر
                     </Button>
                     <Button
@@ -480,13 +444,13 @@ export default function TableProducts({ shopsId, session }) {
                           >
                             {fileURLs.map((image: any, index: any) => (
                               <SwiperSlide key={index}>
-                                <div className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-3xl relative">
+                                <div className="bg-zinc-100 dark:bg-zinc-800 p-4 rounded-3xl relative h-60">
                                   <Image
                                     src={image}
                                     width={200}
                                     height={200}
                                     alt="imageProdutc"
-                                    className="w-full"
+                                    className="w-fit h-full mx-auto"
                                   />
                                   <div className="text-pri mary absolute top-8 right-8 bg-primary p-2 rounded-2xl">
                                     <svg
@@ -626,12 +590,7 @@ export default function TableProducts({ shopsId, session }) {
                     </div>
                   </ModalBody>
                   <ModalFooter>
-                    <Button
-                      fullWidth
-                      color="danger"
-                      variant="light"
-                      onPress={onClose}
-                    >
+                    <Button color="danger" variant="light" onPress={onClose}>
                       بستن
                     </Button>
                     <Button fullWidth color="primary" onPress={onAdd}>
@@ -829,12 +788,7 @@ export default function TableProducts({ shopsId, session }) {
                     </div>
                   </ModalBody>
                   <ModalFooter>
-                    <Button
-                      fullWidth
-                      color="danger"
-                      variant="light"
-                      onPress={onClose}
-                    >
+                    <Button color="danger" variant="light" onPress={onClose}>
                       بستن
                     </Button>
                     <Button fullWidth color="primary" onPress={onEdit}>

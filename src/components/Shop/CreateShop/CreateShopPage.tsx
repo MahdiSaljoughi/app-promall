@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Logo from "@/app/logo.png";
 import {
   Button,
   Input,
@@ -377,7 +376,7 @@ export default function CreateShopPage({ session }) {
               className="flex justify-center items-center w-full p y-4 fixed bottom-4 inset-x-0"
             >
               <Image
-                src={Logo}
+                src={"/assets/logo/logo.png"}
                 alt="Logo"
                 width={40}
                 height={40}

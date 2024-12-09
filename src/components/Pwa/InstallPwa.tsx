@@ -11,7 +11,7 @@ interface BeforeInstallPromptEvent extends Event {
   }>;
 }
 
-export default function InistallPwa() {
+export default function InstallPwa() {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
@@ -55,7 +55,7 @@ export default function InistallPwa() {
       {isInstallable && (
         <Button
           onPress={handleInstallClick}
-          className="flex items-center gap-x-2 text-black pulse-animation-inistall-pwa"
+          className="flex items-center gap-x-2 text-black animate-pulse"
           color="primary"
         >
           <span className="text-[16px]">وب اپلیکیشن</span>

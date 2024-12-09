@@ -1,13 +1,13 @@
 import Notif from "@/components/Notification/Notif";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
 
-export default async function Page() {
-  const session = await getServerSession(authOptions);
-
+export default function Page() {
   return (
     <>
-      <Notif session={session} />
+      <div className="min-h-screen">
+        <div className="container mx-auto md:border dark:border-zinc-700 rounded-3xl p-4">
+          <Notif />
+        </div>
+      </div>
     </>
   );
 }

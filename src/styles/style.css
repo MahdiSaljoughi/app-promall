@@ -49,22 +49,6 @@
   }
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.pulse-animation-inistall-pwa {
-  animation: pulse 2s infinite;
-}
-
 .icon-container {
   display: flex;
   align-items: center;

@@ -1,6 +1,15 @@
 "use client";
 
-import { User, Avatar } from "@nextui-org/react";
+import {
+  User,
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownSection,
+  DropdownTrigger,
+} from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -8,6 +17,8 @@ import { FiLogOut } from "react-icons/fi";
 import UserAvatar from "../Avatar/UserAvatar";
 import { useEffect, useState } from "react";
 import type { IUser } from "@/types/interfaces";
+import Icon from "../Notification/Icon";
+import { PlusIcon } from "lucide-react";
 
 export default function DropdownMenuUser({ session }) {
   const [user, setUser] = useState<IUser>();
@@ -46,33 +57,62 @@ export default function DropdownMenuUser({ session }) {
     <>
       {!session?.user.access_token ? (
         <Link href="/auth">
-          <Avatar className="w-8 h-8" />
+          <Avatar className="w-8 h-8 transition-transform" isBordered />
         </Link>
       ) : (
         <>
-          <div className="dropdown dropdown-left dropdown-bottom">
-            <button className="block">
-              <UserAvatar
-                userAcc={session!.user.access_token}
-                size={"w-8 h-8"}
-              />
-            </button>
-
-            <div className="menu dropdown-content bg-base-100 rounded-box p-2 shadow w-fit flex items-start">
-              <div className="pr-2 pt-2">
-                <User
-                  name={user?.first_name}
-                  classNames={{
-                    name: "text-default-600",
-                  }}
-                  avatarProps={{
-                    size: "sm",
-                    src: `${process.env.API_URL}${user?.avatar}`,
-                  }}
+          <Dropdown
+            showArrow
+            classNames={{
+              base: "before:bg-default-200", // change arrow background
+              content: "p-0 border-small border-divider bg-background",
+            }}
+            radius="sm"
+          >
+            <DropdownTrigger>
+              <button className="block">
+                <UserAvatar
+                  userAcc={session!.user.access_token}
+                  size={"w-8 h-8"}
                 />
-              </div>
-              <ul className="min-w-40">
-                <li>
+              </button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Custom item styles"
+              className="p-3"
+              disabledKeys={["profile"]}
+              itemClasses={{
+                base: [
+                  "rounded-md",
+                  "text-default-500",
+                  "transition-opacity",
+                  "data-[hover=true]:text-foreground",
+                  "data-[hover=true]:bg-default-100",
+                  "dark:data-[hover=true]:bg-default-50",
+                  "data-[selectable=true]:focus:bg-default-50",
+                  "data-[pressed=true]:opacity-70",
+                  "data-[focus-visible=true]:ring-default-500",
+                ],
+              }}
+            >
+              <DropdownSection showDivider aria-label="Profile & Actions">
+                <DropdownItem
+                  key="profile"
+                  isReadOnly
+                  className="h-14 gap-2 opacity-100"
+                >
+                  <User
+                    name={user?.first_name}
+                    classNames={{
+                      name: "text-default-600",
+                    }}
+                    avatarProps={{
+                      size: "sm",
+                      src: `${process.env.API_URL}${user?.avatar}`,
+                    }}
+                  />
+                </DropdownItem>
+                <DropdownItem key="profileLink">
                   <Link href={"/profile"}>
                     <motion.span
                       initial={{ opacity: 0, x: -10 }}
@@ -101,8 +141,8 @@ export default function DropdownMenuUser({ session }) {
                       پروفایل
                     </motion.span>
                   </Link>
-                </li>
-                <li>
+                </DropdownItem>
+                <DropdownItem key="dashboard">
                   <Link href={"/dashboard"}>
                     <motion.span
                       initial={{ opacity: 0, x: -10 }}
@@ -129,8 +169,8 @@ export default function DropdownMenuUser({ session }) {
                       داشبورد
                     </motion.span>
                   </Link>
-                </li>
-                <li>
+                </DropdownItem>
+                <DropdownItem key="notification">
                   <Link href={"/profile/notification"}>
                     <motion.span
                       initial={{ opacity: 0, x: -10 }}
@@ -143,38 +183,34 @@ export default function DropdownMenuUser({ session }) {
                       }}
                       className="flex items-center gap-x-1 text-base"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="1.2em"
-                        height="1.2em"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M12 6.5c-2.49 0-4 2.02-4 4.5v6h8v-6c0-2.48-1.51-4.5-4-4.5"
-                          opacity="0.3"
-                        />
-                        <path
-                          fill="currentColor"
-                          d="M18 16v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5zm-4 5c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2"
-                        />
-                      </svg>
-                      اعلان ها
+                      <Icon size={"1.2em"} />
+                      پیام‌ها
                     </motion.span>
                   </Link>
-                </li>
-                <li>
-                  <button
+                </DropdownItem>
+              </DropdownSection>
+
+              <DropdownSection aria-label="Log Out">
+                <DropdownItem key="logout">
+                  <motion.button
                     onClick={handleLogout}
-                    className="flex items-center text-rose-500 text-base"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{
+                      duration: 0.4,
+                      ease: "easeOut",
+                      delay: 0.2,
+                    }}
+                    className="flex items-center gap-x-1 text-rose-500 text-base w-full"
                   >
                     <FiLogOut />
-                    خروج
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
+                    <span>خروج</span>
+                  </motion.button>
+                </DropdownItem>
+              </DropdownSection>
+            </DropdownMenu>
+          </Dropdown>
         </>
       )}
     </>

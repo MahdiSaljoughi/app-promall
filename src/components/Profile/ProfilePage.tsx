@@ -2,33 +2,14 @@
 
 import { Button, Input, Spinner } from "@nextui-org/react";
 import { useEffect, useRef, useState } from "react";
-import { HiOutlineSupport, HiSupport } from "react-icons/hi";
-import {
-  MdOutlineSpaceDashboard,
-  MdSpaceDashboard,
-  MdViewCarousel,
-} from "react-icons/md";
-import { PiCat, PiCatFill } from "react-icons/pi";
-import { TbPaint, TbPaintFilled } from "react-icons/tb";
 import Image from "next/image";
-import Header from "./Header/Header";
 import Orderinfo from "./RegistredOrders/Orderinfo";
-import Footer from "../Footer/Footer";
-import HamburgerMenu from "./HamburgerMenu/HamburgerMenu";
 import { IUser } from "@/types/interfaces";
 
-interface MenuItemType {
-  label: string;
-  icon: React.ReactNode;
-  activeIcon: React.ReactNode;
-  path: string;
-}
 
 export default function ProfilePage({ session }) {
-  const [user, setUser] = useState<IUser>();
+  const [user, setUser] = useState<IUser | null>(null);
   const [step, setStep] = useState(0);
-  const [isOpenHeader, setOpenHeader] = useState(false);
-  const [activeItem, setActiveItem] = useState("داشبورد");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -71,7 +52,7 @@ export default function ProfilePage({ session }) {
             size="lg"
             color="primary"
             labelColor="primary"
-            label="در حال بارگذاری..."
+            label="در حال برسی..."
             classNames={{ label: "mt-4" }}
           />
         </div>
@@ -116,39 +97,6 @@ export default function ProfilePage({ session }) {
       console.error("Error updating user:", error);
     }
   };
-
-  const menuItems: MenuItemType[] = [
-    {
-      label: "پروفایل",
-      icon: <MdOutlineSpaceDashboard size={28} />,
-      activeIcon: <MdSpaceDashboard size={28} />,
-      path: "/profile",
-    },
-    {
-      label: "سفارشات ثبت شده",
-      icon: <TbPaint size={28} />,
-      activeIcon: <TbPaintFilled size={28} />,
-      path: "/profile/registred-orders",
-    },
-    {
-      label: "اشتراک",
-      icon: <PiCat size={28} />,
-      activeIcon: <PiCatFill size={28} />,
-      path: "/profile/subscription",
-    },
-    {
-      label: "ایجاد فروشگاه",
-      icon: <MdViewCarousel size={28} />,
-      activeIcon: <MdViewCarousel size={28} />,
-      path: "/create-shop",
-    },
-    {
-      label: "پشتیبانی",
-      icon: <HiOutlineSupport size={28} />,
-      activeIcon: <HiSupport size={28} />,
-      path: "/profile/tickets",
-    },
-  ];
 
   // Utility to convert English numbers to Persian numbers
   const toPersianNumber = (num: string) => {
@@ -339,21 +287,6 @@ export default function ProfilePage({ session }) {
   return (
     <>
       <div className="dark:bg-gradiant min-h-screen">
-        <div
-          className={
-            (user.first_name === "" || user.last_name === "") && step === 0
-              ? "blur-sm"
-              : ""
-          }
-        >
-          <Header
-            isOpen={isOpenHeader}
-            setOpen={setOpenHeader}
-            user={user}
-            session={session}
-          />
-        </div>
-
         {user.first_name === "" || user.last_name === "" ? (
           <>
             {step === 0 ? (
@@ -401,15 +334,6 @@ export default function ProfilePage({ session }) {
         ) : (
           <>{renderUserInfo()}</>
         )}
-
-        <Footer />
-
-        <HamburgerMenu
-          isOpen={isOpenHeader}
-          menuItems={menuItems}
-          activeItem={activeItem}
-          setActiveItem={setActiveItem}
-        />
       </div>
     </>
   );

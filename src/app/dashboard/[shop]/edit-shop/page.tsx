@@ -1,15 +1,14 @@
-import React from "react";
-import Products from "@/components/Dashboard/Products/Products";
+import EditShop from "@/components/Dashboard/EditShop/EditShop";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
 export default async function Page({ params }) {
-  const { shopid } = params;
   const session = await getServerSession(authOptions);
+  const { shop } = await params;
 
   return (
     <>
-      <Products shopId={shopid} session={session} />
+      <EditShop shopId={shop} session={session} />
     </>
   );
 }

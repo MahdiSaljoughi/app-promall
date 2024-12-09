@@ -1,4 +1,4 @@
-import UseShop from "@/components/Dashboard/UseShop/UseShop";
+import SelectorShop from "@/components/Dashboard/SelectorShop/SelectorShop";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 
@@ -7,7 +7,7 @@ export default async function Page() {
   
   return (
     <>
-      <UseShop session={session} />
+      <SelectorShop session={session} />
     </>
   );
 }

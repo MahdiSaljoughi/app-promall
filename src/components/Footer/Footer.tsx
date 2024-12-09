@@ -24,7 +24,7 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="pt-24">
+      <footer className="pt-24" dir="ltr">
         {/* @ts-expect-error */}
         <RelativeMenu activeIcon={activeIcon} onIconClick={handleIconClick} />
         <div className="fixed bottom-0 bg-gradient-to-t from-sky-500/20 dark:from-black/90 to-transparent h-20 inset-x-0" />

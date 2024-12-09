@@ -14,7 +14,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { MdAttachFile } from "react-icons/md";
 import { BiSend } from "react-icons/bi";
 import moment from "moment-jalaali";
-import UserAvatar from "@/components/Avatar/UserAvatar";
 
 interface Ticket {
   id: string;
@@ -35,7 +34,7 @@ export default function TicketsComponents({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(false);
-  const [tikets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [file, setFile] = useState<File | string>("");
   const [text, setText] = useState("");
   const modalBodyRef =
@@ -157,7 +156,7 @@ export default function TicketsComponents({
     <>
       <div
         onClick={onOpen}
-        className="bg-order-gradient p-4 flex flex-col rounded-2xl shadow-ticket mx-4 cursor-pointer gap-y-4"
+        className="p-4 flex flex-col rounded-2xl shadow-ticket mx-4 cursor-pointer gap-y-4"
       >
         <div className="flex justify-center items-center font-medium text-lg gap-1">
           <p>موضوع:</p>
@@ -222,9 +221,8 @@ export default function TicketsComponents({
         size={"full"}
         isOpen={isOpen}
         onClose={onClose}
-        className="bg-dashboard-gradient"
         classNames={{
-          closeButton: "text-3xl pl-4 pt-4",
+          closeButton: "text-3xl ml-2 mt-2",
         }}
         scrollBehavior="inside"
       >
@@ -243,98 +241,81 @@ export default function TicketsComponents({
           </ModalHeader>
           {/* @ts-expect-error */}
           <ModalBody ref={modalBodyRef} className="px-4">
-            <div className="relative">
-              <div className="flex flex-col gap-y-4">
-                <div className="chat chat-start">
-                  <div className="chat-image avatar">
-                    <UserAvatar
-                      userAcc={session?.user.access_token}
-                      size={"w-10 h-10"}
-                    />
-                  </div>
-                  <div className="chat-bubble bg-primary text-zinc-700 flex items-center justify-center">
-                    <p className="break-words overflow-hidden">{title}</p>
-                  </div>
-                  <div className="chat-footer flex items-center gap-x-1 opacity-60 mt-0.5">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="1.4em"
-                      height="1.4em"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                        d="m4 12.9l3.143 3.6L15 7.5m5 .063l-8.572 9L11 16"
-                      />
-                    </svg>
-                    <time className="text-sm">{hour}</time>
+            <div>
+              <div className="flex flex-col gap-y-8">
+                <div className="flex items-center justify-start">
+                  <div>
+                    <div className="p-4 rounded-2xl bg-primary text-black rounded-br-none">
+                      <p>{title}</p>
+                    </div>
+                    <div className="flex items-center gap-x-1 opacity-60">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="1.4em"
+                        height="1.4em"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="1.5"
+                          d="m4 12.9l3.143 3.6L15 7.5m5 .063l-8.572 9L11 16"
+                        />
+                      </svg>
+                      <time className="text-sm">{hour}</time>
+                    </div>
                   </div>
                 </div>
 
-                {tikets.map((ticket) => (
-                  <div key={ticket.id}>
-                    {ticket.messageSide === 1 ? (
-                      <>
-                        <div className="chat chat-start">
-                          <div className="chat-image avatar">
-                            <UserAvatar
-                              userAcc={session?.user.access_token}
-                              size={"w-10 h-10"}
-                            />
-                          </div>
-                          <div className="chat-bubble bg-primary text-zinc-700 flex items-center justify-center">
-                            <p className="break-words overflow-hidden">
-                              {ticket.text}
-                            </p>
-                          </div>
-                          <div className="chat-footer flex items-center gap-x-1 opacity-60 mt-0.5">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="1.4em"
-                              height="1.4em"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                fill="none"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="1.5"
-                                d="m4 12.9l3.143 3.6L15 7.5m5 .063l-8.572 9L11 16"
-                              />
-                            </svg>
-                            <time className="text-sm">
-                              {formatJalaliHour(ticket.createdAtJalali)}
-                            </time>
-                          </div>
-                        </div>
-                        {ticket.attachmentFile && (
-                          <>
-                            <FileBox File={ticket.attachmentFile} />
-                          </>
-                        )}
-                      </>
-                    ) : (
-                      <div className="chat chat-end">
-                        <div className="chat-image avatar">
-                          <UserAvatar userAcc={""} size={"w-10 h-10"} />
-                        </div>
-                        <div className="chat-bubble flex items-center justify-center">
-                          <p className="break-words overflow-hidden">
-                            {ticket.text}
-                          </p>
-                        </div>
-                        <div className="chat-footer opacity-60 mt-0.5">
-                          <time className="text-sm">
-                            {formatJalaliHour(ticket.createdAtJalali)}
-                          </time>
-                        </div>
+                {tickets.map((ticket) => (
+                  <div
+                    key={ticket.id}
+                    className={`flex items-center ${
+                      ticket.messageSide === 0 ? "justify-end" : "justify-start"
+                    }`}
+                  >
+                    <div>
+                      <div
+                        className={`p-4 rounded-2xl ${
+                          ticket.messageSide === 0
+                            ? "bg-slate-700 rounded-bl-none"
+                            : "bg-primary text-black rounded-br-none"
+                        }`}
+                      >
+                        <p>{ticket.text}</p>
                       </div>
-                    )}
+                      <div
+                        className={`flex items-center ${
+                          ticket.messageSide === 0 ? "justify-end" : ""
+                        } gap-x-1 opacity-60`}
+                      >
+                        {ticket.messageSide !== 0 && (
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="1.4em"
+                            height="1.4em"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="none"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                              d="m4 12.9l3.143 3.6L15 7.5m5 .063l-8.572 9L11 16"
+                            />
+                          </svg>
+                        )}
+                        <time className="text-sm">
+                          {formatJalaliHour(ticket.createdAtJalali)}
+                        </time>
+                      </div>
+                      {ticket.attachmentFile && (
+                        <FileBox File={ticket.attachmentFile} />
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -353,7 +334,7 @@ export default function TicketsComponents({
                       onChange={(e) => setText(e.target.value)}
                       value={text}
                       placeholder="اینجا تایپ کنید..."
-                      className="p-1 mx-1 bg-transparent text-[18px] w-full placeholder:text-zinc-500 font-yekanbakh focus:outline-none"
+                      className="p-1 mx-1 bg-transparent text-[18px] w-full placeholder:text-zinc-500 focus:outline-none"
                     />
 
                     <div className="text-zinc-500">

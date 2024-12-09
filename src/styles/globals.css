@@ -3,12 +3,6 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "yekan-bakh-vf";
-  src: url("../../public/assets/fonts/YekanBakh-VF.ttf");
-  font-weight: 300;
-}
-
-@font-face {
   font-family: "yekan-bakh-fa";
   src: url("../../public/assets/fonts/YekanBakhFaNum-Regular.ttf");
   font-weight: 100;
@@ -16,7 +10,7 @@
 
 body {
   overflow-x: hidden;
-  font-family: yekan-bakh-vf, yekan-bakh-fa;
+  font-family: yekan-bakh-fa;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;

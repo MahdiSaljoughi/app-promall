@@ -135,33 +135,90 @@ export default function AuthPage() {
       });
 
       if (signInData?.error) {
-        toast.error("لطفا کد را به درستی وارد کنید", {
-          style: {
-            borderRadius: "10px",
-            background: "#333",
-            color: "#fff",
-            fontSize: "12px",
-          },
-        });
+        toast.custom((t) => (
+          <div
+            className={`flex items-center gap-x-3 justify-center bg-white dark:bg-black/80 backdrop-blur-sm font-semibold text-sm text-zinc-700 dark:text-zinc-200 py-4 px-8 shadow-md rounded-full ${
+              t.visible ? "animate-enter" : "animate-leave"
+            }`}
+          >
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="2em"
+                height="2em"
+                viewBox="0 0 24 24"
+                className="text-rose-500"
+              >
+                <path
+                  fill="currentColor"
+                  d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
+                  opacity={0.5}
+                ></path>
+                <path
+                  fill="currentColor"
+                  d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06"
+                ></path>
+              </svg>
+            </span>
+            <span>لطفا کد را به درستی وارد کنید</span>
+          </div>
+        ));
+      } else {
+        toast.custom((t) => (
+          <div
+            className={`flex items-center gap-x-3 justify-center bg-white dark:bg-black/80 backdrop-blur-sm font-semibold text-sm text-zinc-700 dark:text-zinc-200 py-4 px-8 shadow-md rounded-full ${
+              t.visible ? "animate-enter" : "animate-leave"
+            }`}
+          >
+            <span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="2em"
+                height="2em"
+                viewBox="0 0 24 24"
+                className="text-green-500"
+              >
+                <path
+                  fill="currentColor"
+                  d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
+                  opacity={0.5}
+                ></path>
+                <path
+                  fill="currentColor"
+                  d="M16.03 8.97a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 1 1 1.06-1.06l1.47 1.47l2.235-2.235L14.97 8.97a.75.75 0 0 1 1.06 0"
+                ></path>
+              </svg>
+            </span>
+            <span>باموفقیت وارد شدید</span>
+          </div>
+        ));
+
+        router.push("/profile");
+
+        // toast.custom((t) => (
+        //   <div
+        //     className={`flex items-center gap-x-3 justify-center bg-white dark:bg-black/80 backdrop-blur-sm font-semibold text-sm text-zinc-700 dark:text-zinc-200 py-4 px-8 shadow-md rounded-full ${
+        //       t.visible ? "animate-enter" : "animate-leave"
+        //     }`}
+        //   >
+        //     <div>
+        //       <Image
+        //         src={"/assets/logo/logo.png"}
+        //         alt="لوگو پرومال"
+        //         className="w-7"
+        //         width={1000}
+        //         height={1000}
+        //       />
+        //     </div>
+        //     <span>به پرومال خوش اومدی</span>
+        //   </div>
+        // ));
       }
     } catch (error) {
       setErrorMessage("با مشکل برخوردیم");
       setOtpLoading(false);
     } finally {
       setOtpLoading(false);
-
-      toast.success("باموفقیت وارد شدید", {
-        position: "top-center",
-        style: {
-          borderRadius: "16px",
-          background: "linear-gradient(243.18deg, #100F17 0%, #1E2128 100%)",
-          color: "#fff",
-          fontSize: "14px",
-          maxWidth: "300px",
-        },
-      });
-
-      router.push("/profile");
     }
   };
 

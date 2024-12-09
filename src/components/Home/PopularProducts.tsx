@@ -99,7 +99,7 @@ export default function PopularProducts() {
       <div className="mx-4 md:mx-0">
         <div className="flex justify-between mb-4 cursor-default">
           <span>پررر طرفدارر</span>
-          <Link href={"/shop"} className="flex items-center font-bold">
+          <Link href={"/shops"} className="flex items-center font-bold">
             <span className="text-sm">همش</span>
             <ChevronLeft size={20} strokeWidth={1.75} />
           </Link>

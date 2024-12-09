@@ -13,20 +13,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import Header from "../Header/Header";
-import Footer from "@/components/Footer/Footer";
-import HamburgerMenu from "../HamburgerMenu/HamburgerMenu";
-import { HiOutlineSupport, HiSupport } from "react-icons/hi";
-import {
-  MdOutlineSpaceDashboard,
-  MdSpaceDashboard,
-  MdViewCarousel,
-} from "react-icons/md";
-import { PiCat, PiCatFill } from "react-icons/pi";
-import { TbPaint, TbPaintFilled } from "react-icons/tb";
-import { motion } from "framer-motion";
 import TicketsComponents from "./TicketsComponents";
-import { useSession } from "next-auth/react";
 import moment from "moment-jalaali";
 
 interface Ticket {
@@ -37,21 +24,12 @@ interface Ticket {
   createdAtJalali?: any;
 }
 
-interface MenuItemType {
-  label: string;
-  icon: React.ReactNode;
-  activeIcon: React.ReactNode;
-  path: string;
-}
-
 export default function Tickets({ user, session }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(false);
   const [tikets, setTickets] = useState<Ticket[]>([]);
   const [ticketSubject, setTicketSubject] = useState("");
   const [tickeTtitle, setTickeTtitle] = useState("");
-  const [isOpenMenu, setOpenMenu] = useState(false);
-  const [activeItem, setActiveItem] = useState("داشبورد");
 
   // Get Tikets
   const fetchTickets = async () => {
@@ -125,8 +103,6 @@ export default function Tickets({ user, session }) {
         );
       }
 
-      // const result = await response.json();
-      // console.log("Ticket created:", result);
       setTickeTtitle("");
       setTicketSubject("");
 
@@ -137,39 +113,6 @@ export default function Tickets({ user, session }) {
       console.error("Error:", error);
     }
   };
-
-  const menuItems: MenuItemType[] = [
-    {
-      label: "پروفایل",
-      icon: <MdOutlineSpaceDashboard size={28} />,
-      activeIcon: <MdSpaceDashboard size={28} />,
-      path: "/profile",
-    },
-    {
-      label: "سفارشات ثبت شده",
-      icon: <TbPaint size={28} />,
-      activeIcon: <TbPaintFilled size={28} />,
-      path: "/profile/registredOrders",
-    },
-    {
-      label: "اشتراک",
-      icon: <PiCat size={28} />,
-      activeIcon: <PiCatFill size={28} />,
-      path: "/profile/subscription",
-    },
-    {
-      label: "ایجاد فروشگاه",
-      icon: <MdViewCarousel size={28} />,
-      activeIcon: <MdViewCarousel size={28} />,
-      path: "/create-shop",
-    },
-    {
-      label: "پشتیبانی",
-      icon: <HiOutlineSupport size={28} />,
-      activeIcon: <HiSupport size={28} />,
-      path: "/profile/tickets",
-    },
-  ];
 
   // Jalali
   moment.loadPersian();
@@ -184,19 +127,12 @@ export default function Tickets({ user, session }) {
 
   return (
     <>
-      <motion.div className="bg-dashboard-gradient min-h-screen">
-        <Header
-          isOpen={isOpenMenu}
-          setOpen={setOpenMenu}
-          user={user}
-          session={session}
-        />
-
-        <motion.div className="flex flex-col justify-center gap-8">
-          <motion.p className="text-xl text-center">تیکت ها</motion.p>
-          <motion.div className="tickets gap-4 flex flex-col">
+      <div className="min-h-screen">
+        <div className="flex flex-col justify-center gap-8">
+          <p className="text-xl text-center">تیکت ها</p>
+          <div className="tickets gap-4 flex flex-col">
             {tikets?.map((ticket) => (
-              <motion.div key={ticket.id}>
+              <div key={ticket.id}>
                 <TicketsComponents
                   session={session}
                   groupId={ticket.id}
@@ -206,19 +142,19 @@ export default function Tickets({ user, session }) {
                   date={formatJalaliDate(ticket.createdAtJalali)}
                   hour={formatJalaliHour(ticket.createdAtJalali)}
                 />
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        <motion.div className="mt-20">
+        <div className="mt-20">
           <Button
             onPress={onOpen}
             className="fixed bg-[#AED4FC] text-[#000000] bottom-24 inset-x-0 flex justify-center items-center text-center py-3 mx-5 rounded-full z-40"
           >
-            <motion.span className="text-center">تیکت جدید</motion.span>
+            <span className="text-center">تیکت جدید</span>
           </Button>
-        </motion.div>
+        </div>
         <Modal
           isOpen={isOpen}
           onClose={onClose}
@@ -263,12 +199,7 @@ export default function Tickets({ user, session }) {
                   />
                 </ModalBody>
                 <ModalFooter>
-                  <Button
-                    color="danger"
-                    variant="light"
-                    onPress={onClose}
-                    fullWidth
-                  >
+                  <Button color="danger" variant="light" onPress={onClose}>
                     بستن
                   </Button>
                   <Button color="primary" onPress={createTickets} fullWidth>
@@ -279,16 +210,7 @@ export default function Tickets({ user, session }) {
             )}
           </ModalContent>
         </Modal>
-
-        <Footer />
-
-        <HamburgerMenu
-          isOpen={isOpenMenu}
-          menuItems={menuItems}
-          activeItem={activeItem}
-          setActiveItem={setActiveItem}
-        />
-      </motion.div>
+      </div>
     </>
   );
 }

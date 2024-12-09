@@ -19,7 +19,7 @@ export default function OrderComplete() {
   return (
     <>
       {/* Main Container */}
-      <div className="flex flex-col h-screen text-white">
+      <div className="flex flex-col min-h-screen text-white">
         <OrderStepper />
         <div className="flex flex-col items-center justify-center px-5 mt-5">
           {/* Large Checkmark Icon */}

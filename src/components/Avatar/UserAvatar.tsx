@@ -39,7 +39,7 @@ export default function UserAvatar({ userAcc, size }) {
 
   return (
     <>
-      <Avatar src={userImage || defaultImage} className={size} />
+      <Avatar src={userImage || defaultImage} className={size} isBordered />
     </>
   );
 }
