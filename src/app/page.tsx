@@ -1,10 +1,10 @@
 import PopularRow from "@/components/PopularRow/PopularRow";
-import HeadBanner from "@/components/HeadBanner/HeadBanner";
 import PopularProducts from "@/components/Home/PopularProducts";
-import StoryBar from "@/components/StoryBar/StoryBar";
+import StoryBar from "@/components/Home/StoryBar/StoryBar";
 import type { Metadata } from "next";
-import MainLayout from "@/components/Layouts/MainLayout";
 import InstallPwa from "@/components/Pwa/InstallPwa";
+import HeadPoster from "@/components/Home/Posters/HeadPoster";
+import MainLayout from "@/components/Main/Layout/MainLayout";
 
 export const metadata: Metadata = {
   title: "پرومال",
@@ -38,14 +38,12 @@ export default function Home() {
   return (
     <>
       <MainLayout>
-        <div className="md:container md:mx-auto flex flex-col gap-y-8 py-8">
-          <HeadBanner />
+        <div className="flex flex-col gap-y-10">
+          <HeadPoster />
 
           <StoryBar />
 
-          <div className="flex items-center justify-center">
-            <InstallPwa />
-          </div>
+          <InstallPwa />
 
           <PopularProducts />
 

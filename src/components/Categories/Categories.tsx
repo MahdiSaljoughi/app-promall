@@ -25,16 +25,15 @@ export default function Categories() {
 
   return (
     <>
-      <div className="min-h-screen md:container md:mx-auto">
-        <h1 className="text-2xl font-bold text-center my-10">
-          بریم استایل کنیم ؟
-        </h1>
-
-        <SearchBar
-          placeholders={placeholders}
-          onChange={handleChange}
-          onSubmit={onSubmit}
-        />
+      <div className="flex flex-col gap-y-8">
+        <div className="flex flex-col gap-y-4">
+          <h1 className="text-2xl font-bold text-center">بریم استایل کنیم ؟</h1>
+          <SearchBar
+            placeholders={placeholders}
+            onChange={handleChange}
+            onSubmit={onSubmit}
+          />
+        </div>
 
         <CategoriesSection categories={categories} />
       </div>

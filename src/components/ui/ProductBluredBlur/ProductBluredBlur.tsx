@@ -12,7 +12,7 @@ export default function ProductBluredBlur({
     <>
       <Link
         // href={`/shops/${shopId}/products/${product.id}`}
-        href={"/shops/28/product/1"}
+        href={"/shops/28/product/24"}
         className="flex flex-col items-center justify-center hover:scale-105 bg-gradient-to-br bg-sky-100/50 dark:from-[#202426] dark:to-[#000000] rounded-3xl transition-transform duration-500 ease-out dark:hover:shadow-xl"
       >
         <div className="p-3">

@@ -95,29 +95,38 @@ export default function PopularProducts() {
   ];
 
   return (
-    <>
-      <div className="mx-4 md:mx-0">
-        <div className="flex justify-between mb-4 cursor-default">
-          <span>پررر طرفدارر</span>
-          <Link href={"/shops"} className="flex items-center font-bold">
-            <span className="text-sm">همش</span>
-            <ChevronLeft size={20} strokeWidth={1.75} />
-          </Link>
-        </div>
-
-        <div className="overflow-x-auto flex items-center gap-2 no-scrollbar">
-          {items.map((item) => (
-            <div className="mx-1 my-2" key={item.id}>
-              <ProductBluredBlur
-                imageSrc={item.imageSrc}
-                title={item.title}
-                price={item.price}
-                describe={"test"}
-              />
-            </div>
-          ))}
-        </div>
+    <div className="flex flex-col gap-y-4">
+      <div className="flex justify-between cursor-default">
+        <span>پررر طرفدارر</span>
+        <Link href={"/shops"} className="flex items-center">
+          <span>همه</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            viewBox="0 0 24 24"
+            className="mb-0.5"
+          >
+            <path
+              fill="currentColor"
+              d="m8.165 11.63l6.63-6.43C15.21 4.799 16 5.042 16 5.57v12.86c0 .528-.79.771-1.205.37l-6.63-6.43a.5.5 0 0 1 0-.74"
+            ></path>
+          </svg>
+        </Link>
       </div>
-    </>
+
+      <div className="overflow-x-auto flex items-center gap-2 no-scrollbar">
+        {items.map((item) => (
+          <div className="mx-1 my-2" key={item.id}>
+            <ProductBluredBlur
+              imageSrc={item.imageSrc}
+              title={item.title}
+              price={item.price}
+              describe={"test"}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

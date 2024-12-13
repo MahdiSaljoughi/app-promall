@@ -3,22 +3,21 @@
 import {
   User,
   Avatar,
-  Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownSection,
   DropdownTrigger,
+  Button,
 } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { FiLogOut } from "react-icons/fi";
-import UserAvatar from "../Avatar/UserAvatar";
+import UserAvatar from "../../Avatar/UserAvatar";
 import { useEffect, useState } from "react";
 import type { IUser } from "@/types/interfaces";
-import Icon from "../Notification/Icon";
-import { PlusIcon } from "lucide-react";
+import Icon from "../../Notification/Icon";
 
 export default function DropdownMenuUser({ session }) {
   const [user, setUser] = useState<IUser>();
@@ -51,6 +50,7 @@ export default function DropdownMenuUser({ session }) {
 
   const handleLogout = () => {
     signOut();
+    console.log("out");
   };
 
   return (
@@ -64,8 +64,8 @@ export default function DropdownMenuUser({ session }) {
           <Dropdown
             showArrow
             classNames={{
-              base: "before:bg-default-200", // change arrow background
-              content: "p-0 border-small border-divider bg-background",
+              base: "before:bg-default-200",
+              content: "p-0 bg-background",
             }}
             radius="sm"
           >
@@ -79,7 +79,7 @@ export default function DropdownMenuUser({ session }) {
             </DropdownTrigger>
             <DropdownMenu
               aria-label="Custom item styles"
-              className="p-3"
+              className="p-2"
               disabledKeys={["profile"]}
               itemClasses={{
                 base: [
@@ -96,11 +96,7 @@ export default function DropdownMenuUser({ session }) {
               }}
             >
               <DropdownSection showDivider aria-label="Profile & Actions">
-                <DropdownItem
-                  key="profile"
-                  isReadOnly
-                  className="h-14 gap-2 opacity-100"
-                >
+                <DropdownItem key="profile" isReadOnly className="opacity-100">
                   <User
                     name={user?.first_name}
                     classNames={{
@@ -112,7 +108,7 @@ export default function DropdownMenuUser({ session }) {
                     }}
                   />
                 </DropdownItem>
-                <DropdownItem key="profileLink">
+                <DropdownItem key="profileLink" className="py-3 rounded-xl">
                   <Link href={"/profile"}>
                     <motion.span
                       initial={{ opacity: 0, x: -10 }}
@@ -142,7 +138,7 @@ export default function DropdownMenuUser({ session }) {
                     </motion.span>
                   </Link>
                 </DropdownItem>
-                <DropdownItem key="dashboard">
+                <DropdownItem key="dashboard" className="py-3 rounded-xl">
                   <Link href={"/dashboard"}>
                     <motion.span
                       initial={{ opacity: 0, x: -10 }}
@@ -170,7 +166,7 @@ export default function DropdownMenuUser({ session }) {
                     </motion.span>
                   </Link>
                 </DropdownItem>
-                <DropdownItem key="notification">
+                <DropdownItem key="notification" className="py-3 rounded-xl">
                   <Link href={"/profile/notification"}>
                     <motion.span
                       initial={{ opacity: 0, x: -10 }}
@@ -191,22 +187,14 @@ export default function DropdownMenuUser({ session }) {
               </DropdownSection>
 
               <DropdownSection aria-label="Log Out">
-                <DropdownItem key="logout">
-                  <motion.button
+                <DropdownItem key="logout" className="py-3 rounded-xl">
+                  <button
                     onClick={handleLogout}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
-                    transition={{
-                      duration: 0.4,
-                      ease: "easeOut",
-                      delay: 0.2,
-                    }}
                     className="flex items-center gap-x-1 text-rose-500 text-base w-full"
                   >
                     <FiLogOut />
                     <span>خروج</span>
-                  </motion.button>
+                  </button>
                 </DropdownItem>
               </DropdownSection>
             </DropdownMenu>

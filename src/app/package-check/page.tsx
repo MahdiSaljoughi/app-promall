@@ -1,4 +1,3 @@
-import MainLayout from "@/components/Layouts/MainLayout";
 import SliderNumber from "@/components/ui/image-autoscroll/slider-num";
 import { StaticImageData } from "next/image";
 import lv from "../../../public/assets/balenciaga.png";
@@ -9,8 +8,8 @@ import gucci from "../../../public/assets/package-slider/gucci.png";
 import ivsnt from "../../../public/assets/package-slider/ivs.png";
 import lvnew from "../../../public/assets/package-slider/lvnew.png";
 import nikedontstop from "../../../public/assets/package-slider/nikeair.png";
-import Search from "@/components/Home/Search";
 import Modal from "@/components/PackageCheck/Modal";
+import MainLayout from "@/components/Main/Layout/MainLayout";
 
 interface Item {
   imageSrc: StaticImageData;
@@ -43,21 +42,17 @@ export default function Page() {
   return (
     <>
       <MainLayout>
-        <div className="md:container md:mx-auto">
-          <div>
-            <div className="fixed -top-28 -bottom-28 w-full flex flex-col gap-3">
-              {sliderItems.map((sliderItem, index) => (
-                <SliderNumber
-                  key={index}
-                  items={sliderItem}
-                  animateRight={index % 2 !== 0}
-                />
-              ))}
-            </div>
-            <div className="fixed inset-0 dark:bg-black/70 bg-sky-300/20" />
-            <Modal />
-          </div>
+        <div className="fixed -top-28 -bottom-28 w-full flex flex-col gap-3">
+          {sliderItems.map((sliderItem, index) => (
+            <SliderNumber
+              key={index}
+              items={sliderItem}
+              animateRight={index % 2 !== 0}
+            />
+          ))}
         </div>
+        <div className="fixed inset-0 dark:bg-black/70 bg-sky-500/10" />
+        <Modal />
       </MainLayout>
     </>
   );

@@ -4,7 +4,7 @@ import { Button } from "@nextui-org/react";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function ShopHeader() {
+export default function ShopHeaderProduct() {
   const router = useRouter();
 
   return (
@@ -74,7 +74,6 @@ export default function ShopHeader() {
                 ></path>
               </svg>
             </Button>
-            <Button color="primary">دنبال کردن</Button>
           </div>
 
           <Button onPress={() => router.back()} variant="light" isIconOnly>

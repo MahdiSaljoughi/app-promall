@@ -4,13 +4,22 @@ import { Button, Input, Spacer } from "@nextui-org/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
 import { signIn } from "next-auth/react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaSpinner } from "react-icons/fa";
 import { OtpInput } from "reactjs-otp-input";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Autoplay, Navigation } from "swiper/modules";
+import Logo from "../Main/Logo/Logo";
+
+interface IPoster {
+  id: number;
+  src: string;
+}
 
 export default function AuthPage() {
   const router = useRouter();
@@ -24,12 +33,16 @@ export default function AuthPage() {
   const [otpLoading, setOtpLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [currentBanner, setCurrentBanner] = useState(0);
 
-  // Array of banner images
-  const bannerImages = [
-    "/assets/backgrounds/createshop2.png",
-    "/assets/backgrounds/createshop1.png",
+  const posters: IPoster[] = [
+    {
+      id: 0,
+      src: "/assets/backgrounds/createshop2.png",
+    },
+    {
+      id: 1,
+      src: "/assets/backgrounds/createshop1.png",
+    },
   ];
 
   // Utility to convert English numbers to Persian numbers
@@ -40,28 +53,19 @@ export default function AuthPage() {
   const toEnglishNumber = (num: string) =>
     num.replace(/[۰-۹]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 1728));
 
-  // Change banner every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentBanner((prev) => (prev + 1) % bannerImages.length);
-    }, 5000);
-    return () => clearInterval(interval); // Cleanup on unmount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // Validate mobile number
   const validateMobile = () => {
     const englishMobile = toEnglishNumber(mobile);
     if (!englishMobile) {
-      setErrorMessage("لطفا شماره تلفن را وارد کنید");
+      setErrorMessage("شماره موبایل الزامی است.");
       return false;
     }
     if (!/^\d+$/.test(englishMobile)) {
-      setErrorMessage("لطفا فقط اعداد را وارد کنید");
+      setErrorMessage("لطفا فقط اعداد را وارد کنید.");
       return false;
     }
     if (englishMobile.length < 10 || englishMobile.length > 11) {
-      setErrorMessage("شماره تلفن باید بین 10 تا 11 رقم باشد");
+      setErrorMessage("شماره موبایل باید بین 10 تا 11 رقم باشد.");
       return false;
     }
     setErrorMessage(null);
@@ -194,28 +198,9 @@ export default function AuthPage() {
         ));
 
         router.push("/profile");
-
-        // toast.custom((t) => (
-        //   <div
-        //     className={`flex items-center gap-x-3 justify-center bg-white dark:bg-black/80 backdrop-blur-sm font-semibold text-sm text-zinc-700 dark:text-zinc-200 py-4 px-8 shadow-md rounded-full ${
-        //       t.visible ? "animate-enter" : "animate-leave"
-        //     }`}
-        //   >
-        //     <div>
-        //       <Image
-        //         src={"/assets/logo/logo.png"}
-        //         alt="لوگو پرومال"
-        //         className="w-7"
-        //         width={1000}
-        //         height={1000}
-        //       />
-        //     </div>
-        //     <span>به پرومال خوش اومدی</span>
-        //   </div>
-        // ));
       }
     } catch (error) {
-      setErrorMessage("با مشکل برخوردیم");
+      setErrorMessage("با مشکل برخوردیم.");
       setOtpLoading(false);
     } finally {
       setOtpLoading(false);
@@ -237,7 +222,7 @@ export default function AuthPage() {
       setSuccessMessage("کد تایید جدید ارسال شد!");
       setOtpTimer(60); // Reset timer
     } catch (error) {
-      setErrorMessage("با مشکل برخوردیم");
+      setErrorMessage("با مشکل برخوردیم.");
     }
     setLoading(false);
   };
@@ -268,40 +253,47 @@ export default function AuthPage() {
         <div className="fixed top-0 bg-gradient-to-b from-black/90 to-transparent h-20 left-0 right-0 z-40" />
 
         {/* Banner section */}
-        <div className="w-full h-64 z-0 relative overflow-hidden">
-          <motion.div
-            key={currentBanner}
-            className="absolute inset-0"
-            transition={{ opacity: { duration: 0.3 } }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <Image
-              src={bannerImages[currentBanner]}
-              alt="Banner Image"
-              className="object-cover w-full"
-              height={250}
-              width={250}
-              priority
-            />
-          </motion.div>
-        </div>
+        <Swiper
+          slidesPerView={1}
+          centeredSlides={true}
+          autoplay={{ delay: 3000 }}
+          spaceBetween={0}
+          modules={[Navigation, Autoplay]}
+          navigation={{
+            nextEl: ".swiper-button-next-custom",
+            prevEl: ".swiper-button-prev-custom",
+          }}
+          className="mySwiper w-full"
+          loop={true}
+        >
+          {posters.map((poster) => (
+            <SwiperSlide key={poster.id}>
+              <div className="h-56 sm:h-64 md:h-96 z-10">
+                <img
+                  src={poster.src}
+                  alt=""
+                  className="w-full lg:absolute inset-x-0 -bottom-96 object-cover"
+                />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
         {/* Form section */}
         <AnimatePresence>
-          <div className="flex flex-col flex-grow p-6 rounded-t-3xl shadow-2xl bg-black/50 backdrop-blur-xl -mt-5">
-            <motion.h1
+          <div className="flex flex-col flex-grow p-6 rounded-t-3xl shadow-2xl bg-black/50 backdrop-blur-xl z-20 -mt-5">
+            <motion.h2
               className={
                 step === 1
-                  ? "text-white text-2xl font-semibold text-center mb-8"
-                  : "text-white text-2xl font-semibold text-center"
+                  ? "text-white text-2xl font-semibold text-center mt-4 mb-8"
+                  : "text-white text-2xl font-semibold text-center mt-4"
               }
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
               {step === 1 ? "ورود | ثبت نام" : "تایید شماره موبایل"}
-            </motion.h1>
+            </motion.h2>
 
             <motion.p
               className="text-sm mb-3 mr-2 text-center text-white"
@@ -343,7 +335,7 @@ export default function AuthPage() {
                 transition={{ duration: 0.3 }}
               >
                 {step === 1 ? (
-                  <div className="w-full">
+                  <div className="w-full md:w-96 md:mx-auto">
                     <Input
                       type="text"
                       variant="bordered"
@@ -357,7 +349,7 @@ export default function AuthPage() {
                       classNames={{ inputWrapper: "border-zinc-600" }}
                       className="text-white"
                     />
-                    <Spacer y={2} />
+                    <Spacer y={4} />
                     <Button
                       disabled={loading}
                       onPress={handleMobileSubmit}
@@ -367,7 +359,7 @@ export default function AuthPage() {
                       fullWidth
                     >
                       {loading ? (
-                        <div className="flex items-center justify-center">
+                        <div className="flex posters-center justify-center">
                           <FaSpinner className="animate-spin mr-2" />
                           در حال بررسی ...
                         </div>
@@ -436,16 +428,9 @@ export default function AuthPage() {
 
         <Link
           href="/"
-          className="flex justify-center items-center w-full fixed bottom-4 inset-x-0"
+          className="flex justify-center items-center w-full fixed bottom-4 inset-x-0 z-20"
         >
-          <Image
-            src={"/assets/logo/logo.png"}
-            alt="Logo"
-            width={40}
-            height={40}
-            className="w-auto h-auto"
-            priority
-          />
+          <Logo />
         </Link>
       </motion.div>
     </>

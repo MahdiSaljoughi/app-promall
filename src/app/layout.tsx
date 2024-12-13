@@ -19,7 +19,7 @@ export default function RootLayout({
   const client: QueryClient = new QueryClient({});
 
   return (
-    <html lang="en" dir="rtl" suppressHydrationWarning>
+    <html lang="fa-IR" dir="rtl" suppressHydrationWarning>
       <head>
         <title>پرومال</title>
         <meta charSet="UTF-8" />
@@ -29,7 +29,7 @@ export default function RootLayout({
         <link rel="shortcut icon" href="./icon.png" type="image/x-icon" />
       </head>
 
-      <body className="bg-white dark:bg-gradiant dark:text-white">
+      <body className="bg-white dark:bg-main-bg dark:text-white">
         <NextTopLoader
           color="#3b82f6"
           initialPosition={0.08}
@@ -53,9 +53,9 @@ export default function RootLayout({
               <NotifToast />
               <QueryClientProvider client={client}>
                 {children}
-                <div dir="ltr">
+                {/* <div dir="ltr">
                   <ReactQueryDevtools />
-                </div>
+                </div> */}
               </QueryClientProvider>
             </NextThemesProvider>
           </NextUIProvider>

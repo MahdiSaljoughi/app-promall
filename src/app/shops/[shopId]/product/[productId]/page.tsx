@@ -1,6 +1,7 @@
 "use client";
 
 import ImagesProduct from "@/components/Product/ImagesProduct";
+import ShopHeaderProduct from "@/components/Shop/ShopPage/Header/ShopHeaderProduct";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import { use, useEffect, useState } from "react";
@@ -57,6 +58,8 @@ export default function Page({ params }: { params: Promise<Params> }) {
 
   return (
     <>
+      <ShopHeaderProduct />
+
       <div className="min-h-screen mx-2 sm:mx-4 md:mx-6 lg:mx-8 xl:mx-10 2xl:mx-20 pt-20">
         <div className="lg:flex justify-between lg:gap-x-8">
           <div className="w-full rounded-2xl">

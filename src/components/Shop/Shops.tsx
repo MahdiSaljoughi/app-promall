@@ -57,7 +57,7 @@ export default function Shops() {
   if (loading) {
     return (
       <>
-        <div className="w-screen h-screen flex items-center justify-center">
+        <div className="flex items-center justify-center fixed inset-0">
           <Spinner
             size="lg"
             color="primary"
@@ -80,16 +80,18 @@ export default function Shops() {
 
   return (
     <>
-      <div className="min-h-screen md:container md:mx-auto">
-        <SearchBar
-          placeholders={placeholders}
-          onChange={handleChange}
-          onSubmit={onSubmit}
-        />
+      <div className="flex flex-col gap-y-8">
+        <div className="flex flex-col gap-y-4">
+          <SearchBar
+            placeholders={placeholders}
+            onChange={handleChange}
+            onSubmit={onSubmit}
+          />
 
-        <HorizentalCategory />
+          <HorizentalCategory />
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8 mx-4 md:mx-8 2xl:mx-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {shops.map((shop) => (
             <motion.div
               key={shop.id}

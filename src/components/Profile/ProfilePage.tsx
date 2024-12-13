@@ -1,22 +1,30 @@
 "use client";
 
-import { Button, Input, Spinner } from "@nextui-org/react";
+import { Button, Input, Spinner, Textarea } from "@nextui-org/react";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Orderinfo from "./RegistredOrders/Orderinfo";
 import { IUser } from "@/types/interfaces";
+import * as Yup from "yup";
 
+interface IErrors {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  address?: string;
+}
 
 export default function ProfilePage({ session }) {
   const [user, setUser] = useState<IUser | null>(null);
   const [step, setStep] = useState(0);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string>("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState<IErrors>({});
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-  const addressRef = useRef<HTMLInputElement>(null);
+  const addressRef = useRef<HTMLTextAreaElement>(null);
 
   const fetchUser = async () => {
     try {
@@ -47,7 +55,7 @@ export default function ProfilePage({ session }) {
   if (!user) {
     return (
       <>
-        <div className="w-screen h-screen flex items-center justify-center">
+        <div className="flex items-center justify-center fixed inset-0">
           <Spinner
             size="lg"
             color="primary"
@@ -60,20 +68,59 @@ export default function ProfilePage({ session }) {
     );
   }
 
+  const validationSchema = Yup.object().shape({
+    first_name: Yup.string().required("نام الزامی است."),
+    last_name: Yup.string().required("نام خانوادگی الزامی است."),
+    address: Yup.string().max(60, "آدرس باید کمتر از 60 کاراکتر باشد."),
+    email: Yup.string().email("ایمیل نامعتبر است.").optional(),
+  });
+
+  const validate = async (values: Record<string, any>): Promise<IErrors> => {
+    try {
+      await validationSchema.validate(values, { abortEarly: false });
+      return {};
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors: IErrors = {};
+        err.inner.forEach((error) => {
+          if (error.path) {
+            errors[error.path] = error.message;
+          }
+        });
+        return errors;
+      }
+      console.error("Unexpected error:", err);
+      return {};
+    }
+  };
+
   const handleUpdate = async () => {
     setLoading(true);
 
+    const formData = new FormData();
+    formData.append("first_name", firstNameRef.current?.value || "");
+    formData.append("last_name", lastNameRef.current?.value || "");
+    formData.append("email", emailRef.current?.value || "");
+    formData.append("address", addressRef.current?.value || "");
+
+    if (avatarFile) {
+      formData.append("avatar", avatarFile);
+    }
+
+    const validationErrors = await validate({
+      first_name: firstNameRef.current?.value || "",
+      last_name: lastNameRef.current?.value || "",
+      email: emailRef.current?.value || "",
+      address: addressRef.current?.value || "",
+    });
+
+    if (Object.keys(validationErrors).length > 0) {
+      setLoading(false);
+      setErrors(validationErrors);
+      return;
+    }
+
     try {
-      const formData = new FormData();
-      formData.append("first_name", firstNameRef.current?.value || "");
-      formData.append("last_name", lastNameRef.current?.value || "");
-      formData.append("email", emailRef.current?.value || "");
-      formData.append("address", addressRef.current?.value || "");
-
-      if (avatarFile) {
-        formData.append("avatar", avatarFile);
-      }
-
       const response = await fetch(`${process.env.API_URL}/user/${user.id}`, {
         method: "PUT",
         headers: {
@@ -86,27 +133,22 @@ export default function ProfilePage({ session }) {
         throw new Error(`Error: ${response.statusText}`);
       }
 
-      setLoading(false);
       await fetchUser();
       alert("با موفقیت انجام شد");
       if (user.first_name === "" || user.last_name === "") {
         setStep(0);
       }
     } catch (error) {
-      setLoading(false);
       console.error("Error updating user:", error);
+    } finally {
+      setLoading(false);
     }
-  };
-
-  // Utility to convert English numbers to Persian numbers
-  const toPersianNumber = (num: string) => {
-    return num.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
   };
 
   const renderUserInfo = () => {
     return (
       <>
-        <div className="container mx-auto px-4 md:px-0">
+        <div>
           <p className="text-xl text-center">اطلاعات کاربری</p>
           <div className="flex flex-col gap-y-6 md:gap-y-8 relative pb-4">
             {user.avatar === null ? (
@@ -218,66 +260,83 @@ export default function ProfilePage({ session }) {
                 </button>
               </>
             )}
+            <>
+              <Input
+                isRequired
+                name="first_name"
+                type="text"
+                label="نام"
+                variant="bordered"
+                color="primary"
+                defaultValue={user.first_name}
+                ref={firstNameRef}
+                placeholder="الزامی"
+                fullWidth
+                errorMessage={<p className="text-sm">{errors.first_name}</p>}
+                isInvalid={errors.first_name ? true : false}
+              />
+              <Input
+                isRequired
+                name="last_name"
+                type="text"
+                label="نام خانوادگی"
+                variant="bordered"
+                color="primary"
+                defaultValue={user.last_name}
+                ref={lastNameRef}
+                placeholder="الزامی"
+                fullWidth
+                errorMessage={<p className="text-sm">{errors.last_name}</p>}
+                isInvalid={errors.last_name ? true : false}
+              />
+              <Input
+                isRequired
+                name="mobile"
+                dir="rtl"
+                type="tel"
+                label="شماره موبایل"
+                variant="bordered"
+                color="primary"
+                disabled
+                defaultValue={user.mobile}
+                fullWidth
+              />
+              <Input
+                name="email"
+                type="text"
+                label="ایمیل"
+                variant="bordered"
+                color="primary"
+                defaultValue={user.email}
+                ref={emailRef}
+                placeholder="اختیاری"
+                fullWidth
+                errorMessage={<p className="text-sm">{errors.email}</p>}
+                isInvalid={errors.email ? true : false}
+              />
+              <Textarea
+                name="address"
+                type="text"
+                label="آدرس"
+                variant="bordered"
+                color="primary"
+                defaultValue={user.address}
+                ref={addressRef}
+                placeholder="اختیاری"
+                fullWidth
+                errorMessage={<p className="text-sm">{errors.address}</p>}
+                isInvalid={errors.address ? true : false}
+              />
 
-            <Input
-              type="text"
-              label="اسم*"
-              variant="bordered"
-              color="primary"
-              className="w-full"
-              defaultValue={user.first_name}
-              ref={firstNameRef}
-              placeholder="الزامی"
-            />
-            <Input
-              type="text"
-              label="فامیل*"
-              variant="bordered"
-              color="primary"
-              className="w-full"
-              defaultValue={user.last_name}
-              ref={lastNameRef}
-              placeholder="الزامی"
-            />
-            <Input
-              dir="rtl"
-              type="tel"
-              label="شماره موبایل"
-              variant="bordered"
-              color="primary"
-              className="w-full"
-              disabled
-              defaultValue={toPersianNumber(user.mobile)}
-            />
-            <Input
-              type="text"
-              label="آدرس"
-              variant="bordered"
-              color="primary"
-              className="w-full"
-              defaultValue={user.address}
-              ref={addressRef}
-              placeholder="اختیاری"
-            />
-            <Input
-              type="text"
-              label="ایمیل"
-              variant="bordered"
-              color="primary"
-              className="w-full"
-              defaultValue={user.email}
-              ref={emailRef}
-              placeholder="اختیاری"
-            />
-
-            <Button
-              variant="solid"
-              className="w-full rounded-full text-lg shadow-lg bg-primary dark:bg-default text-white"
-              onClick={handleUpdate}
-              disabled={loading}
-            >
-              {loading ? "در حال ارسال..." : "ثبت"}
-            </Button>
+              <Button
+                variant="solid"
+                className="w-full rounded-full text-lg shadow-lg bg-primary dark:bg-default text-white"
+                onPress={handleUpdate}
+                disabled={loading}
+              >
+                {loading ? "در حال ارسال..." : "ثبت"}
+              </Button>
+            </>
           </div>
         </div>
       </>
@@ -286,7 +345,7 @@ export default function ProfilePage({ session }) {
 
   return (
     <>
-      <div className="dark:bg-gradiant min-h-screen">
+      <div>
         {user.first_name === "" || user.last_name === "" ? (
           <>
             {step === 0 ? (

@@ -14,45 +14,11 @@ const config = {
   ],
   prefix: "",
   theme: {
-    container: {
-      center: true,
-      screens: {
-        "2xl": "1400px",
-      },
-    },
-
     extend: {
-      fontFamily: {
-        yekanbakh: ["Yekan Bakh VF", "Yekan Bakh Fa"],
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
       backgroundImage: {
-        // linear-gradient(130deg, #202426 5%, #202426 84%)
-        // gradiant: "linear-gradient(243.18deg, #100F17 0%, #1E2128 100%)",
-        // "gradiant-order": "linear-gradient(to bottom right, #202426 , #050506)",
-        // "card-gradient": "linear-gradient(to bottom right,  #202426, #000000)",
-        // "product-gradient": "linear-gradient(to bottom right, #111827, black)",
-        // "dashboard-gradient":
-        //   // linear-gradient(to bottom right, #111827, black)
-        //   "linear-gradient(168.05deg, #202426 0%, #000000 100%)",
-        // "order-gradient":
-        //   "linear-gradient(116.38deg, rgba(32, 36, 38, 0.47) 24.11%, rgba(17, 17, 18, 0.47) 75.89%)",
-        // "profile-gradient": "linear-gradient(to bottom, #111827, #000000)",
-        // "bg-subscription-gradient":
-        //   "linear-gradient(168.05deg, #1E2128 0%, #000000 100%)",
         "gradient-header":
           "linear-gradient(243.18deg, #100F17 0%, #1E2128 100%)",
-        gradiant: "linear-gradient(243.18deg, #100F17 0%, #1E2128 100%)",
-      },
-      boxShadow: {
-        ticket: "0px 4px 4px 0px rgba(0, 0, 0, 0.40)",
-      },
-      dropShadow: {
-        ticket: "0px 4px 7px 0px #00000082",
-        img: "0px 4px 4px 0px #00000040",
+        "main-bg": "linear-gradient(243.18deg, #100F17 0%, #1E2128 100%)",
       },
     },
   },
@@ -77,45 +43,15 @@ const config = {
           colors: {
             primary: {
               DEFAULT: "#aed4fc",
-              foreground: "#fff",
-            },
-            secondary: {
-              DEFAULT: "#BEF264",
-              foreground: "#000000",
-            },
-            background: {
-              DEFAULT: "#fff",
-            },
-            focus: "#000000",
-          },
-          layout: {
-            radius: {
-              small: "1rem",
-              medium: "1rem",
-              large: "1rem",
+              foreground: "#000",
             },
           },
         },
         dark: {
           colors: {
             primary: {
-              DEFAULT: "#aed4fc",
-              foreground: "black",
-            },
-            secondary: {
-              DEFAULT: "#BEF264",
-              foreground: "#000000",
-            },
-            background: {
-              DEFAULT: "#121212",
-            },
-            focus: "#000000",
-          },
-          layout: {
-            radius: {
-              small: "1rem",
-              medium: "1rem",
-              large: "1rem",
+              DEFAULT: "#3b82f6",
+              foreground: "#fff",
             },
           },
         },

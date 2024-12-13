@@ -374,9 +374,7 @@ export default function TableProductsFeatures() {
   );
   const [statusFilter, setStatusFilter] = React.useState<Selection>("all");
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>(
-    {}
-  );
+  const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>();
 
   const [page, setPage] = React.useState(1);
 
@@ -421,11 +419,11 @@ export default function TableProductsFeatures() {
 
   const sortedItems = React.useMemo(() => {
     return [...items].sort((a: User, b: User) => {
-      const first = a[sortDescriptor.column as keyof User] as number;
-      const second = b[sortDescriptor.column as keyof User] as number;
+      const first = a[sortDescriptor?.column as keyof User] as number;
+      const second = b[sortDescriptor?.column as keyof User] as number;
       const cmp = first < second ? -1 : first > second ? 1 : 0;
 
-      return sortDescriptor.direction === "descending" ? -cmp : cmp;
+      return sortDescriptor?.direction === "descending" ? -cmp : cmp;
     });
   }, [sortDescriptor, items]);
 

@@ -90,7 +90,7 @@ export default function LayoutProfile({ children }) {
   ];
 
   return (
-    <>
+    <div className="container mx-auto min-h-screen">
       {pathname !== "/profile/create-shop" && (
         <Header
           isOpen={isOpenHeader}
@@ -100,12 +100,10 @@ export default function LayoutProfile({ children }) {
         />
       )}
 
-      <>{children}</>
+      <div className="px-4 md:px-0">{children}</div>
 
       {pathname !== "/profile/create-shop" && (
         <>
-          <Footer />
-
           <HamburgerMenu
             isOpen={isOpenHeader}
             menuItems={menuItems}
@@ -114,6 +112,6 @@ export default function LayoutProfile({ children }) {
           />
         </>
       )}
-    </>
+    </div>
   );
 }
