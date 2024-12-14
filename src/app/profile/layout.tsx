@@ -92,26 +92,14 @@ export default function LayoutProfile({ children }) {
   return (
     <div className="container mx-auto min-h-screen">
       {pathname !== "/profile/create-shop" && (
-        <Header
-          isOpen={isOpenHeader}
-          setOpen={setOpenHeader}
-          user={user}
-          session={session}
-        />
+        <Header user={user} session={session} />
       )}
 
-      <div className="px-4 md:px-0">{children}</div>
-
-      {pathname !== "/profile/create-shop" && (
-        <>
-          <HamburgerMenu
-            isOpen={isOpenHeader}
-            menuItems={menuItems}
-            activeItem={activeItem}
-            setActiveItem={setActiveItem}
-          />
-        </>
-      )}
+      <div
+        className={pathname !== "/profile/create-shop" ? "px-4 md:px-0" : ""}
+      >
+        {children}
+      </div>
     </div>
   );
 }

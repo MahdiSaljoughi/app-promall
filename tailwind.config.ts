@@ -27,11 +27,11 @@ const config = {
     nextui({
       layout: {
         disabledOpacity: "0.3",
-        radius: {
-          small: "2px",
-          medium: "4px",
-          large: "6px",
-        },
+        // radius: {
+        //   small: "2px",
+        //   medium: "4px",
+        //   large: "6px",
+        // },
         borderWidth: {
           small: "1px",
           medium: "1px",

@@ -27,7 +27,7 @@ interface Ticket {
 export default function Tickets({ user, session }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loading, setLoading] = useState(false);
-  const [tikets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [ticketSubject, setTicketSubject] = useState("");
   const [tickeTtitle, setTickeTtitle] = useState("");
 
@@ -127,90 +127,81 @@ export default function Tickets({ user, session }) {
 
   return (
     <>
-      <div className="min-h-screen">
-        <div className="flex flex-col justify-center gap-8">
-          <p className="text-xl text-center">تیکت ها</p>
-          <div className="tickets gap-4 flex flex-col">
-            {tikets?.map((ticket) => (
-              <div key={ticket.id}>
-                <TicketsComponents
-                  session={session}
-                  groupId={ticket.id}
-                  subject={ticket.subject}
-                  title={ticket.title}
-                  open={ticket.isOpen}
-                  date={formatJalaliDate(ticket.createdAtJalali)}
-                  hour={formatJalaliHour(ticket.createdAtJalali)}
-                />
-              </div>
-            ))}
-          </div>
+      <div className="flex flex-col justify-center gap-8">
+        <p className="text-xl text-center">تیکت ها</p>
+        <div className="flex flex-col gap-4">
+          {tickets?.map((ticket) => (
+            <div key={ticket.id}>
+              <TicketsComponents
+                session={session}
+                groupId={ticket.id}
+                subject={ticket.subject}
+                title={ticket.title}
+                open={ticket.isOpen}
+                date={formatJalaliDate(ticket.createdAtJalali)}
+                hour={formatJalaliHour(ticket.createdAtJalali)}
+              />
+            </div>
+          ))}
         </div>
-
-        <div className="mt-20">
-          <Button
-            onPress={onOpen}
-            className="fixed bg-[#AED4FC] text-[#000000] bottom-24 inset-x-0 flex justify-center items-center text-center py-3 mx-5 rounded-full z-40"
-          >
-            <span className="text-center">تیکت جدید</span>
-          </Button>
-        </div>
-        <Modal
-          isOpen={isOpen}
-          onClose={onClose}
-          isDismissable={false}
-          isKeyboardDismissDisabled={true}
-          backdrop={"blur"}
-        >
-          <ModalContent>
-            {(onClose) => (
-              <>
-                <ModalHeader className="flex flex-col gap-1">
-                  موضوع تیکت
-                </ModalHeader>
-                <ModalBody>
-                  <Select
-                    label="موضوع تیکت"
-                    selectionMode="single"
-                    className="w-full"
-                    variant="bordered"
-                    color="primary"
-                    name="subject"
-                    value={ticketSubject}
-                    onChange={(e) => setTicketSubject(e.target.value)}
-                  >
-                    <SelectItem key={"بخش فنی"}>بخش فنی</SelectItem>
-                    <SelectItem key={"بخش مالی"}>بخش مالی</SelectItem>
-                    <SelectItem key={"بخش فروشگاه ها"}>
-                      بخش فروشگاه ها
-                    </SelectItem>
-                    <SelectItem key={"انتقادات و پیشنهادات"}>
-                      انتقادات و پیشنهادات
-                    </SelectItem>
-                  </Select>
-                  <Textarea
-                    label="مشکلتون"
-                    color="primary"
-                    className="w-full"
-                    variant="bordered"
-                    name="title"
-                    value={tickeTtitle}
-                    onChange={(e) => setTickeTtitle(e.target.value)}
-                  />
-                </ModalBody>
-                <ModalFooter>
-                  <Button color="danger" variant="light" onPress={onClose}>
-                    بستن
-                  </Button>
-                  <Button color="primary" onPress={createTickets} fullWidth>
-                    ارسال
-                  </Button>
-                </ModalFooter>
-              </>
-            )}
-          </ModalContent>
-        </Modal>
+        <Button fullWidth onPress={onOpen} className="mb-6">
+          تیکت جدید
+        </Button>
       </div>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        isDismissable={false}
+        isKeyboardDismissDisabled={true}
+        backdrop={"blur"}
+      >
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1">
+                موضوع تیکت
+              </ModalHeader>
+              <ModalBody>
+                <Select
+                  label="موضوع تیکت"
+                  selectionMode="single"
+                  className="w-full"
+                  variant="bordered"
+                  color="primary"
+                  name="subject"
+                  value={ticketSubject}
+                  onChange={(e) => setTicketSubject(e.target.value)}
+                >
+                  <SelectItem key={"بخش فنی"}>بخش فنی</SelectItem>
+                  <SelectItem key={"بخش مالی"}>بخش مالی</SelectItem>
+                  <SelectItem key={"بخش فروشگاه ها"}>بخش فروشگاه ها</SelectItem>
+                  <SelectItem key={"انتقادات و پیشنهادات"}>
+                    انتقادات و پیشنهادات
+                  </SelectItem>
+                </Select>
+                <Textarea
+                  label="مشکلتون"
+                  color="primary"
+                  className="w-full"
+                  variant="bordered"
+                  name="title"
+                  value={tickeTtitle}
+                  onChange={(e) => setTickeTtitle(e.target.value)}
+                />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  بستن
+                </Button>
+                <Button color="primary" onPress={createTickets} fullWidth>
+                  ارسال
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </>
   );
 }

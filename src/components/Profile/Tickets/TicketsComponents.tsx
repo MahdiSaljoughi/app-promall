@@ -8,6 +8,7 @@ import {
   useDisclosure,
   InternalForwardRefRenderFunction,
   ModalBodyProps,
+  Button,
 } from "@nextui-org/react";
 import FileBox from "./Chat/FileBox";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -156,7 +157,7 @@ export default function TicketsComponents({
     <>
       <div
         onClick={onOpen}
-        className="p-4 flex flex-col rounded-2xl shadow-ticket mx-4 cursor-pointer gap-y-4"
+        className="flex flex-col rounded-2xl cursor-pointer gap-y-4 bg-zinc-100 dark:bg-black/50 p-4"
       >
         <div className="flex justify-center items-center font-medium text-lg gap-1">
           <p>موضوع:</p>
@@ -222,7 +223,7 @@ export default function TicketsComponents({
         isOpen={isOpen}
         onClose={onClose}
         classNames={{
-          closeButton: "text-3xl ml-2 mt-2",
+          closeButton: "text-3xl mt-1",
         }}
         scrollBehavior="inside"
       >
@@ -232,7 +233,7 @@ export default function TicketsComponents({
               paddingRight: 20,
               paddingTop: 20,
             }}
-            className="text-2xl text-center shadow shadow-zinc-900"
+            className="text-2xl text-center shadow dark:shadow-zinc-900"
           >
             <div className="text-center flex justify-center items-center gap-x-1 text-lg">
               <p>موضوع:</p>
@@ -280,7 +281,7 @@ export default function TicketsComponents({
                       <div
                         className={`p-4 rounded-2xl ${
                           ticket.messageSide === 0
-                            ? "bg-slate-700 rounded-bl-none"
+                            ? "bg-slate-400 dark:bg-slate-700 rounded-bl-none"
                             : "bg-primary text-black rounded-br-none"
                         }`}
                       >
@@ -321,14 +322,26 @@ export default function TicketsComponents({
               </div>
 
               <div className="mt-20">
-                <div className="p-1 mx-4 fixed border-zinc-700 inset-x-0 bottom-4 focus:ring-2 focus:ring-zinc-800 text-black bg-slate-200 rounded-full">
+                <div className="p-2 mx-4 md:ml-8 fixed border-zinc-700 inset-x-0 bottom-4 focus:ring-2 focus:ring-zinc-800 text-black bg-slate-200 rounded-full">
                   <div className="flex justify-between items-center">
-                    <button
-                      onClick={createTickets}
-                      className="p-2 text-center bg-blue-950 rounded-full"
+                    <Button
+                      onPress={createTickets}
+                      isIconOnly
+                      className="p-2 text-center bg-blue-900 rounded-full"
                     >
-                      <BiSend className="text-zinc-100" size={33} />
-                    </button>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="2em"
+                        height="2em"
+                        viewBox="0 0 24 24"
+                        className="text-white pr-0.5"
+                      >
+                        <path
+                          fill="currentColor"
+                          d="m18.636 15.67l1.716-5.15c1.5-4.498 2.25-6.747 1.062-7.934s-3.436-.438-7.935 1.062L8.33 5.364C4.7 6.574 2.885 7.18 2.37 8.067a2.72 2.72 0 0 0 0 2.73c.515.888 2.33 1.493 5.96 2.704c.45.15.957.042 1.294-.291l5.506-5.455a.79.79 0 1 1 1.11 1.122l-5.416 5.366a1.4 1.4 0 0 0-.324 1.427c1.21 3.63 1.816 5.446 2.703 5.962a2.72 2.72 0 0 0 2.731 0c.887-.516 1.492-2.331 2.703-5.962"
+                        ></path>
+                      </svg>
+                    </Button>
                     <input
                       type="text"
                       onChange={(e) => setText(e.target.value)}
@@ -348,7 +361,26 @@ export default function TicketsComponents({
                         }}
                       />
                       <label htmlFor="input-file">
-                        <MdAttachFile size={30} />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="2em"
+                          height="2em"
+                          viewBox="0 0 24 24"
+                          className="ml-2"
+                        >
+                          <g
+                            fill="none"
+                            stroke="currentColor"
+                            strokeLinecap="round"
+                            strokeWidth={2}
+                          >
+                            <path d="m12.792 15.8l1.43-1.432a6.076 6.076 0 0 0 0-8.59a6.067 6.067 0 0 0-8.583 0L2.778 8.643A6.076 6.076 0 0 0 6.732 19"></path>
+                            <path
+                              d="m11.208 8.2l-1.43 1.432a6.076 6.076 0 0 0 0 8.59a6.067 6.067 0 0 0 8.583 0l2.861-2.864A6.076 6.076 0 0 0 17.268 5"
+                              opacity={0.5}
+                            ></path>
+                          </g>
+                        </svg>
                       </label>
                     </div>
                   </div>

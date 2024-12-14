@@ -17,33 +17,28 @@ export default function Orderinfo() {
 
   return (
     <>
-      <div className="bg-order-gradient p-4 mx-6 rounded-2xl h-72  flex flex-col gap-1 drop-shadow-ticket shadow-ticket ">
-        <div className="flex justify-between items-center text-[#FFFFFF]   ">
-          <div className="flex flex-col font-medium text-[16px] leading-8 ">
+      <div className="bg-zinc-100 dark:bg-black/50 p-4 rounded-2xl flex flex-col gap-1">
+        <div className="flex justify-between items-center border-b dark:border-zinc-700 pb-4">
+          <div className="flex flex-col leading-8">
             <span>شماره سفارش :</span>
             <span>وضعیت :</span>
             <span>تاریخ :</span>
           </div>
-          <div className="flex flex-col justify-center items-end font-black text-[#AED4FC] text-[16px] leading-8">
+          <div className="flex flex-col justify-center items-end leading-8 text-primary">
             <span>{`#${dataInfo?.orderNumber}`}</span>
             <span>{dataInfo?.status}</span>
             <span>{dataInfo?.date}</span>
           </div>
         </div>
-        <p className=" border-b-[0.2px] text-[1px] mt-2 "></p>
-        <div className="flex justify-around items-center ">
-          {dataInfo?.img?.map((img, index) => (
+        <div className="flex justify-around items-center">
+          {dataInfo.img.map((img, index) => (
             <div
               key={index}
-              className="w-24 flex flex-col justify-center items-center "
+              className="w-24 flex flex-col justify-center items-center"
             >
-              <Image
-                src={img?.img}
-                className=" object-contain"
-                alt="img-order"
-              />
-              <div className="qty bg-[#AED4FC] w-6 h-6 rounded-full text-lg font-[600] flex justify-center items-center p-2 text-black">
-                {img?.qty}
+              <Image src={img.img} className="object-contain" alt="" />
+              <div className="bg-primary size-6 rounded-full text-lg flex justify-center items-center p-2">
+                {img.qty}
               </div>
             </div>
           ))}

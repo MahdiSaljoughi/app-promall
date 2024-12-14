@@ -24,13 +24,13 @@ export default function Subscription() {
           />
         </div>
 
-        <div className="z-20 -mt-12 w-full px-4 md:px-0">
+        <div className="z-20 -mt-12 w-full">
           <p className="text-lg font-semibold text-center bg-black/30 backdrop-blur-sm rounded-2xl py-6">
             اشتراک
           </p>
 
           <div className="my-10">
-            <div className="bg-order-gradient rounded-2xl flex flex-col items-center gap-y-8 px-4 md:px-0 py-12 shadow-ticket drop-shadow-ticket">
+            <div className="bg-order-gradient rounded-2xl flex flex-col items-center gap-y-8 py-12 shadow-ticket drop-shadow-ticket">
               <h2 className="text-lg font-semibold">حالا چرا پلن پرو ؟</h2>
               <div className="answer flex flex-col justify-center items-start gap-y-3 text-sm tracking-wider">
                 {Answers?.map((answers, index) => (
