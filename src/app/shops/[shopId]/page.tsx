@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import ShopBanner from "@/components/Shop/ShopPage/ShopBanner/ShopBanner";
+import ShopBanner from "@/modules/shop/components/ShopPage/ShopBanner/ShopBanner";
 import HorizontalCategory from "@/components/ui/horizental-category/horizental-category";
 import { FaStar } from "react-icons/fa";
 import { IProduct, IShop } from "@/types/interfaces";
 import { Plus } from "lucide-react";
 import Search from "@/components/Home/Search";
-import ShopHeader from "@/components/Shop/ShopPage/Header/ShopHeader";
+import ShopHeader from "@/modules/shop/components/ShopPage/Header/ShopHeader";
 
 interface Params {
   shopId: string;

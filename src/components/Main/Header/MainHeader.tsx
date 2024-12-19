@@ -20,9 +20,9 @@ export default function MainHeader() {
           <div className="flex justify-between items-center">
             <Link href="/" className="flex items-center gap-x-2">
               <LogoDarkAndLight />
-              <div className="font-bold">
-                <span className="text-xl text-primary">پرو</span>
-                <span className="text-xl dark:text-white">مال</span>
+              <div className="font-bold text-xl">
+                <span className="text-primary">پرو</span>
+                <span>مال</span>
               </div>
             </Link>
 

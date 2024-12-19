@@ -11,7 +11,7 @@ interface ShopCardProps {
 export default function shopcard({ imageSrc, title, subtitle }: ShopCardProps) {
   return (
     <>
-      <div className="flex items-center bg-sky-50 dark:bg-gradient-to-br from-[#202426] to-[#000000] rounded-3xl gap-x-3 gap-y-3 w-full shadow-sm dark:shadow-[0px_1px_27px_3px_#000000] hover:scale-105 transition-transform duration-400">
+      <div className="flex items-center bg-sky-50 dark:bg-gradient-to-br from-[#202426] to-[#000000] rounded-3xl gap-x-3 gap-y-3 w-full shadow-sm dark:shadow-[0px_1px_27px_3px_#000000]">
         <div className="flex-shrink-0 w-28 h-28 overflow-hidden dark:shadow-2xl">
           <Image
             src={imageSrc}

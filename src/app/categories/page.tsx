@@ -1,5 +1,5 @@
 import Categories from "@/components/Categories/Categories";
-import MainLayout from "@/components/Main/Layout/MainLayout";
+import MainLayout from "@/layouts/MainLayout";
 
 export default function Page() {
   return (

@@ -1,4 +1,4 @@
-import CreateShopPage from "@/components/Shop/CreateShop/CreateShopPage";
+import CreateShopPage from "@/modules/shop/components/CreateShop/CreateShopPage";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 

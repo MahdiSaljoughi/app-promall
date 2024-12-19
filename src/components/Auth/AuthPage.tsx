@@ -353,7 +353,7 @@ export default function AuthPage() {
                     <Button
                       disabled={loading}
                       onPress={handleMobileSubmit}
-                      className="w-full font-bold text-zinc-700"
+                      className="w-full font-bold"
                       color="primary"
                       size="lg"
                       fullWidth

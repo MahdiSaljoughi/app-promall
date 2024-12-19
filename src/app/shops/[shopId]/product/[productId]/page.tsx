@@ -1,7 +1,7 @@
 "use client";
 
 import ImagesProduct from "@/components/Product/ImagesProduct";
-import ShopHeaderProduct from "@/components/Shop/ShopPage/Header/ShopHeaderProduct";
+import ShopHeaderProduct from "@/modules/shop/components/ShopPage/Header/ShopHeaderProduct";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import { use, useEffect, useState } from "react";

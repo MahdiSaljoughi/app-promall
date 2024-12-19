@@ -9,7 +9,7 @@ import ivsnt from "../../../public/assets/package-slider/ivs.png";
 import lvnew from "../../../public/assets/package-slider/lvnew.png";
 import nikedontstop from "../../../public/assets/package-slider/nikeair.png";
 import Modal from "@/components/PackageCheck/Modal";
-import MainLayout from "@/components/Main/Layout/MainLayout";
+import MainLayout from "@/layouts/MainLayout";
 
 interface Item {
   imageSrc: StaticImageData;

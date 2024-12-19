@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarGroup } from "@nextui-org/react";
+import { Avatar } from "@nextui-org/react";
 
 interface IStatus {
   id: number;
@@ -76,38 +76,19 @@ export default function StoryBar() {
   return (
     <>
       <div className="flex items-center justify-center">
-        <div className="hidden md:block">
-          <AvatarGroup isBordered max={10} total={10}>
-            {statuses.map((status: IStatus) => (
-              <div key={status.id}>
-                <Avatar
-                  // @ts-expect-error
-                  color={status.color}
-                  src={status.src}
-                  // radius="lg"
-                  size="lg"
-                  name={status.name}
-                />
-              </div>
-            ))}
-          </AvatarGroup>
-        </div>
-
-        <div className="block md:hidden">
-          <AvatarGroup isBordered max={5} total={10}>
-            {statuses.map((status: IStatus) => (
-              <div key={status.id}>
-                <Avatar
-                  // @ts-expect-error
-                  color={status.color}
-                  src={status.src}
-                  // radius="lg"
-                  size="lg"
-                  name={status.name}
-                />
-              </div>
-            ))}
-          </AvatarGroup>
+        <div className="flex items-center gap-4 flex-wrap justify-center">
+          {statuses.map((status: IStatus) => (
+            <Avatar
+              key={status.id}
+              // @ts-expect-error
+              color={status.color}
+              src={status.src}
+              // radius="lg"
+              size="lg"
+              name={status.name}
+              isBordered
+            />
+          ))}
         </div>
       </div>
     </>

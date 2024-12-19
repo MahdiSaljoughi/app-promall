@@ -1,17 +1,11 @@
 import PopularRow from "@/components/PopularRow/PopularRow";
 import PopularProducts from "@/components/Home/PopularProducts";
 import StoryBar from "@/components/Home/StoryBar/StoryBar";
-import type { Metadata } from "next";
 import InstallPwa from "@/components/Pwa/InstallPwa";
 import HeadPoster from "@/components/Home/Posters/HeadPoster";
-import MainLayout from "@/components/Main/Layout/MainLayout";
+import MainLayout from "@/layouts/MainLayout";
 
-export const metadata: Metadata = {
-  title: "پرومال",
-  description: "Pro Mall, Shop Like a Pro",
-};
-
-export default function Home() {
+export default function Page() {
   const itemsrow = [
     {
       imageSrc: "/assets/nike-logo.png",
