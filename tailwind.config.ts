@@ -50,8 +50,8 @@ const config = {
         dark: {
           colors: {
             primary: {
-              DEFAULT: "#3b82f6",
-              foreground: "#fff",
+              DEFAULT: "#aed4fc",
+              foreground: "#000",
             },
           },
         },
