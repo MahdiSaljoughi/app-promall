@@ -1,5 +1,5 @@
 import UserAvatar from "@/components/Avatar/UserAvatar";
-import LogoDarkAndLight from "@/components/Main/Logo/LogoDarkAndLight";
+import LogoDarkAndLight from "@/components/Main/Logos/LogoDarkAndLight";
 import {
   Drawer,
   DrawerContent,

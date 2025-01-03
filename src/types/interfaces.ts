@@ -11,14 +11,6 @@ export interface IUser {
   otp_code: string;
 }
 
-export interface IShop {
-  id: string;
-  name: string;
-  avatar: string;
-  detail: [];
-  shopCategories: any;
-}
-
 export interface IProduct {
   id: string;
   name: string;

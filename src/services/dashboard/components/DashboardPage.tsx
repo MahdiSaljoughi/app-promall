@@ -1,8 +1,8 @@
 "use client";
 
-import ChartSection from "@/modules/dashboard/components/ChartSection";
-import DashboardGrid from "@/modules/dashboard/components/DashboardGrid";
-import StatRow from "@/modules/dashboard/components/StatRow";
+import ChartSection from "@/services/dashboard/components/ChartSection";
+import DashboardGrid from "@/services/dashboard/components/DashboardGrid";
+import StatRow from "@/services/dashboard/components/StatRow";
 import { User } from "lucide-react";
 import { IoIosTimer } from "react-icons/io";
 import { TbMoneybag } from "react-icons/tb";

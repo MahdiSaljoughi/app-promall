@@ -14,7 +14,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Navigation } from "swiper/modules";
-import Logo from "../Main/Logo/Logo";
+import Logo from "../Main/Logos/Logo";
 
 interface IPoster {
   id: number;

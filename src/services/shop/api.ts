@@ -1,21 +1,21 @@
 import Api from "@/lib/api";
-import { IShop } from "@/types/interfaces";
+import type { TShop } from "@/types/types";
 
 const BASE_URL = `/shop`;
 
 export class ShopApi {
-  static async getAll(): Promise<{ data: IShop[]; statusCode: string }> {
-    const res = await Api.get(`${BASE_URL}s`);
+  static async getAll(): Promise<{ data: TShop[]; statusCode: string }> {
+    const res = await Api.get(BASE_URL);
     const data = await res.json();
     return data;
   }
 
-  static async addShop(data: Partial<IShop>) {
+  static async addShop(data: Partial<TShop>) {
     const res = Api.post(BASE_URL, data);
     return res;
   }
 
-  static async editShop(data: Partial<IShop>) {
+  static async editShop(data: Partial<TShop>) {
     const res = Api.post(BASE_URL, data);
     return res;
   }

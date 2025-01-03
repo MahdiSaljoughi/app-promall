@@ -10,18 +10,19 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-import { IShop, IUser } from "@/types/interfaces";
+import { IUser } from "@/types/interfaces";
 import Link from "next/link";
-import LogoDarkAndLight from "@/components/Main/Logo/LogoDarkAndLight";
+import LogoDarkAndLight from "@/components/Main/Logos/LogoDarkAndLight";
 import { menuList } from "../../menuList";
 import { usePathname } from "next/navigation";
+import type { TShop } from "@/types/types";
 
 export default function Header({ shopId }) {
   const { data: session } = useSession();
   const pathname = usePathname();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [user, setUser] = useState<IUser | null>(null);
-  const [shop, setShop] = useState<IShop | null>(null);
+  const [shop, setShop] = useState<TShop | null>(null);
 
   const fetchUserProfile = async () => {
     try {

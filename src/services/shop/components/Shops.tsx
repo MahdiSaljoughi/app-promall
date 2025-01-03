@@ -3,10 +3,10 @@
 import HorizentalCategory from "@/components/ui/horizental-category/horizental-category";
 import { SearchBar } from "@/components/ui/search-bar/search-bar";
 import ShopCard from "@/components/ui/shop-card/shop-card";
-import { Spinner } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import useShopQuery from "../queries/useShopQuery";
+import Loading from "@/components/Loadings/Loading";
 
 export default function Shops() {
   const { isPending, error, data } = useShopQuery();
@@ -22,20 +22,10 @@ export default function Shops() {
     console.log("submitted");
   };
 
-  const subtitle = "ورزشی اورجینال";
-
   if (isPending) {
     return (
       <>
-        <div className="flex items-center justify-center fixed inset-0">
-          <Spinner
-            size="lg"
-            color="primary"
-            labelColor="primary"
-            label="در حال بارگذاری..."
-            classNames={{ label: "mt-4" }}
-          />
-        </div>
+        <Loading />
       </>
     );
   }
@@ -61,20 +51,20 @@ export default function Shops() {
           <HorizentalCategory />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="flex items-center flex-wrap justify-evenly gap-8">
           {data?.map((shop) => (
             <motion.div
               key={shop.id}
-              className="shadow-lg rounded-3xl transition-transform duration-500 ease-out"
+              className="shadow-lg rounded-3xl transition-transform duration-500 ease-out w-96"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Link href={`/shops/${shop.id}`}>
                 <ShopCard
                   key={shop.id}
-                  imageSrc={`${process.env.API_URL}${shop.avatar}`}
+                  imageSrc={shop.avatar}
                   title={shop.name}
-                  subtitle={subtitle}
+                  subtitle={shop.detail}
                 />
               </Link>
             </motion.div>

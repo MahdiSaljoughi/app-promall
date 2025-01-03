@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import { Avatar, Spinner } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-import { IShop } from "@/types/interfaces";
 import Link from "next/link";
+import { TShop } from "@/types/types";
 
 export default function SelectorShop({ session }) {
   const router = useRouter();
 
-  const [shops, setShops] = useState<IShop[]>([]);
+  const [shops, setShops] = useState<TShop[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchShops = async () => {
@@ -73,7 +73,7 @@ export default function SelectorShop({ session }) {
           <span className="block text-xl text-primary text-center">
             انتخاب فروشگاه
           </span>
-          {shops.map((shop: IShop, index) => (
+          {shops.map((shop: TShop, index) => (
             <div key={index}>
               <Link
                 href={`/dashboard/${shop.id}`}

@@ -2,9 +2,6 @@
 import withPWAInit from "@ducanh2912/next-pwa";
 
 const nextConfig = {
-    images: {
-        domains: ['api.promall.org'],
-    },
     env: {
         LANDING_URL: process.env.LANDING_URL,
         APP_URL: process.env.APP_URL,

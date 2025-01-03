@@ -1,4 +1,4 @@
-import RoundedBarChart from "@/modules/dashboard/components/Charts/ChartBar";
+import RoundedBarChart from "@/services/dashboard/components/Charts/ChartBar";
 import React from "react";
 
 const ChartSection: React.FC = () => {

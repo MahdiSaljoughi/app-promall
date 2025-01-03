@@ -16,10 +16,10 @@ import {
   Spinner,
 } from "@nextui-org/react";
 import { useEffect, useRef, useState } from "react";
-import { IShop } from "@/types/interfaces";
+import { TShop } from "@/types/types";
 
 export default function EditShop({ shopId, session }) {
-  const [shop, setShop] = useState<IShop | null>(null);
+  const [shop, setShop] = useState<TShop | null>(null);
   const [avatarPreview, setAvatarPreview] = useState("");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [shopName, setShopName] = useState(shop?.name);

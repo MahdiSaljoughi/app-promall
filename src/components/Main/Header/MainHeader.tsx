@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import LogoDarkAndLight from "../Logo/LogoDarkAndLight";
+import LogoDarkAndLight from "../Logos/LogoDarkAndLight";
 
 export default function MainHeader() {
   const { data: session } = useSession();

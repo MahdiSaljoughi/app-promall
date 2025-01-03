@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import Header from "@/modules/dashboard/components/Header/MobileHeader";
-import LogoDarkAndLight from "@/components/Main/Logo/LogoDarkAndLight";
+import Header from "@/services/dashboard/components/Header/MobileHeader";
+import LogoDarkAndLight from "@/components/Main/Logos/LogoDarkAndLight";
 import { useRef, useState } from "react";
 import { useParams, usePathname } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
-import { menuList } from "@/modules/dashboard/menuList";
-import DesktopAvatar from "@/modules/dashboard/components/Header/DesktopAvatar";
+import { menuList } from "@/services/dashboard/menuList";
+import DesktopAvatar from "@/services/dashboard/components/Header/DesktopAvatar";
 
 export default function LayoutProfile({ children }) {
   const { shopid } = useParams<{ shopid: string }>();

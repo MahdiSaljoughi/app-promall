@@ -1,6 +1,7 @@
 "use client";
 
-import { IShop, IUser } from "@/types/interfaces";
+import { IUser } from "@/types/interfaces";
+import type { TShop } from "@/types/types";
 import { Avatar } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -8,7 +9,7 @@ import { useEffect, useState } from "react";
 export default function DesktopAvatar({ shopId }) {
   const { data: session } = useSession();
   const [user, setUser] = useState<IUser | null>(null);
-  const [shop, setShop] = useState<IShop | null>(null);
+  const [shop, setShop] = useState<TShop | null>(null);
 
   const fetchUserProfile = async () => {
     try {

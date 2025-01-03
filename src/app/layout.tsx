@@ -1,5 +1,4 @@
 import "./globals.css";
-import NotifToast from "@/components/Notification/NotifToast";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
 import Session from "@/providers/session";
@@ -36,8 +35,6 @@ export default function RootLayout({
         />
 
         <Toaster position="top-center" reverseOrder={true} />
-
-        <NotifToast />
 
         <Session>
           <Nextui>

@@ -1,4 +1,4 @@
-import SelectorShop from "@/modules/shop/components/SelectorShop/SelectorShop";
+import SelectorShop from "@/services/shop/components/SelectorShop/SelectorShop";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
 

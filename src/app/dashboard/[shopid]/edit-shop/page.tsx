@@ -1,4 +1,4 @@
-import EditShop from "@/modules/shop/components/EditShop/EditShop";
+import EditShop from "@/services/shop/components/EditShop/EditShop";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
