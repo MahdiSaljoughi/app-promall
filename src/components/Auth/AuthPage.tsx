@@ -239,7 +239,7 @@ export default function AuthPage() {
             variant="light"
             isIconOnly
             className="z-50"
-            onClick={() => router.back()}
+            onPress={() => router.back()}
           >
             <ChevronLeft
               color="white"

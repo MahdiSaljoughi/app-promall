@@ -7,155 +7,155 @@ import toast from "react-hot-toast";
 import io from "socket.io-client";
 
 export default function Notif() {
-  const { data: session } = useSession();
+  //   const { data: session } = useSession();
 
-  const [loading, setLoading] = useState(true);
+  //   const [loading, setLoading] = useState(true);
 
-  const [notification, setNotification] = useState<any[]>([]);
+  //   const [notification, setNotification] = useState<any[]>([]);
 
-  const fetchNotif = async () => {
-    if (!session?.user.access_token) return;
-    try {
-      const res = await fetch(
-        `${process.env.API_URL}/admin/notifications/current`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${session.user.access_token}`,
-          },
-        }
-      );
+  //   const fetchNotif = async () => {
+  //     if (!session?.user.access_token) return;
+  //     try {
+  //       const res = await fetch(
+  //         `${process.env.API_URL}/admin/notifications/current`,
+  //         {
+  //           method: "GET",
+  //           headers: {
+  //             Authorization: `Bearer ${session.user.access_token}`,
+  //           },
+  //         }
+  //       );
 
-      if (!res.ok) {
-        setLoading(false);
-        throw new Error("Failed to fetch notifications");
-      }
+  //       if (!res.ok) {
+  //         setLoading(false);
+  //         throw new Error("Failed to fetch notifications");
+  //       }
 
-      const data = await res.json();
-      setNotification(data.data);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.error("Error fetching notifications:", error);
-      toast.custom((t) => (
-        <div
-          className={`flex items-center gap-x-3 justify-center bg-white dark:bg-black/80 backdrop-blur-sm font-semibold text-sm text-zinc-700 dark:text-zinc-200 py-4 px-8 shadow-md rounded-full ${
-            t.visible ? "animate-enter" : "animate-leave"
-          }`}
-        >
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="2em"
-              height="2em"
-              viewBox="0 0 24 24"
-              className="text-rose-500"
-            >
-              <path
-                fill="currentColor"
-                d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
-                opacity={0.5}
-              ></path>
-              <path
-                fill="currentColor"
-                d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06"
-              ></path>
-            </svg>
-          </span>
-          <span>خطا در دریافت اعلان</span>
-        </div>
-      ));
-    }
-  };
+  //       const data = await res.json();
+  //       setNotification(data.data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       setLoading(false);
+  //       console.error("Error fetching notifications:", error);
+  //       toast.custom((t) => (
+  //         <div
+  //           className={`flex items-center gap-x-3 justify-center bg-white dark:bg-black/80 backdrop-blur-sm font-semibold text-sm text-zinc-700 dark:text-zinc-200 py-4 px-8 shadow-md rounded-full ${
+  //             t.visible ? "animate-enter" : "animate-leave"
+  //           }`}
+  //         >
+  //           <span>
+  //             <svg
+  //               xmlns="http://www.w3.org/2000/svg"
+  //               width="2em"
+  //               height="2em"
+  //               viewBox="0 0 24 24"
+  //               className="text-rose-500"
+  //             >
+  //               <path
+  //                 fill="currentColor"
+  //                 d="M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2s10 4.477 10 10"
+  //                 opacity={0.5}
+  //               ></path>
+  //               <path
+  //                 fill="currentColor"
+  //                 d="M8.97 8.97a.75.75 0 0 1 1.06 0L12 10.94l1.97-1.97a.75.75 0 1 1 1.06 1.06L13.06 12l1.97 1.97a.75.75 0 0 1-1.06 1.06L12 13.06l-1.97 1.97a.75.75 0 0 1-1.06-1.06L10.94 12l-1.97-1.97a.75.75 0 0 1 0-1.06"
+  //               ></path>
+  //             </svg>
+  //           </span>
+  //           <span>خطا در دریافت اعلان</span>
+  //         </div>
+  //       ));
+  //     }
+  //   };
 
-  useEffect(() => {
-    fetchNotif();
-  }, [session]);
+  //   useEffect(() => {
+  //     fetchNotif();
+  //   }, [session]);
 
-  useEffect(() => {
-    const socket = io(process.env.API_URL);
+  //   useEffect(() => {
+  //     const socket = io(process.env.API_URL);
 
-    socket.on("connect", () => {
-      console.log("Connected to Socket.IO server");
-    });
+  //     socket.on("connect", () => {
+  //       console.log("Connected to Socket.IO server");
+  //     });
 
-    socket.on("notification", (data) => {
-      console.log("New notification received:", data);
-      if (data) {
-        fetchNotif();
-      }
-    });
+  //     socket.on("notification", (data) => {
+  //       console.log("New notification received:", data);
+  //       if (data) {
+  //         fetchNotif();
+  //       }
+  //     });
 
-    socket.on("connect_error", (error) => {
-      console.error("Connection error:", error);
-    });
+  //     socket.on("connect_error", (error) => {
+  //       console.error("Connection error:", error);
+  //     });
 
-    socket.on("disconnect", () => {
-      console.log("Disconnected from Socket.IO server");
-    });
+  //     socket.on("disconnect", () => {
+  //       console.log("Disconnected from Socket.IO server");
+  //     });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //     return () => {
+  //       socket.disconnect();
+  //     };
+  //   }, []);
 
-  const readAll = async () => {
-    try {
-      const res = await fetch(
-        `${process.env.API_URL}/admin/notifications/mark-all-read`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${session?.user.access_token}`,
-          },
-        }
-      );
-      if (res.ok) {
-        fetchNotif();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //   const readAll = async () => {
+  //     try {
+  //       const res = await fetch(
+  //         `${process.env.API_URL}/admin/notifications/mark-all-read`,
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             Authorization: `Bearer ${session?.user.access_token}`,
+  //           },
+  //         }
+  //       );
+  //       if (res.ok) {
+  //         fetchNotif();
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
-  const handelRead = async (id: string) => {
-    try {
-      const res = await fetch(
-        `${process.env.API_URL}/admin/notifications/${id}/read`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${session?.user.access_token}`,
-          },
-        }
-      );
-      if (res.ok) {
-        fetchNotif();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //   const handelRead = async (id: string) => {
+  //     try {
+  //       const res = await fetch(
+  //         `${process.env.API_URL}/admin/notifications/${id}/read`,
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             Authorization: `Bearer ${session?.user.access_token}`,
+  //           },
+  //         }
+  //       );
+  //       if (res.ok) {
+  //         fetchNotif();
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
 
-  if (loading) {
-    return (
-      <>
-        <div className="flex items-center justify-center">
-          <Spinner
-            size="lg"
-            color="primary"
-            labelColor="primary"
-            label="در حال بارگذاری..."
-            classNames={{ label: "mt-4" }}
-          />
-        </div>
-      </>
-    );
-  }
+  //   if (loading) {
+  //     return (
+  //       <>
+  //         <div className="flex items-center justify-center">
+  //           <Spinner
+  //             size="lg"
+  //             color="primary"
+  //             labelColor="primary"
+  //             label="در حال بارگذاری..."
+  //             classNames={{ label: "mt-4" }}
+  //           />
+  //         </div>
+  //       </>
+  //     );
+  //   }
 
   return (
     <>
-      {notification.length > 0 ? (
+      {/* {notification.length > 0 ? (
         <>
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-x-2">
@@ -240,7 +240,7 @@ export default function Notif() {
         </>
       ) : (
         <p className="text-center">پیامی وجود ندارد!</p>
-      )}
+      )} */}
     </>
   );
 }

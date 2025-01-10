@@ -214,7 +214,7 @@ export default function Header({ user, session }) {
                 <>
                   <DrawerHeader className="flex items-center justify-center">
                     <Link href={"/"}>
-                      <LogoDarkAndLight />
+                      <LogoDarkAndLight width={12} />
                     </Link>
                   </DrawerHeader>
                   <DrawerBody>

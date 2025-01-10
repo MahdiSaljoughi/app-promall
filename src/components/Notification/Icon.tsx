@@ -5,73 +5,73 @@ import { useEffect, useState } from "react";
 import io from "socket.io-client";
 
 export default function Icon({ size }) {
-  const { data: session } = useSession();
+  //   const { data: session } = useSession();
 
-  const [notification, setNotification] = useState<any[]>([]);
+  //   const [notification, setNotification] = useState<any[]>([]);
 
-  const readAll = notification.find((x) => x.is_read === false);
+  //   const readAll = notification.find((x) => x.is_read === false);
 
-  const fetchNotif = async () => {
-    if (!session?.user.access_token) return;
-    try {
-      const res = await fetch(
-        `${process.env.API_URL}/admin/notifications/current`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${session.user.access_token}`,
-          },
-        }
-      );
+  //   const fetchNotif = async () => {
+  //     if (!session?.user.access_token) return;
+  //     try {
+  //       const res = await fetch(
+  //         `${process.env.API_URL}/admin/notifications/current`,
+  //         {
+  //           method: "GET",
+  //           headers: {
+  //             Authorization: `Bearer ${session.user.access_token}`,
+  //           },
+  //         }
+  //       );
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch notifications");
-      }
+  //       if (!res.ok) {
+  //         throw new Error("Failed to fetch notifications");
+  //       }
 
-      const data = await res.json();
-      setNotification(data.data);
-    } catch (error) {
-      console.error("Error fetching notifications:", error);
-    }
-  };
+  //       const data = await res.json();
+  //       setNotification(data.data);
+  //     } catch (error) {
+  //       console.error("Error fetching notifications:", error);
+  //     }
+  //   };
 
-  useEffect(() => {
-    fetchNotif();
-  }, [session]);
+  //   useEffect(() => {
+  //     fetchNotif();
+  //   }, [session]);
 
-  useEffect(() => {
-    const socket = io(process.env.API_URL);
+  //   useEffect(() => {
+  //     const socket = io(process.env.API_URL);
 
-    socket.on("connect", () => {
-      console.log("Connected to Socket.IO server");
-    });
+  //     socket.on("connect", () => {
+  //       console.log("Connected to Socket.IO server");
+  //     });
 
-    socket.on("notification", (data) => {
-      console.log("New notification received:", data);
-      if (data) {
-        fetchNotif();
-      }
-    });
+  //     socket.on("notification", (data) => {
+  //       console.log("New notification received:", data);
+  //       if (data) {
+  //         fetchNotif();
+  //       }
+  //     });
 
-    socket.on("connect_error", (error) => {
-      console.error("Connection error:", error);
-    });
+  //     socket.on("connect_error", (error) => {
+  //       console.error("Connection error:", error);
+  //     });
 
-    socket.on("disconnect", () => {
-      console.log("Disconnected from Socket.IO server");
-    });
+  //     socket.on("disconnect", () => {
+  //       console.log("Disconnected from Socket.IO server");
+  //     });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //     return () => {
+  //       socket.disconnect();
+  //     };
+  //   }, []);
 
   return (
     <>
       <div className="relative w-fit">
-        {readAll !== undefined && (
+        {/* {readAll !== undefined && (
           <span className="bg-rose-500 size-2 block rounded-full absolute top-0.5 -right-0.5 transform -translate-x-1/2 -translate-y-1/2 z-30" />
-        )}
+        )} */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width={size}

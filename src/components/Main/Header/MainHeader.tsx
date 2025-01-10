@@ -19,7 +19,7 @@ export default function MainHeader() {
         <div className="bg-sky-100/50 dark:bg-black/50 backdrop-blur-md rounded-b-[32px] px-4 py-6 md:p-6">
           <div className="flex justify-between items-center">
             <Link href="/" className="flex items-center gap-x-2">
-              <LogoDarkAndLight />
+              <LogoDarkAndLight width={12} />
               <div className="font-bold text-xl">
                 <span className="text-primary">پرو</span>
                 <span>مال</span>

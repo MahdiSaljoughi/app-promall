@@ -1,9 +1,12 @@
-import AuthPage from "@/components/Auth/AuthPage";
+import FormAuth from "@/components/Auth/FormAuth";
+import Container from "@/components/Container";
 
 export default function Page() {
   return (
-    <>
-      <AuthPage />
-    </>
+    <Container>
+      <div className="h-screen flex items-center justify-center">
+        <FormAuth />
+      </div>
+    </Container>
   );
 }

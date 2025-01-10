@@ -122,7 +122,7 @@ export default function Header({ shopId }) {
                 <>
                   <DrawerHeader>
                     <Link href="/" className="flex items-center gap-x-2 mt-2">
-                      <LogoDarkAndLight />
+                      <LogoDarkAndLight width={12} />
                       <div className="font-bold text-xl">
                         <span className="text-primary">پرو</span>
                         <span>مال</span>

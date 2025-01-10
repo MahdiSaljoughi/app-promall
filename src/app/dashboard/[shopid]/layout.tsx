@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import Header from "@/services/dashboard/components/Header/MobileHeader";
 import LogoDarkAndLight from "@/components/Main/Logos/LogoDarkAndLight";
 import { useRef, useState } from "react";
 import { useParams, usePathname } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
-import { menuList } from "@/services/dashboard/menuList";
-import DesktopAvatar from "@/services/dashboard/components/Header/DesktopAvatar";
+import { menuList } from "@/modules/dashboard/menuList";
+import DesktopAvatar from "@/modules/dashboard/components/Header/DesktopAvatar";
+import Header from "@/modules/dashboard/components/Header/MobileHeader";
 
 export default function LayoutProfile({ children }) {
   const { shopid } = useParams<{ shopid: string }>();
@@ -43,7 +43,7 @@ export default function LayoutProfile({ children }) {
         >
           <div ref={menu} className="min-w-52 flex flex-col gap-y-8">
             <Link href="/" className="flex items-center gap-x-2 mt-2">
-              <LogoDarkAndLight />
+              <LogoDarkAndLight width={12} />
               <div className="font-bold text-xl">
                 <span className="text-primary">پرو</span>
                 <span>مال</span>

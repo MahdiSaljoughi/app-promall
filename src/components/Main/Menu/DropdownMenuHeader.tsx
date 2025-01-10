@@ -8,7 +8,6 @@ import {
   DropdownMenu,
   DropdownSection,
   DropdownTrigger,
-  Button,
 } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { signOut } from "next-auth/react";
@@ -20,33 +19,33 @@ import type { IUser } from "@/types/interfaces";
 import Icon from "../../Notification/Icon";
 
 export default function DropdownMenuUser({ session }) {
-  const [user, setUser] = useState<IUser>();
+  // const [user, setUser] = useState<IUser>();
 
-  useEffect(() => {
-    async function fetchUserData() {
-      try {
-        const response = await fetch(`${process.env.API_URL}/user/profile`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${session?.user.access_token}`,
-          },
-        });
+  // useEffect(() => {
+  //   async function fetchUserData() {
+  //     try {
+  //       const response = await fetch(`${process.env.API_URL}/user/profile`, {
+  //         method: "GET",
+  //         headers: {
+  //           Authorization: `Bearer ${session?.user.access_token}`,
+  //         },
+  //       });
 
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
 
-        const data = await response.json();
-        setUser(data.data);
-      } catch (error) {
-        console.error(`Error fetching user: ${error}`);
-      }
-    }
+  //       const data = await response.json();
+  //       setUser(data.data);
+  //     } catch (error) {
+  //       console.error(`Error fetching user: ${error}`);
+  //     }
+  //   }
 
-    if (session?.user.access_token) {
-      fetchUserData();
-    }
-  }, [session]);
+  //   if (session?.user.access_token) {
+  //     fetchUserData();
+  //   }
+  // }, [session]);
 
   const handleLogout = () => {
     signOut();
@@ -97,7 +96,7 @@ export default function DropdownMenuUser({ session }) {
             >
               <DropdownSection showDivider aria-label="Profile & Actions">
                 <DropdownItem key="profile" isReadOnly className="opacity-100">
-                  <User
+                  {/* <User
                     name={user?.first_name}
                     classNames={{
                       name: "text-default-600",
@@ -106,7 +105,7 @@ export default function DropdownMenuUser({ session }) {
                       size: "sm",
                       src: `${process.env.API_URL}${user?.avatar}`,
                     }}
-                  />
+                  /> */}
                 </DropdownItem>
                 <DropdownItem key="profileLink" className="py-3 rounded-xl">
                   <Link href={"/profile"}>

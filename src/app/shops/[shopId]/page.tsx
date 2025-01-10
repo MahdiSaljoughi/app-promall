@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import ShopBanner from "@/services/shop/components/ShopPage/ShopBanner/ShopBanner";
+import ShopBanner from "@/modules/shop/components/ShopPage/ShopBanner/ShopBanner";
 import HorizontalCategory from "@/components/ui/horizental-category/horizental-category";
 import { FaStar } from "react-icons/fa";
 import { IProduct } from "@/types/interfaces";
 import { Plus } from "lucide-react";
 import Search from "@/components/Home/Search";
-import ShopHeader from "@/services/shop/components/ShopPage/Header/ShopHeader";
+import ShopHeader from "@/modules/shop/components/ShopPage/Header/ShopHeader";
 import type { TShop } from "@/types/types";
 
 interface Params {
